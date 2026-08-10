@@ -234,7 +234,7 @@ Here's a list of all the icons currently supported. Feel free to open an issue t
 |      `opencv`      |     <img src="./icons/OpenCV-Dark.svg" width="48">     |
 |    `openshift`     |      <img src="./icons/OpenShift.svg" width="48">      |
 |    `openstack`     |   <img src="./icons/OpenStack-Dark.svg" width="48">    |
-|      `oracle`      |     <img src="./icons/Oracle-Dark.svg" width="48">     |
+|      `oracle`      |       <img src="./icons/Oracle.svg" width="48">        |
 |       `p5js`       |        <img src="./icons/p5js.svg" width="48">         |
 |       `perl`       |        <img src="./icons/Perl.svg" width="48">         |
 |       `php`        |      <img src="./icons/PHP-Dark.svg" width="48">       |
@@ -292,6 +292,7 @@ Here's a list of all the icons currently supported. Feel free to open an issue t
 |     `solidjs`      |    <img src="./icons/SolidJS-Dark.svg" width="48">     |
 |     `spotify`      |    <img src="./icons/Spotify-Dark.svg" width="48">     |
 |      `spring`      |     <img src="./icons/Spring-Dark.svg" width="48">     |
+|       `sql`        |      <img src="./icons/SQL-Dark.svg" width="48">       |
 |      `sqlite`      |       <img src="./icons/SQLite.svg" width="48">        |
 |  `stackoverflow`   | <img src="./icons/StackOverflow-Dark.svg" width="48">  |
 | `styledcomponents` |  <img src="./icons/StyledComponents.svg" width="48">   |
