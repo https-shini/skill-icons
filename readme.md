@@ -14,6 +14,7 @@
 - [Themed Icons](#themed-icons)
 - [Icons Per Line](#icons-per-line)
 - [Centering Icons](#centering-icons)
+- [Minha marca](#minha-marca)
 - [Icons List](#icons-list)
 
 # Example
@@ -78,6 +79,35 @@ Want to center the icons in your readme? The SVGs are automatically resized, so 
     <img src="https://skillicons.dev/icons?i=git,kubernetes,docker,c,vim" />
   </a>
 </p>
+
+# Minha marca
+
+A marca `<gcruz.dev/>` tem uma biblioteca própria em [`brand/`](./brand/), com
+todas as variações nos dois temas — wordmark completo, compacta `<g/>`, tile de
+aplicativo, favicon e a comparação de pesos. Abra
+[`brand/index.html`](./brand/index.html) para visualizar e copiar o SVG de cada
+uma; [`brand/README.md`](./brand/README.md) documenta os tokens de cor e as regras
+de uso.
+
+<p align="center">
+  <img src="./brand/wordmark-dark.svg#gh-dark-mode-only" width="320">
+  <img src="./brand/wordmark-light.svg#gh-light-mode-only" width="320">
+</p>
+
+Como a marca é 100% tipográfica em JetBrains Mono, os arquivos são os contornos
+dos glifos convertidos em `<path>`: não dependem de fonte instalada e mantêm a
+proporção original.
+
+Na API, `?i=gcruz` serve a variante compacta — que é a regra do próprio design
+system para tamanho pequeno, e a única que assenta num badge quadrado sem
+redimensionamento não uniforme.
+
+Lembrando que `gcruz` só existe nesta instância — `skillicons.dev` serve apenas o
+repositório oficial. Depois do deploy (veja [DEPLOY.md](./DEPLOY.md)):
+
+```md
+[![gcruz.dev](https://icons.gcruz.dev.br/icons?i=gcruz)](https://gcruz.dev.br)
+```
 
 # Icons List
 
@@ -165,6 +195,7 @@ Here's a list of all the icons currently supported. Feel free to open an issue t
 | `gamemakerstudio`  |   <img src="./icons/GameMakerStudio.svg" width="48">   |
 |      `gatsby`      |       <img src="./icons/Gatsby.svg" width="48">        |
 |       `gcp`        |      <img src="./icons/GCP-Dark.svg" width="48">       |
+|      `gcruz`       |     <img src="./icons/GCruz-Dark.svg" width="48">      |
 |     `gherkin`      |    <img src="./icons/Gherkin-Dark.svg" width="48">     |
 |       `git`        |         <img src="./icons/Git.svg" width="48">         |
 |      `github`      |     <img src="./icons/Github-Dark.svg" width="48">     |

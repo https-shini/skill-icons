@@ -44,10 +44,10 @@ certificado automaticamente — leva alguns minutos na primeira vez.
 O workflow `.github/workflows/wrangler-action.yml` publica a cada push na `main`.
 Configure dois secrets em **Settings → Secrets and variables → Actions**:
 
-| Secret            | Onde obter                                                        |
-| ----------------- | ----------------------------------------------------------------- |
-| `CF_API_TOKEN`    | Cloudflare → My Profile → API Tokens → template "Edit Cloudflare Workers" |
-| `CF_ACCOUNT_ID`   | Cloudflare → Workers & Pages → Overview, na barra lateral         |
+| Secret          | Onde obter                                                                |
+| --------------- | ------------------------------------------------------------------------- |
+| `CF_API_TOKEN`  | Cloudflare → My Profile → API Tokens → template "Edit Cloudflare Workers" |
+| `CF_ACCOUNT_ID` | Cloudflare → Workers & Pages → Overview, na barra lateral                 |
 
 O workflow não instala dependências: `build.js` e `scripts/readme-table.mjs` usam
 apenas a stdlib do Node, e a `wrangler-action` traz a própria wrangler.
