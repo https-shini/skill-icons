@@ -1,4 +1,5 @@
-const icons = require('./dist/icons.json');
+import icons from './dist/icons.json';
+
 const iconNameList = [...new Set(Object.keys(icons).map(i => i.split('-')[0]))];
 const shortNames = {
   js: 'javascript',
@@ -41,6 +42,10 @@ const shortNames = {
   rxjava: 'reactivex',
   ghactions: 'githubactions',
   sklearn: 'scikitlearn',
+  rr: 'reactrouter',
+  fa: 'fontawesome',
+  ws: 'websocket',
+  rtl: 'testinglibrary',
 };
 const themedIcons = [
   ...Object.keys(icons)
@@ -67,8 +72,8 @@ function generateSvg(iconNames, perLine) {
         (i, index) =>
           `
         <g transform="translate(${(index % perLine) * 300}, ${
-            Math.floor(index / perLine) * 300
-          })">
+          Math.floor(index / perLine) * 300
+        })">
           ${i}
         </g>
         `
@@ -79,15 +84,21 @@ function generateSvg(iconNames, perLine) {
 }
 
 function parseShortNames(names, theme = 'dark') {
-  return names.map(name => {
+  const parsed = [];
+  const unknown = [];
+
+  for (const name of names) {
     if (iconNameList.includes(name))
-      return name + (themedIcons.includes(name) ? `-${theme}` : '');
+      parsed.push(name + (themedIcons.includes(name) ? `-${theme}` : ''));
     else if (name in shortNames)
-      return (
+      parsed.push(
         shortNames[name] +
-        (themedIcons.includes(shortNames[name]) ? `-${theme}` : '')
+          (themedIcons.includes(shortNames[name]) ? `-${theme}` : '')
       );
-  });
+    else unknown.push(name);
+  }
+
+  return { parsed, unknown };
 }
 
 async function handleRequest(request) {
@@ -104,8 +115,8 @@ async function handleRequest(request) {
       return new Response('Theme must be either "light" or "dark"', {
         status: 400,
       });
-    const perLine = searchParams.get('perline') || ICONS_PER_LINE;
-    if (isNaN(perLine) || perLine < -1 || perLine > 50)
+    const perLine = Number(searchParams.get('perline') ?? ICONS_PER_LINE);
+    if (!Number.isInteger(perLine) || perLine < 1 || perLine > 50)
       return new Response('Icons per line must be a number between 1 and 50', {
         status: 400,
       });
@@ -114,11 +125,17 @@ async function handleRequest(request) {
     if (iconParam === 'all') iconShortNames = iconNameList;
     else iconShortNames = iconParam.split(',');
 
-    const iconNames = parseShortNames(iconShortNames, theme || undefined);
-    if (!iconNames)
-      return new Response("You didn't format the icons param correctly!", {
-        status: 400,
-      });
+    const { parsed: iconNames, unknown } = parseShortNames(
+      iconShortNames,
+      theme || undefined
+    );
+    if (unknown.length)
+      return new Response(
+        `Unknown icon${unknown.length > 1 ? 's' : ''}: ${unknown.join(', ')}`,
+        { status: 400 }
+      );
+    if (!iconNames.length)
+      return new Response("You didn't specify any icons!", { status: 400 });
 
     const svg = generateSvg(iconNames, perLine);
 
@@ -140,10 +157,10 @@ async function handleRequest(request) {
   }
 }
 
-addEventListener('fetch', event => {
-  event.respondWith(
-    handleRequest(event.request).catch(
+export default {
+  async fetch(request) {
+    return handleRequest(request).catch(
       err => new Response(err.stack, { status: 500 })
-    )
-  );
-});
+    );
+  },
+};

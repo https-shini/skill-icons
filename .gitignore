@@ -128,3 +128,5 @@ dist
 
 # Cloudflare Worker
 worker/
+# Cloudflare Wrangler local state
+.wrangler/

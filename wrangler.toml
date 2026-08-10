@@ -1,8 +1,9 @@
 name = "skill-icons"
-type = "webpack"
-route = ''
-zone_id = ''
-usage_model = ''
-compatibility_flags = []
+main = "index.js"
+compatibility_date = "2026-08-01"
 workers_dev = true
-compatibility_date = "2022-03-02"
+
+# Domínio próprio: descomente depois de adicionar a zona na Cloudflare.
+# [[routes]]
+# pattern = "icons.gcruz.dev.br"
+# custom_domain = true
