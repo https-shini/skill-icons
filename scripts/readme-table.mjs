@@ -35,9 +35,15 @@ function iconFiles() {
   return byId;
 }
 
-/** alias -> id canônico, lido do shortNames do index.js */
+/**
+ * alias -> id canônico, lido do shortNames de lib/icons.mjs.
+ *
+ * Lido por regex, e não por `import`, de propósito: lib/icons.mjs importa
+ * dist/icons.mjs, que só existe depois do build — e este script roda antes dele
+ * no CI. Parsear o texto mantém a checagem independente da ordem.
+ */
 function shortNames() {
-  const src = fs.readFileSync(path.join(ROOT, 'index.js'), 'utf8');
+  const src = fs.readFileSync(path.join(ROOT, 'lib', 'icons.mjs'), 'utf8');
   const start = src.indexOf('shortNames = {');
   const block = src.slice(start, src.indexOf('};', start));
   const map = new Map();

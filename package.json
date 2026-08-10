@@ -10,7 +10,8 @@
     "readme": "node scripts/readme-table.mjs",
     "readme:check": "node scripts/readme-table.mjs --check",
     "format": "prettier --write \"**/*.{js,mjs,json,md}\"",
-    "format:check": "prettier --check \"**/*.{js,mjs,json,md}\""
+    "format:check": "prettier --check \"**/*.{js,mjs,json,md}\"",
+    "build:web": "node build.js && node scripts/vercel-assets.mjs"
   },
   "devDependencies": {
     "prettier": "^3.6.2",

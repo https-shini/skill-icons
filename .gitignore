@@ -130,3 +130,9 @@ dist
 worker/
 # Cloudflare Wrangler local state
 .wrangler/
+
+# Vercel
+.vercel/
+public/svg/
+public/brand/
+public/manifest.json

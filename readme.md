@@ -7,6 +7,12 @@
 
 <h3>NOTE: To keep icons consistent and to ensure browser support, we don't accept pull requests for icon submissions. If you would like an icon added, please open an issue.<h3>
 
+## 🌐 Site
+
+Este fork tem uma página própria com galeria dos 255 ícones, montador de snippet,
+documentação da API e a biblioteca da marca `<gcruz.dev/>`. Ela é servida pela
+Vercel a partir de `public/index.html` — ver [DEPLOY.md](./DEPLOY.md).
+
 # Docs
 
 - [Example](#example)

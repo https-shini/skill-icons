@@ -2,8 +2,63 @@
 
 Os ícones deste repositório **não** aparecem em `skillicons.dev` — aquele domínio
 serve apenas o repositório oficial. Para usar os ícones daqui você publica a sua
-própria instância do Worker; a API fica idêntica
-(`/icons?i=...`, `&theme=`, `&perline=`), só muda o domínio.
+própria instância; a API fica idêntica (`/icons?i=...`, `&theme=`, `&perline=`),
+só muda o domínio.
+
+Há duas hospedagens possíveis, com a lógica compartilhada em `lib/icons.mjs` para
+não divergirem:
+
+|                                    | Vercel        | Cloudflare Workers        |
+| ---------------------------------- | ------------- | ------------------------- |
+| Entrada                            | `api/*.mjs`   | `index.js`                |
+| Config                             | `vercel.json` | `wrangler.toml`           |
+| Serve a página `public/index.html` | sim           | não                       |
+| Rota não reconhecida               | 404           | passthrough para a origem |
+
+---
+
+# Vercel (recomendado)
+
+Além da API, a Vercel serve a página em `public/index.html` — galeria dos ícones,
+montador de snippet, documentação da API e a biblioteca da marca.
+
+## Importar o projeto
+
+1. Em [vercel.com/new](https://vercel.com/new), importe `https-shini/skill-icons`.
+2. Deixe o framework como **Other**. O `vercel.json` já define o build
+   (`node build.js && node scripts/vercel-assets.mjs`) e o output (`public`).
+3. Deploy. Não há variável de ambiente nem secret a configurar.
+
+Teste depois de publicar:
+
+```
+https://<projeto>.vercel.app/                        página
+https://<projeto>.vercel.app/icons?i=oracle,sql,jwt  o SVG
+https://<projeto>.vercel.app/api/manifest            metadados
+```
+
+## Domínio próprio
+
+Em **Settings → Domains**, adicione `icons.gcruz.dev.br`. A Vercel mostra o
+registro DNS a criar; como a zona está na Cloudflare, crie lá um `CNAME`
+apontando para o alvo indicado, **com o proxy desligado** (nuvem cinza) para não
+haver dois CDNs em série.
+
+## O que roda onde
+
+- `/icons` → rewrite para `api/render.mjs`
+- `/api/icons`, `/api/manifest`, `/api/svgs` → funções de mesmo nome
+- `/svg/<Arquivo>.svg` → cópia estática de `icons/`, servida pela CDN. A galeria
+  usa estes arquivos, então navegar a página não invoca função nenhuma
+- `/brand/` → assets da marca e o documento do DS
+
+Os SVGs estáticos ficam em `/svg/` e não em `/icons/` de propósito: `/icons` é a
+rota da função, e assim não se depende da ordem de precedência entre filesystem e
+rewrite.
+
+---
+
+# Cloudflare Workers
 
 ## Pré-requisitos
 
@@ -50,7 +105,9 @@ Configure dois secrets em **Settings → Secrets and variables → Actions**:
 | `CF_ACCOUNT_ID` | Cloudflare → Workers & Pages → Overview, na barra lateral                 |
 
 O workflow não instala dependências: `build.js` e `scripts/readme-table.mjs` usam
-apenas a stdlib do Node, e a `wrangler-action` traz a própria wrangler.
+apenas a stdlib do Node, e a `wrangler-action` traz a própria wrangler. O passo
+Publish é guardado por `if: secrets.CF_API_TOKEN != ''` — sem os secrets ele é
+pulado em vez de falhar, o que importa se você usar só a Vercel.
 
 ## Adicionando um ícone novo
 
@@ -80,7 +137,9 @@ Convenções (as mesmas dos ícones que já existem):
 ## Limite de tamanho
 
 O bundle atual tem cerca de **800 KiB comprimido**. O limite do plano gratuito da
-Cloudflare é **1 MiB comprimido** por Worker (3 MiB nos planos pagos). Ou seja,
+Cloudflare é **1 MiB comprimido** por Worker (3 MiB nos planos pagos). Na Vercel
+isso não é restrição: as funções rodam no runtime Node, cujo limite é de centenas
+de MB. Ou seja,
 ainda cabem ícones, mas não indefinidamente — quando chegar perto do limite, a
 saída de `wrangler deploy` avisa, e as opções são migrar para um plano pago ou
 servir os SVGs de um bucket em vez de embuti-los no script.

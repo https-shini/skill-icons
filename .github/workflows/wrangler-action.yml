@@ -26,7 +26,10 @@ jobs:
       - name: Build
         run: node build.js
 
+      # O projeto passou a ser hospedado na Vercel. Sem os secrets do
+      # Cloudflare este passo é pulado, em vez de falhar para sempre.
       - name: Publish
+        if: ${{ secrets.CF_API_TOKEN != '' }}
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}

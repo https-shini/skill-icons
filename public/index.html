@@ -1,0 +1,961 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ícones de skills — gcruz.dev</title>
+    <meta
+      name="description"
+      content="Biblioteca de ícones de tecnologias e da marca gcruz.dev. Monte o SVG, copie o snippet e use no README ou no portfólio."
+    />
+    <link rel="icon" href="/brand/favicon-dark.svg" />
+    <style>
+      /* paleta clara é a base; os blocos abaixo só redefinem os tokens */
+      :root {
+        --bg: #f2f4f8;
+        --surface: #ffffff;
+        --surface-2: #e9ecf2;
+        --edge: #d3d9e3;
+        --text-1: #0f172a;
+        --text-2: #475569;
+        --text-3: #64748b;
+        --brand: #be123c;
+        --accent: #4f46e5;
+        --ok: #047857;
+        --radius: 14px;
+        --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo,
+          Consolas, monospace;
+        --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          system-ui, sans-serif;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme='light']) {
+          --bg: #070d19;
+          --surface: #0f172a;
+          --surface-2: #16203a;
+          --edge: #24314f;
+          --text-1: #f8fafc;
+          --text-2: #a4b1c6;
+          --text-3: #7d8da6;
+          --brand: #f43f5e;
+          --accent: #818cf8;
+          --ok: #34d399;
+        }
+      }
+      :root[data-theme='dark'] {
+        --bg: #070d19;
+        --surface: #0f172a;
+        --surface-2: #16203a;
+        --edge: #24314f;
+        --text-1: #f8fafc;
+        --text-2: #a4b1c6;
+        --text-3: #7d8da6;
+        --brand: #f43f5e;
+        --accent: #818cf8;
+        --ok: #34d399;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text-1);
+        font-family: var(--sans);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+      .wrap {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      a {
+        color: var(--accent);
+      }
+
+      /* ---------- header ---------- */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: color-mix(in srgb, var(--bg) 88%, transparent);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--edge);
+      }
+      .bar {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        height: 68px;
+      }
+      .bar img {
+        height: 22px;
+        width: auto;
+        display: block;
+      }
+      nav {
+        margin-left: auto;
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+      }
+      nav a {
+        color: var(--text-2);
+        text-decoration: none;
+        font-size: 14px;
+        padding: 6px 10px;
+        border-radius: 8px;
+      }
+      nav a:hover {
+        color: var(--text-1);
+        background: var(--surface-2);
+      }
+      .toggle {
+        font: 600 13px/1 var(--mono);
+        color: var(--text-2);
+        background: var(--surface);
+        border: 1px solid var(--edge);
+        border-radius: 999px;
+        padding: 8px 14px;
+        cursor: pointer;
+      }
+      .toggle:hover {
+        color: var(--text-1);
+        border-color: var(--accent);
+      }
+
+      /* ---------- hero ---------- */
+      .hero {
+        /* padding-block, não o shorthand: o hero é o mesmo elemento que .wrap, e
+           `padding: 64px 0 40px` zeraria o respiro lateral herdado dela */
+        padding-block: 64px 40px;
+      }
+      .hero img {
+        height: 46px;
+        width: auto;
+        margin-bottom: 22px;
+      }
+      h1 {
+        font-size: clamp(28px, 5vw, 42px);
+        line-height: 1.15;
+        margin: 0 0 14px;
+        letter-spacing: -0.02em;
+      }
+      .lede {
+        color: var(--text-2);
+        font-size: 17px;
+        max-width: 62ch;
+        margin: 0;
+      }
+      .stats {
+        display: flex;
+        gap: 28px;
+        flex-wrap: wrap;
+        margin-top: 26px;
+        padding-top: 22px;
+        border-top: 1px solid var(--edge);
+      }
+      .stat b {
+        display: block;
+        font: 700 24px/1.2 var(--mono);
+        color: var(--brand);
+      }
+      .stat span {
+        font-size: 13px;
+        color: var(--text-3);
+      }
+
+      /* ---------- sections ---------- */
+      section {
+        padding: 44px 0;
+        border-top: 1px solid var(--edge);
+      }
+      h2 {
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        color: var(--text-3);
+        margin: 0 0 6px;
+        font-weight: 700;
+      }
+      h2 + p.sub {
+        margin: 0 0 24px;
+        font-size: 22px;
+        font-weight: 650;
+        letter-spacing: -0.01em;
+      }
+      h3 {
+        font-size: 15px;
+        margin: 26px 0 10px;
+      }
+      p {
+        color: var(--text-2);
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--edge);
+        border-radius: var(--radius);
+      }
+
+      /* ---------- builder ---------- */
+      .controls {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        margin-bottom: 16px;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .field label {
+        font: 600 11px/1 var(--mono);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--text-3);
+      }
+      input[type='search'],
+      input[type='number'],
+      select {
+        font: 14px/1 var(--sans);
+        color: var(--text-1);
+        background: var(--surface);
+        border: 1px solid var(--edge);
+        border-radius: 10px;
+        padding: 10px 12px;
+      }
+      input[type='search'] {
+        min-width: 240px;
+      }
+      input:focus-visible,
+      select:focus-visible,
+      button:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      .chips {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        min-height: 34px;
+        margin-bottom: 14px;
+      }
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font: 600 12px/1 var(--mono);
+        background: var(--surface-2);
+        border: 1px solid var(--edge);
+        color: var(--text-1);
+        border-radius: 999px;
+        padding: 6px 8px 6px 10px;
+        cursor: pointer;
+      }
+      .chip:hover {
+        border-color: var(--brand);
+      }
+      .chip b {
+        color: var(--brand);
+        font-size: 14px;
+      }
+      .empty {
+        font: 12px/1.9 var(--mono);
+        color: var(--text-3);
+      }
+
+      .preview {
+        padding: 22px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 96px;
+        overflow-x: auto;
+      }
+      .preview img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      .snippet {
+        margin-top: 14px;
+      }
+      .tabs {
+        display: flex;
+        gap: 4px;
+        margin-bottom: 8px;
+      }
+      .tab {
+        font: 600 12px/1 var(--mono);
+        background: none;
+        border: 1px solid transparent;
+        color: var(--text-3);
+        padding: 7px 11px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .tab[aria-selected='true'] {
+        background: var(--surface-2);
+        border-color: var(--edge);
+        color: var(--text-1);
+      }
+      .codebox {
+        position: relative;
+      }
+      pre {
+        margin: 0;
+        background: var(--surface);
+        border: 1px solid var(--edge);
+        border-radius: 12px;
+        padding: 16px 92px 16px 16px;
+        overflow-x: auto;
+        font: 13px/1.7 var(--mono);
+        color: var(--text-1);
+      }
+      .copy {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font: 600 11px/1 var(--mono);
+        background: var(--surface-2);
+        border: 1px solid var(--edge);
+        color: var(--text-2);
+        border-radius: 8px;
+        padding: 7px 10px;
+        cursor: pointer;
+      }
+      .copy:hover {
+        color: var(--text-1);
+        border-color: var(--accent);
+      }
+      .copy.done {
+        color: var(--ok);
+        border-color: var(--ok);
+      }
+
+      /* ---------- gallery ---------- */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+        gap: 10px;
+      }
+      .tile {
+        background: var(--surface);
+        border: 1px solid var(--edge);
+        border-radius: 12px;
+        padding: 12px 6px 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 7px;
+        cursor: pointer;
+        position: relative;
+      }
+      .tile:hover {
+        border-color: var(--accent);
+      }
+      .tile[data-on='1'] {
+        border-color: var(--brand);
+        background: var(--surface-2);
+      }
+      .tile img {
+        width: 44px;
+        height: 44px;
+        display: block;
+      }
+      .tile code {
+        font: 10px/1.3 var(--mono);
+        color: var(--text-3);
+        text-align: center;
+        word-break: break-all;
+      }
+      .tile[data-on='1'] code {
+        color: var(--text-1);
+      }
+      .dot {
+        position: absolute;
+        top: 6px;
+        right: 7px;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+
+      /* ---------- table ---------- */
+      .scroll {
+        overflow-x: auto;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 14px;
+        min-width: 520px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 11px 12px;
+        border-bottom: 1px solid var(--edge);
+        vertical-align: top;
+      }
+      th {
+        font: 600 11px/1 var(--mono);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--text-3);
+      }
+      td code {
+        font: 12px/1.6 var(--mono);
+        color: var(--brand);
+        background: var(--surface-2);
+        padding: 2px 6px;
+        border-radius: 6px;
+      }
+      td:last-child {
+        color: var(--text-2);
+      }
+
+      /* ---------- brand ---------- */
+      .brandgrid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 12px;
+      }
+      .bcard {
+        background: var(--surface);
+        border: 1px solid var(--edge);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .bcard .art {
+        min-height: 96px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 18px;
+        background: var(--surface-2);
+      }
+      .bcard .art img {
+        max-width: 100%;
+        max-height: 64px;
+        height: auto;
+      }
+      .bcard .meta {
+        padding: 10px 12px;
+        border-top: 1px solid var(--edge);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .bcard .meta code {
+        font: 11px/1.4 var(--mono);
+        color: var(--text-2);
+        flex: 1;
+        word-break: break-all;
+      }
+      .tag {
+        font: 600 9px/1 var(--mono);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        padding: 4px 6px;
+        border-radius: 5px;
+        border: 1px solid var(--edge);
+        color: var(--text-3);
+        white-space: nowrap;
+      }
+      .tag.p {
+        color: var(--brand);
+        border-color: var(--brand);
+      }
+
+      footer {
+        border-top: 1px solid var(--edge);
+        padding: 34px 0 60px;
+        color: var(--text-3);
+        font-size: 13px;
+      }
+      footer p {
+        color: var(--text-3);
+        margin: 0 0 8px;
+      }
+      .note {
+        font-size: 13px;
+        color: var(--text-3);
+        border-left: 2px solid var(--edge);
+        padding-left: 14px;
+        margin: 18px 0 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="wrap bar">
+        <img id="logo" alt="gcruz.dev" />
+        <nav>
+          <a href="#montador">Montador</a>
+          <a href="#galeria">Galeria</a>
+          <a href="#api">API</a>
+          <a href="#prontos">Prontos</a>
+          <a href="#marca">Marca</a>
+        </nav>
+        <button class="toggle" id="themeBtn" type="button">tema</button>
+      </div>
+    </header>
+
+    <main>
+      <div class="wrap hero">
+        <img id="heroLogo" alt="gcruz.dev" />
+        <h1>Biblioteca de ícones de skills</h1>
+        <p class="lede">
+          Um endpoint devolve um único SVG com os ícones que você pedir, no tamanho
+          e na quantidade por linha que você quiser. Monte abaixo, copie o snippet
+          e cole no README, no currículo ou no portfólio.
+        </p>
+        <div class="stats">
+          <div class="stat"><b id="sCount">—</b><span>ícones</span></div>
+          <div class="stat"><b id="sThemed">—</b><span>com tema claro/escuro</span></div>
+          <div class="stat"><b id="sAlias">44</b><span>atalhos de nome</span></div>
+          <div class="stat"><b>1</b><span>requisição por badge</span></div>
+        </div>
+      </div>
+
+      <section id="montador">
+        <div class="wrap">
+          <h2>01 — Montador</h2>
+          <p class="sub">Escolha os ícones e copie o código</p>
+
+          <div class="controls">
+            <div class="field">
+              <label for="q">Buscar</label>
+              <input id="q" type="search" placeholder="react, oracle, jwt…" />
+            </div>
+            <div class="field">
+              <label for="perline">Por linha</label>
+              <input id="perline" type="number" min="1" max="50" value="15" />
+            </div>
+            <div class="field">
+              <label for="theme">Tema dos ícones</label>
+              <select id="theme">
+                <option value="dark">dark</option>
+                <option value="light">light</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="chips" id="chips"></div>
+
+          <div class="card preview" id="preview"></div>
+
+          <div class="snippet">
+            <div class="tabs" role="tablist">
+              <button class="tab" role="tab" data-fmt="md" aria-selected="true">
+                Markdown
+              </button>
+              <button class="tab" role="tab" data-fmt="html" aria-selected="false">
+                HTML
+              </button>
+              <button class="tab" role="tab" data-fmt="url" aria-selected="false">
+                URL
+              </button>
+            </div>
+            <div class="codebox">
+              <pre id="code">Selecione ícones na galeria abaixo.</pre>
+              <button class="copy" id="copyCode" type="button">copiar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="galeria">
+        <div class="wrap">
+          <h2>02 — Galeria</h2>
+          <p class="sub"><span id="shown">—</span> ícones · clique para adicionar</p>
+          <div class="grid" id="grid"></div>
+          <p class="note" id="noResult" hidden>
+            Nenhum ícone corresponde à busca.
+          </p>
+          <p class="note">
+            O ponto no canto marca os ícones que têm variante clara e escura. Os
+            que não têm usam a cor da marca como fundo e ficam iguais nos dois
+            temas.
+          </p>
+        </div>
+      </section>
+
+      <section id="api">
+        <div class="wrap">
+          <h2>03 — API</h2>
+          <p class="sub">Endpoints e parâmetros</p>
+          <div class="card scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Rota</th>
+                  <th>Devolve</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>/icons?i=js,html,css</code></td>
+                  <td>SVG único com os ícones pedidos. Aceita <code>i</code> ou <code>icons</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>/icons?i=all</code></td>
+                  <td>Todos os ícones de uma vez.</td>
+                </tr>
+                <tr>
+                  <td><code>&amp;theme=light</code></td>
+                  <td>Fundo claro nos ícones que têm par. Padrão <code>dark</code>. Aceita <code>t</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>&amp;perline=9</code></td>
+                  <td>Ícones por linha, de 1 a 50. Padrão 15.</td>
+                </tr>
+                <tr>
+                  <td><code>/api/icons</code></td>
+                  <td>JSON com a lista de IDs.</td>
+                </tr>
+                <tr>
+                  <td><code>/api/manifest</code></td>
+                  <td>JSON com ID, se tem tema e o arquivo de cada variante.</td>
+                </tr>
+                <tr>
+                  <td><code>/api/svgs</code></td>
+                  <td>JSON com todos os SVGs crus.</td>
+                </tr>
+                <tr>
+                  <td><code>/svg/&lt;Arquivo&gt;.svg</code></td>
+                  <td>O SVG individual, estático e cacheado na CDN.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Erros</h3>
+          <div class="card scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Requisição</th>
+                  <th>Resposta</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>?i=js,naoexiste</code></td>
+                  <td><code>400</code> — <code>Unknown icon: naoexiste</code>, nomeando o que não resolveu.</td>
+                </tr>
+                <tr>
+                  <td><code>?perline=0</code></td>
+                  <td><code>400</code> — fora do intervalo 1–50.</td>
+                </tr>
+                <tr>
+                  <td><code>?theme=azul</code></td>
+                  <td><code>400</code> — só <code>dark</code> ou <code>light</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>/icons</code> sem <code>i</code></td>
+                  <td><code>400</code> — nenhum ícone especificado.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="prontos">
+        <div class="wrap">
+          <h2>04 — Prontos</h2>
+          <p class="sub">Cole direto no README</p>
+
+          <h3>Stack do currículo</h3>
+          <div class="codebox">
+            <pre id="rdStack"></pre>
+            <button class="copy" data-copy="rdStack" type="button">copiar</button>
+          </div>
+
+          <h3>Ferramentaria e qualidade</h3>
+          <div class="codebox">
+            <pre id="rdTool"></pre>
+            <button class="copy" data-copy="rdTool" type="button">copiar</button>
+          </div>
+
+          <h3>Banco de dados</h3>
+          <div class="codebox">
+            <pre id="rdDb"></pre>
+            <button class="copy" data-copy="rdDb" type="button">copiar</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="marca">
+        <div class="wrap">
+          <h2>05 — Marca</h2>
+          <p class="sub">Variações de <code>&lt;gcruz.dev/&gt;</code></p>
+          <p>
+            Marca 100% tipográfica em JetBrains Mono, com os glifos convertidos em
+            vetor — não depende de fonte instalada. O documento de decisão completo
+            está em <a href="/brand/">/brand/</a>.
+          </p>
+          <div class="brandgrid" id="brandGrid"></div>
+          <p class="note">
+            As marcadas como <b>proposta</b> não existem no seu DS v4.0 — foram
+            derivadas e ficam separadas de propósito, para você aprovar ou
+            descartar sem contradizer o documento.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <p>
+          Código em
+          <a href="https://github.com/https-shini/skill-icons">github.com/https-shini/skill-icons</a>
+          · fork de <a href="https://skillicons.dev">skillicons.dev</a>, MIT.
+        </p>
+        <p>
+          Os logotipos de terceiros são marcas dos respectivos donos e aparecem
+          aqui apenas para identificação. JetBrains Mono é OFL-1.1.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      const $ = s => document.querySelector(s);
+      const origin = location.origin;
+
+      /* ---------------- tema ---------------- */
+      const root = document.documentElement;
+      const saved = localStorage.getItem('theme');
+      if (saved) root.dataset.theme = saved;
+
+      const isDark = () =>
+        (root.dataset.theme ||
+          (matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light')) === 'dark';
+
+      function paintTheme() {
+        const d = isDark();
+        $('#themeBtn').textContent = d ? 'claro' : 'escuro';
+        const v = d ? 'dark' : 'light';
+        $('#logo').src = `/brand/wordmark-${v}.svg`;
+        $('#heroLogo').src = `/brand/wordmark-${v}.svg`;
+        $('#themeBtn').setAttribute(
+          'aria-label',
+          d ? 'Mudar para tema claro' : 'Mudar para tema escuro'
+        );
+        document
+          .querySelectorAll('#brandGrid img[data-base]')
+          .forEach(i => (i.src = `/brand/${i.dataset.base}-${v}.svg`));
+        renderGrid();
+      }
+      $('#themeBtn').onclick = () => {
+        root.dataset.theme = isDark() ? 'light' : 'dark';
+        localStorage.setItem('theme', root.dataset.theme);
+        paintTheme();
+      };
+
+      /* ---------------- dados ---------------- */
+      let ICONS = [];
+      const picked = [];
+
+      async function boot() {
+        const res = await fetch('/manifest.json');
+        const data = await res.json();
+        ICONS = data.icons;
+        $('#sCount').textContent = ICONS.length;
+        $('#sThemed').textContent = ICONS.filter(i => i.themed).length;
+        renderBrand();
+        paintTheme();
+        renderChips();
+        renderSnippet();
+        renderReady();
+      }
+
+      /* ---------------- galeria ---------------- */
+      function renderGrid() {
+        const q = $('#q').value.trim().toLowerCase();
+        const list = q ? ICONS.filter(i => i.id.includes(q)) : ICONS;
+        const v = isDark() ? 'dark' : 'light';
+
+        $('#shown').textContent = list.length;
+        $('#noResult').hidden = list.length > 0;
+
+        $('#grid').innerHTML = list
+          .map(
+            i => `<button class="tile" type="button" data-id="${i.id}"
+              data-on="${picked.includes(i.id) ? 1 : 0}"
+              title="${i.id}">
+              ${i.themed ? '<span class="dot"></span>' : ''}
+              <img src="/svg/${i[v]}" alt="${i.id}" loading="lazy"
+                   width="44" height="44">
+              <code>${i.id}</code>
+            </button>`
+          )
+          .join('');
+      }
+
+      $('#grid').addEventListener('click', e => {
+        const tile = e.target.closest('.tile');
+        if (!tile) return;
+        toggle(tile.dataset.id);
+      });
+      $('#q').addEventListener('input', renderGrid);
+
+      function toggle(id) {
+        const at = picked.indexOf(id);
+        if (at === -1) picked.push(id);
+        else picked.splice(at, 1);
+        renderGrid();
+        renderChips();
+        renderSnippet();
+      }
+
+      /* ---------------- seleção ---------------- */
+      function renderChips() {
+        if (!picked.length) {
+          $('#chips').innerHTML =
+            '<span class="empty">nada selecionado ainda</span>';
+          return;
+        }
+        $('#chips').innerHTML = picked
+          .map(
+            id =>
+              `<button class="chip" type="button" data-id="${id}">${id} <b>×</b></button>`
+          )
+          .join('');
+      }
+      $('#chips').addEventListener('click', e => {
+        const chip = e.target.closest('.chip');
+        if (chip) toggle(chip.dataset.id);
+      });
+
+      /* ---------------- snippet ---------------- */
+      let fmt = 'md';
+      document.querySelectorAll('.tab').forEach(t => {
+        t.onclick = () => {
+          fmt = t.dataset.fmt;
+          document
+            .querySelectorAll('.tab')
+            .forEach(x => x.setAttribute('aria-selected', x === t));
+          renderSnippet();
+        };
+      });
+      $('#perline').addEventListener('input', renderSnippet);
+      $('#theme').addEventListener('change', renderSnippet);
+
+      /**
+       * Query montada à mão de propósito: URLSearchParams escaparia as vírgulas
+       * como %2C, e o usuário copiaria uma URL ilegível, diferente da que está
+       * documentada. Os IDs são só [a-z0-9], então não há nada a escapar.
+       */
+      function query(ids, perline, theme) {
+        let q = `i=${ids}`;
+        if (perline && Number(perline) !== 15) q += `&perline=${Number(perline)}`;
+        if (theme && theme !== 'dark') q += `&theme=${theme}`;
+        return q;
+      }
+
+      function iconUrl() {
+        const perline = Math.min(
+          50,
+          Math.max(1, Number($('#perline').value) || 15)
+        );
+        return `${origin}/icons?${query(picked.join(','), perline, $('#theme').value)}`;
+      }
+
+      function renderSnippet() {
+        if (!picked.length) {
+          $('#preview').innerHTML =
+            '<span class="empty">o preview aparece aqui</span>';
+          $('#code').textContent = 'Selecione ícones na galeria abaixo.';
+          return;
+        }
+        const url = iconUrl();
+        $('#preview').innerHTML = `<img src="${url}" alt="preview">`;
+        $('#code').textContent =
+          fmt === 'md'
+            ? `[![My Skills](${url})](https://gcruz.dev.br)`
+            : fmt === 'html'
+              ? `<a href="https://gcruz.dev.br">\n  <img src="${url}" alt="My Skills" />\n</a>`
+              : url;
+      }
+
+      /* ---------------- snippets prontos ---------------- */
+      function md(ids, perline) {
+        return `[![My Skills](${origin}/icons?${query(ids, perline)})](https://gcruz.dev.br)`;
+      }
+      function renderReady() {
+        $('#rdStack').textContent = md(
+          'ts,js,react,rr,vite,nodejs,fastapi,python,java,php,docker,git,vercel,render',
+          7
+        );
+        $('#rdTool').textContent = md(
+          'eslint,prettier,vitest,playwright,rtl,husky,capacitor,electron,figma,notion',
+          10
+        );
+        $('#rdDb').textContent = md('sql,mysql,oracle,postgres,mongodb,sqlite', 6);
+      }
+
+      /* ---------------- marca ---------------- */
+      const BRAND = [
+        ['wordmark', 'wordmark completo · 700', 0],
+        ['wordmark-600', 'wordmark · 600 (≥40px)', 0],
+        ['compact', 'compacta <g/>', 0],
+        ['app-tile', 'ícone de aplicativo', 0],
+        ['favicon', 'favicon 16px', 0],
+        ['peso-400', 'peso 400', 0],
+        ['peso-500', 'peso 500', 0],
+        ['peso-600', 'peso 600', 0],
+        ['peso-700', 'peso 700', 0],
+        ['proposta-vertical', 'vertical', 1],
+        ['proposta-brackets', 'sem texto', 1],
+        ['proposta-monogram', 'monograma', 1],
+      ];
+      function renderBrand() {
+        $('#brandGrid').innerHTML = BRAND.map(
+          ([base, label, prop]) => `
+          <div class="bcard">
+            <div class="art"><img data-base="${base}" alt="${label}"></div>
+            <div class="meta">
+              <code>${base}</code>
+              ${prop ? '<span class="tag p">proposta</span>' : '<span class="tag">DS</span>'}
+              <a class="tag" href="/brand/${base}-dark.svg" download>svg</a>
+            </div>
+          </div>`
+        ).join('');
+      }
+
+      /* ---------------- copiar ---------------- */
+      async function copyFrom(el, btn) {
+        try {
+          await navigator.clipboard.writeText(el.textContent);
+          const old = btn.textContent;
+          btn.textContent = 'copiado';
+          btn.classList.add('done');
+          setTimeout(() => {
+            btn.textContent = old;
+            btn.classList.remove('done');
+          }, 1400);
+        } catch {
+          btn.textContent = 'falhou';
+        }
+      }
+      $('#copyCode').onclick = e => copyFrom($('#code'), e.currentTarget);
+      document.querySelectorAll('.copy[data-copy]').forEach(b => {
+        b.onclick = () => copyFrom($('#' + b.dataset.copy), b);
+      });
+
+      boot();
+    </script>
+  </body>
+</html>
