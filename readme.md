@@ -1,123 +1,322 @@
-<p align="center"><img align="center" width="280" src="./.github/text-logo.svg#gh-dark-mode-only"/></p>
-<p align="center"><img align="center" width="280" src="./.github/text-logo-light.svg#gh-light-mode-only"/></p>
-<h3 align="center">Showcase your skills on your GitHub or resumé with ease!</h3>
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./.github/text-logo.svg">
+    <img align="center" width="280" src="./.github/text-logo-light.svg" alt="Skill Icons">
+  </picture>
+</p>
+
+<h3 align="center">Ícones de tecnologias em um único SVG, para README e currículo</h3>
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./brand/compact-dark.svg">
+    <img src="./brand/compact-light.svg" height="26" alt="gcruz.dev">
+  </picture>
+  &nbsp;·&nbsp; fork de <a href="https://skillicons.dev">skillicons.dev</a>
+  &nbsp;·&nbsp; <strong>255 ícones</strong>
+  &nbsp;·&nbsp; <a href="./DEPLOY.md">Vercel</a> ou Cloudflare Workers
+</p>
+
 <hr>
 
-<h3 align="center">Powered by Cloudflare Workers ⚡</h3>
+## Índice
 
-<h3>NOTE: To keep icons consistent and to ensure browser support, we don't accept pull requests for icon submissions. If you would like an icon added, please open an issue.<h3>
+- [Como funciona](#como-funciona)
+- [Especificar ícones](#especificar-ícones)
+- [Temas](#temas)
+- [Ícones por linha](#ícones-por-linha)
+- [Centralizar](#centralizar)
+- [Ícones da marca `<gcruz.dev/>`](#ícones-da-marca-gcruzdev)
+- [Referência da API](#referência-da-api)
+- [Lista de ícones](#lista-de-ícones)
+- [Estrutura do repositório](#estrutura-do-repositório)
+- [Adicionar um ícone](#adicionar-um-ícone)
+- [Créditos e licença](#créditos-e-licença)
 
-## 🌐 Site
+## Como funciona
 
-Este fork tem uma página própria com galeria dos 255 ícones, montador de snippet,
-documentação da API e a biblioteca da marca `<gcruz.dev/>`. Ela é servida pela
-Vercel a partir de `public/index.html` — ver [DEPLOY.md](./DEPLOY.md).
+Um endpoint recebe a lista de ícones e devolve **um único SVG** com todos eles
+lado a lado. Uma requisição por badge, não uma por ícone.
 
-# Docs
-
-- [Example](#example)
-- [Specifying Icons](#specifying-icons)
-- [Themed Icons](#themed-icons)
-- [Icons Per Line](#icons-per-line)
-- [Centering Icons](#centering-icons)
-- [Minha marca](#minha-marca)
-- [Icons List](#icons-list)
-
-# Example
-
-<p align="center"><img align="center" src="./.github/example-dark.png#gh-dark-mode-only"/></p>
-<p align="center"><img align="center" src="./.github/example-light.png#gh-light-mode-only"/></p>
-
-# Specifying Icons
-
-Copy and paste the code block below into your readme to add the skills icon element!
-
-Change the `?i=js,html,css` to a list of your skills separated by ","s! You can find a full list of icons [here](#icons-list).
-
-```md
-[![My Skills](https://skillicons.dev/icons?i=js,html,css,wasm)](https://skillicons.dev)
+```
+https://icons.gcruz.dev.br/icons?i=ts,react,nodejs,docker
 ```
 
-[![My Skills](https://skillicons.dev/icons?i=js,html,css,wasm)](https://skillicons.dev)
+> [!IMPORTANT]
+> `icons.gcruz.dev.br` é a instância **deste fork**. Troque pelo domínio da sua.
+> Os 16 ícones criados aqui — entre eles `oracle`, `sql`, `jwt`, `render` e
+> `gcruz` — **não existem em `skillicons.dev`**, que serve apenas o repositório
+> oficial. Pedir um deles ao domínio oficial devolve `400`.
+> Como publicar a sua instância: [DEPLOY.md](./DEPLOY.md).
 
-# Themed Icons
+As prévias deste README vêm dos arquivos do próprio repositório, então aparecem
+mesmo antes de você publicar a instância.
 
-Some icons have a dark and light themed background. You can specify which theme you want as a url parameter.
+## Especificar ícones
 
-This is optional. The default theme is dark.
-
-Change the `&theme=light` to either `dark` or `light`. The theme is the background color, so light theme has a white icon background, and dark has a black-ish.
-
-**Light Theme Example:**
-
-```md
-[![My Skills](https://skillicons.dev/icons?i=java,kotlin,nodejs,figma&theme=light)](https://skillicons.dev)
-```
-
-[![My Skills](https://skillicons.dev/icons?i=java,kotlin,nodejs,figma&theme=light)](https://skillicons.dev)
-
-# Icons Per Line
-
-You can specify how many icons you would like per line! It's an optional argument, and the default is 15.
-
-Change the `&perline=3` to any number between 1 and 50.
+Liste os IDs separados por vírgula em `i` (ou `icons`). A lista completa está em
+[Lista de ícones](#lista-de-ícones).
 
 ```md
-[![My Skills](https://skillicons.dev/icons?i=aws,gcp,azure,react,vue,flutter&perline=3)](https://skillicons.dev)
+[![Minhas skills](https://icons.gcruz.dev.br/icons?i=js,html,css,wasm)](https://gcruz.dev.br)
 ```
 
-[![My Skills](https://skillicons.dev/icons?i=aws,gcp,azure,react,vue,flutter&perline=3)](https://skillicons.dev)
+<p>
+  <img src="./icons/JavaScript.svg" width="48">
+  <img src="./icons/HTML.svg" width="48">
+  <img src="./icons/CSS.svg" width="48">
+  <img src="./icons/WebAssembly.svg" width="48">
+</p>
 
-# Centering Icons
+`i=all` devolve todos os 255 de uma vez.
 
-Want to center the icons in your readme? The SVGs are automatically resized, so you can do it the same way you'd normally center an image.
+## Temas
+
+Parte dos ícones tem variante clara e escura — são **174** dos 255. `theme` (ou
+`t`) escolhe qual usar; o padrão é `dark`. O nome se refere ao **fundo** do badge.
+
+```md
+[![Minhas skills](https://icons.gcruz.dev.br/icons?i=java,kotlin,nodejs,figma&theme=light)](https://gcruz.dev.br)
+```
+
+<p>
+  <img src="./icons/Java-Light.svg" width="48">
+  <img src="./icons/Kotlin-Light.svg" width="48">
+  <img src="./icons/NodeJS-Light.svg" width="48">
+  <img src="./icons/Figma-Light.svg" width="48">
+</p>
+
+Os 81 ícones restantes usam a cor da própria marca como fundo e ficam idênticos
+nos dois temas — `theme` simplesmente não os afeta.
+
+## Ícones por linha
+
+`perline` aceita de **1 a 50**; o padrão é 15. Fora desse intervalo a resposta é
+`400`.
+
+```md
+[![Minhas skills](https://icons.gcruz.dev.br/icons?i=aws,gcp,azure,react,vue,flutter&perline=3)](https://gcruz.dev.br)
+```
+
+## Centralizar
+
+O SVG é redimensionado automaticamente, então vale qualquer técnica de
+centralização de imagem:
 
 ```html
 <p align="center">
-  <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=git,kubernetes,docker,c,vim" />
+  <a href="https://gcruz.dev.br">
+    <img src="https://icons.gcruz.dev.br/icons?i=git,kubernetes,docker,c,vim" />
   </a>
 </p>
 ```
 
-<p align="center">
-  <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=git,kubernetes,docker,c,vim" />
-  </a>
-</p>
+## Ícones da marca `<gcruz.dev/>`
 
-# Minha marca
+A marca é **100% tipográfica** em JetBrains Mono. Os arquivos são os contornos
+dos glifos convertidos em `<path>`: não dependem de fonte instalada e preservam a
+proporção original. Todos os assets estão em [`brand/`](./brand/), e
+[`brand/index.html`](./brand/index.html) é o documento de decisão do design
+system, com escala, pesos e contexto de aplicação.
 
-A marca `<gcruz.dev/>` tem uma biblioteca própria em [`brand/`](./brand/), com
-todas as variações nos dois temas — wordmark completo, compacta `<g/>`, tile de
-aplicativo, favicon e a comparação de pesos. Abra
-[`brand/index.html`](./brand/index.html) para visualizar e copiar o SVG de cada
-uma; [`brand/README.md`](./brand/README.md) documenta os tokens de cor e as regras
-de uso.
+### No endpoint, como qualquer outro ícone
 
-<p align="center">
-  <img src="./brand/wordmark-dark.svg#gh-dark-mode-only" width="320">
-  <img src="./brand/wordmark-light.svg#gh-light-mode-only" width="320">
-</p>
-
-Como a marca é 100% tipográfica em JetBrains Mono, os arquivos são os contornos
-dos glifos convertidos em `<path>`: não dependem de fonte instalada e mantêm a
-proporção original.
-
-Na API, `?i=gcruz` serve a variante compacta — que é a regra do próprio design
-system para tamanho pequeno, e a única que assenta num badge quadrado sem
-redimensionamento não uniforme.
-
-Lembrando que `gcruz` só existe nesta instância — `skillicons.dev` serve apenas o
-repositório oficial. Depois do deploy (veja [DEPLOY.md](./DEPLOY.md)):
+`gcruz` é um ID normal da API e se combina com os demais na mesma requisição:
 
 ```md
 [![gcruz.dev](https://icons.gcruz.dev.br/icons?i=gcruz)](https://gcruz.dev.br)
+[![Stack](https://icons.gcruz.dev.br/icons?i=gcruz,ts,react,nodejs&perline=4)](https://gcruz.dev.br)
 ```
 
-# Icons List
+<p>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./icons/GCruz-Dark.svg">
+    <img src="./icons/GCruz-Light.svg" width="48" alt="gcruz">
+  </picture>
+  <img src="./icons/TypeScript.svg" width="48">
+  <img src="./icons/React-Dark.svg" width="48">
+  <img src="./icons/NodeJS-Dark.svg" width="48">
+</p>
 
-Here's a list of all the icons currently supported. Feel free to open an issue to suggest icons to add!
+No badge quadrado entra a variante **compacta** `<g/>`, e não o wordmark. Essa é a
+regra do próprio design system para tamanho pequeno: com 12 caracteres, o wordmark
+teria cerca de 4px de altura num badge de 48px. O wordmark completo vive em
+`brand/`, onde a proporção é livre.
+
+### Assets da marca
+
+Variações definidas no design system:
+
+| Nome                                          | Prévia                                                                                                                                                                           | Formato | Dimensões     | Link direto                                                                                                                                                                                               |
+| :-------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------ | :------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Wordmark**<br><code>wordmark</code>         | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/wordmark-dark.svg"><img src="./brand/wordmark-light.svg" width="200" alt="wordmark"></picture>             | `.svg`  | `704.8 × 101` | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/wordmark-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/wordmark-light.svg)         |
+| **Wordmark 600**<br><code>wordmark-600</code> | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/wordmark-600-dark.svg"><img src="./brand/wordmark-600-light.svg" width="200" alt="wordmark-600"></picture> | `.svg`  | `704.4 × 101` | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/wordmark-600-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/wordmark-600-light.svg) |
+| **Compacta**<br><code>compact</code>          | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/compact-dark.svg"><img src="./brand/compact-light.svg" width="90" alt="compact"></picture>                 | `.svg`  | `224.8 × 101` | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/compact-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/compact-light.svg)           |
+| **Tile de app**<br><code>app-tile</code>      | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/app-tile-dark.svg"><img src="./brand/app-tile-light.svg" width="64" alt="app-tile"></picture>              | `.svg`  | `256 × 256`   | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/app-tile-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/app-tile-light.svg)         |
+| **Favicon**<br><code>favicon</code>           | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/favicon-dark.svg"><img src="./brand/favicon-light.svg" width="48" alt="favicon"></picture>                 | `.svg`  | `64 × 64`     | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/favicon-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/favicon-light.svg)           |
+| **Peso 400**<br><code>peso-400</code>         | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/peso-400-dark.svg"><img src="./brand/peso-400-light.svg" width="200" alt="peso-400"></picture>             | `.svg`  | `703 × 101`   | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/peso-400-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/peso-400-light.svg)         |
+| **Peso 500**<br><code>peso-500</code>         | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/peso-500-dark.svg"><img src="./brand/peso-500-light.svg" width="200" alt="peso-500"></picture>             | `.svg`  | `703.8 × 101` | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/peso-500-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/peso-500-light.svg)         |
+
+Variações **propostas** — não constam do DS v4.0, foram derivadas e estão aqui
+para aprovação:
+
+| Nome                                            | Prévia                                                                                                                                                                                          | Formato | Dimensões       | Link direto                                                                                                                                                                                                         |
+| :---------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------ | :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Vertical**<br><code>proposta-vertical</code>  | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/proposta-vertical-dark.svg"><img src="./brand/proposta-vertical-light.svg" width="120" alt="proposta-vertical"></picture> | `.svg`  | `344.8 × 186.3` | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/proposta-vertical-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/proposta-vertical-light.svg) |
+| **Sem texto**<br><code>proposta-brackets</code> | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/proposta-brackets-dark.svg"><img src="./brand/proposta-brackets-light.svg" width="90" alt="proposta-brackets"></picture>  | `.svg`  | `164.8 × 94`    | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/proposta-brackets-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/proposta-brackets-light.svg) |
+| **Monograma**<br><code>proposta-monogram</code> | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/proposta-monogram-dark.svg"><img src="./brand/proposta-monogram-light.svg" width="36" alt="proposta-monogram"></picture>  | `.svg`  | `45.1 × 74`     | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/proposta-monogram-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/proposta-monogram-light.svg) |
+
+### Código pronto
+
+Os links da coluna _Link direto_ são servidos pelo GitHub com
+`content-type: image/svg+xml` e funcionam imediatamente, sem depender do deploy.
+Publicada a instância, os mesmos arquivos ficam também em `/brand/<arquivo>.svg`.
+
+```html
+<!-- Wordmark — Assinatura principal, peso 700. Use até 32px de altura. -->
+<img
+  src="https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/wordmark-dark.svg"
+  width="400"
+  alt="gcruz.dev"
+/>
+
+<!-- Wordmark 600 — Mesma assinatura em peso 600, para display a partir de 40px. -->
+<img
+  src="https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/wordmark-600-dark.svg"
+  width="400"
+  alt="gcruz.dev"
+/>
+
+<!-- Compacta — `<g/>`. Abaixo de 24px é a única variante legível. -->
+<img
+  src="https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/compact-dark.svg"
+  width="180"
+  alt="gcruz.dev"
+/>
+
+<!-- Tile de app — Ícone de aplicativo, quadrado, com tile e aresta. -->
+<img
+  src="https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/app-tile-dark.svg"
+  width="128"
+  alt="gcruz.dev"
+/>
+
+<!-- Favicon — Otimizado para 16px na aba do navegador. -->
+<img
+  src="https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/favicon-dark.svg"
+  width="96"
+  alt="gcruz.dev"
+/>
+
+<!-- Peso 400 — Só para comparação de pesos no documento do DS. -->
+<img
+  src="https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/peso-400-dark.svg"
+  width="400"
+  alt="gcruz.dev"
+/>
+
+<!-- Peso 500 — Só para comparação de pesos no documento do DS. -->
+<img
+  src="https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/peso-500-dark.svg"
+  width="400"
+  alt="gcruz.dev"
+/>
+```
+
+Propostas:
+
+```html
+<!-- Vertical — `<gcruz` sobre `.dev/>`, empilhado. -->
+<img
+  src="https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/proposta-vertical-dark.svg"
+  width="240"
+  alt="gcruz.dev"
+/>
+
+<!-- Sem texto — Só os brackets, sem o nome. -->
+<img
+  src="https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/proposta-brackets-dark.svg"
+  width="180"
+  alt="gcruz.dev"
+/>
+
+<!-- Monograma — O `g` isolado, sem brackets. -->
+<img
+  src="https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/proposta-monogram-dark.svg"
+  width="72"
+  alt="gcruz.dev"
+/>
+```
+
+Para alternar por tema, use `<picture>` — é o método documentado pelo GitHub para
+imagem por esquema de cor:
+
+```html
+<picture>
+  <source
+    media="(prefers-color-scheme: dark)"
+    srcset="
+      https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/wordmark-dark.svg
+    "
+  />
+  <img
+    src="https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/wordmark-light.svg"
+    width="320"
+    alt="gcruz.dev"
+  />
+</picture>
+```
+
+### Tokens
+
+| Elemento          | Dark      | Light     |
+| :---------------- | :-------- | :-------- |
+| Fundo             | `#070d19` | `#f2f4f8` |
+| Brackets `<` `/>` | `#f43f5e` | `#be123c` |
+| Nome `gcruz`      | `#f8fafc` | `#0f172a` |
+| Sufixo `.dev`     | `#818cf8` | `#4f46e5` |
+| Tile da compacta  | `#0f172a` | —         |
+
+Peso **700 até 32px**, **600 acima de 40px**. Abaixo de 24px, use a compacta.
+
+> [!NOTE]
+> `peso-700` é byte a byte idêntico a `wordmark`, e `peso-600` a `wordmark-600` —
+> são o mesmo arquivo sob dois nomes. Os pesos existem para a comparação no
+> documento do DS; para uso real, prefira `wordmark` e `wordmark-600`.
+
+## Referência da API
+
+| Rota                   | Devolve                                                    |
+| :--------------------- | :--------------------------------------------------------- |
+| `/icons?i=js,html`     | O SVG composto. Aceita `i` ou `icons`.                     |
+| `/icons?i=all`         | Todos os ícones.                                           |
+| `&theme=light`         | Fundo claro nos ícones com par. Padrão `dark`. Aceita `t`. |
+| `&perline=9`           | Ícones por linha, de 1 a 50. Padrão 15.                    |
+| `/api/icons`           | JSON com a lista de IDs.                                   |
+| `/api/manifest`        | JSON com ID, se tem tema e o arquivo de cada variante.     |
+| `/api/svgs`            | JSON com todos os SVGs crus.                               |
+| `/svg/<Arquivo>.svg`   | O SVG individual, estático e cacheado na CDN.              |
+| `/brand/<arquivo>.svg` | Os assets da marca.                                        |
+
+Erros:
+
+| Requisição        | Resposta                                                   |
+| :---------------- | :--------------------------------------------------------- |
+| `?i=js,naoexiste` | `400 Unknown icon: naoexiste` — nomeia o que não resolveu. |
+| `?perline=0`      | `400` — fora do intervalo 1–50.                            |
+| `?theme=azul`     | `400` — só `dark` ou `light`.                              |
+| `/icons` sem `i`  | `400` — nenhum ícone especificado.                         |
+
+Atalhos de nome: 44 aliases estão definidos em `shortNames`, em
+[`lib/icons.mjs`](./lib/icons.mjs) — `js`, `ts`, `py`, `k8s`, `rr`, `fa`, `ws`,
+`rtl`, entre outros.
+
+## Lista de ícones
+
+Tabela gerada a partir de [`icons/`](./icons) por
+[`scripts/readme-table.mjs`](./scripts/readme-table.mjs). Para regenerar:
+`npm run readme`. O CI roda `npm run readme:check` e falha se ela estiver
+defasada.
 
 |      Icon ID       |                          Icon                          |
 | :----------------: | :----------------------------------------------------: |
@@ -377,12 +576,45 @@ Here's a list of all the icons currently supported. Feel free to open an issue t
 |       `yew`        |      <img src="./icons/Yew-Dark.svg" width="48">       |
 |       `zig`        |      <img src="./icons/Zig-Dark.svg" width="48">       |
 
----
+## Estrutura do repositório
 
-## 💖 Support the Project
+```
+icons/                   os 255 ícones (429 arquivos, contando os pares de tema)
+brand/                   assets da marca <gcruz.dev/> + o documento do DS
+lib/icons.mjs            lógica compartilhada: resolução de nomes e composição
+index.js                 entrada do Cloudflare Worker
+api/*.mjs                entradas da Vercel
+public/index.html        a página: galeria, montador e documentação
+scripts/                 gerador da tabela do readme e dos assets da Vercel
+build.js                 empacota icons/ em dist/icons.{json,mjs}
+```
 
-Thank you so much already for using my projects! If you want to go a step further and support my open source work, buy me a coffee:
+## Adicionar um ícone
 
-<a href='https://ko-fi.com/Q5Q860KQ2' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi1.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+1. Coloque o SVG em `icons/` seguindo as convenções abaixo.
+2. `npm run readme` para regenerar a tabela.
+3. Publique.
 
-To support the project directly, feel free to open issues for icon suggestions, or contribute with a pull request!
+Convenções, as mesmas dos 255 que já existem:
+
+- `viewBox="0 0 256 256"`, `width`/`height` 256, `fill="none"` na raiz
+- fundo `<rect width="256" height="256" rx="60">`
+- arte entre as coordenadas 41 e 215
+- par temático `Nome-Dark.svg` (fundo `#242938`) + `Nome-Light.svg` (`#F4F2ED`);
+  se o logo funciona sobre a cor da marca, use um arquivo único com essa cor
+- **sem hífen no nome** além do sufixo de tema — o ID vem de `split('-')[0]`, e um
+  terceiro segmento é ignorado pelo resolvedor
+- **sem** `<text>`, `<style>`, `class=` ou referência externa; texto vira `<path>`
+- **evite `id`/`<defs>`**; se precisar, prefixe com o nome do ícone — o endpoint
+  concatena todos os ícones num único SVG, e `id` repetido entre ícones colide
+
+## Créditos e licença
+
+Este repositório é um fork de [skillicons.dev](https://skillicons.dev), criado por
+[tandpfun](https://github.com/tandpfun), sob licença MIT. Se o projeto original
+foi útil para você, considere apoiar o autor dele:
+[ko-fi.com/thijsdev](https://ko-fi.com/Q5Q860KQ2).
+
+Os logotipos de terceiros são marcas dos respectivos donos e aparecem aqui apenas
+para identificação. A marca `<gcruz.dev/>` e os assets em `brand/` são de
+Guilherme Cruz. JetBrains Mono é licenciada sob OFL-1.1.

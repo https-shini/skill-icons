@@ -96,11 +96,21 @@ function build() {
   return { table: renderTable(rows), count: rows.length };
 }
 
+/** Cabeçalho que delimita o bloco gerado. Mudar aqui e no readme juntos. */
+const HEADING = '## Lista de ícones';
+
 function splice(readme, table) {
-  // substitui o bloco da tabela que segue o cabeçalho "# Icons List"
-  const re = /(^# Icons List\n[\s\S]*?\n\n)(\|[\s\S]*?)(?=\n\n|\n---)/m;
+  // do cabeçalho até a primeira linha em branco vem o texto de introdução, que é
+  // escrito à mão e preservado; o que vem depois é a tabela gerada
+  const re = new RegExp(
+    `(^${HEADING}\\n[\\s\\S]*?\\n\\n)(\\|[\\s\\S]*?)(?=\\n\\n|\\n---)`,
+    'm'
+  );
   if (!re.test(readme))
-    throw new Error('bloco da tabela não encontrado no readme');
+    throw new Error(
+      `bloco da tabela não encontrado: o readme precisa ter "${HEADING}" ` +
+        'seguido de um parágrafo, linha em branco e a tabela'
+    );
   return readme.replace(re, (_, head) => head + table);
 }
 
