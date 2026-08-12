@@ -276,9 +276,14 @@
         justify-content: center;
         align-items: center;
         min-height: 96px;
-        overflow-x: auto;
+        overflow: auto;
       }
-      .preview img {
+      /* Filho direto, nunca descendente: o SVG composto contém um <svg> de
+         256x256 por ícone, e um seletor descendente aplicaria `height:auto`
+         neles também, deslocando a grade interna e cortando as fileiras. */
+      .preview > img,
+      .preview > svg {
+        flex: none;
         max-width: 100%;
         height: auto;
       }
@@ -305,23 +310,27 @@
         border-color: var(--edge);
         color: var(--text-1);
       }
+      /* botão acima do bloco, não sobreposto: o snippet é uma linha longa que
+         rola na horizontal e passaria por baixo de um botão absoluto */
       .codebox {
-        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 7px;
       }
       pre {
         margin: 0;
+        width: 100%;
         background: var(--surface);
         border: 1px solid var(--edge);
         border-radius: 12px;
-        padding: 16px 92px 16px 16px;
+        padding: 16px;
         overflow-x: auto;
         font: 13px/1.7 var(--mono);
         color: var(--text-1);
       }
       .copy {
-        position: absolute;
-        top: 10px;
-        right: 10px;
+        order: -1;
         font: 600 11px/1 var(--mono);
         background: var(--surface-2);
         border: 1px solid var(--edge);
@@ -734,7 +743,28 @@
 
       /* ---------------- tema ---------------- */
       const root = document.documentElement;
-      const saved = localStorage.getItem('theme');
+
+      /* localStorage lança SecurityError em origem opaca (file://, iframe
+         sandboxed sem allow-same-origin). Sem o try/catch a exceção mata o
+         bloco inteiro e a página não inicializa. */
+      const store = {
+        get(k) {
+          try {
+            return localStorage.getItem(k);
+          } catch {
+            return null;
+          }
+        },
+        set(k, v) {
+          try {
+            localStorage.setItem(k, v);
+          } catch {
+            /* sem persistência, mas a página segue funcionando */
+          }
+        },
+      };
+
+      const saved = store.get('theme');
       if (saved) root.dataset.theme = saved;
 
       const isDark = () =>
@@ -760,7 +790,7 @@
       }
       $('#themeBtn').onclick = () => {
         root.dataset.theme = isDark() ? 'light' : 'dark';
-        localStorage.setItem('theme', root.dataset.theme);
+        store.set('theme', root.dataset.theme);
         paintTheme();
       };
 
