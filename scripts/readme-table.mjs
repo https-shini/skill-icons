@@ -15,6 +15,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { CATEGORIES } from './categories.mjs';
 
 const ROOT = path.join(import.meta.dirname, '..');
 const README = path.join(ROOT, 'readme.md');
@@ -73,6 +74,29 @@ function renderTable(rows) {
   ].join('\n');
 }
 
+/** valida que as categorias particionam os IDs: total e sem repetição */
+function checkPartition(ids) {
+  const seen = new Map();
+  const problems = [];
+  for (const c of CATEGORIES)
+    for (const id of c.ids) {
+      if (seen.has(id))
+        problems.push(`"${id}" está em "${seen.get(id)}" e em "${c.slug}"`);
+      seen.set(id, c.slug);
+      if (!ids.has(id))
+        problems.push(`"${id}" (${c.slug}) não existe em icons/`);
+    }
+  for (const id of ids)
+    if (!seen.has(id))
+      problems.push(
+        `"${id}" não está em nenhuma categoria de scripts/categories.mjs`
+      );
+  if (problems.length)
+    throw new Error(
+      'categorias inconsistentes:\n  - ' + problems.join('\n  - ')
+    );
+}
+
 function build() {
   const files = iconFiles();
   const aliases = shortNames();
@@ -87,31 +111,52 @@ function build() {
   const ids = new Set(displayed);
   for (const id of files.keys()) if (!represented.has(id)) ids.add(id);
 
-  const rows = [...ids].sort().map(id => {
-    const file = files.get(aliases.get(id) ?? id);
-    if (!file) throw new Error(`sem arquivo SVG para o ID "${id}"`);
-    return [`\`${id}\``, `<img src="./icons/${file}" width="48">`];
-  });
+  // o ID exibido pode ser um alias; a categoria é sempre pelo ID canônico
+  const canonical = new Map([...ids].map(id => [aliases.get(id) ?? id, id]));
+  checkPartition(new Set(canonical.keys()));
 
-  return { table: renderTable(rows), count: rows.length };
+  const blocks = [];
+  let count = 0;
+  for (const cat of CATEGORIES) {
+    const rows = cat.ids
+      .map(canon => canonical.get(canon))
+      .filter(Boolean)
+      .sort()
+      .map(id => {
+        const file = files.get(aliases.get(id) ?? id);
+        if (!file) throw new Error(`sem arquivo SVG para o ID "${id}"`);
+        return [`\`${id}\``, `<img src="./icons/${file}" width="48">`];
+      });
+    count += rows.length;
+    blocks.push(
+      `### ${cat.title}\n\n` +
+        (cat.note ? `${cat.note}\n\n` : '') +
+        renderTable(rows)
+    );
+  }
+
+  return { table: blocks.join('\n\n'), count };
 }
 
 /** Cabeçalho que delimita o bloco gerado. Mudar aqui e no readme juntos. */
 const HEADING = '## Lista de ícones';
 
 function splice(readme, table) {
-  // do cabeçalho até a primeira linha em branco vem o texto de introdução, que é
-  // escrito à mão e preservado; o que vem depois é a tabela gerada
+  // Do cabeçalho até a primeira linha em branco vem a introdução, escrita à mão
+  // e preservada; daí até o próximo "## " é tudo gerado.
+  //
+  // Sem a flag `m` de propósito: com ela `$` casa fim de LINHA, e a lookahead
+  // fechava na primeira linha — o grupo saía vazio e a tabela nova era inserida
+  // sem remover a antiga, duplicando a seção. `(?![\s\S])` é o fim de string.
   const re = new RegExp(
-    `(^${HEADING}\\n[\\s\\S]*?\\n\\n)(\\|[\\s\\S]*?)(?=\\n\\n|\\n---)`,
-    'm'
+    `(\\n${HEADING}\\n[\\s\\S]*?\\n\\n)([\\s\\S]*?)(?=\\n## |(?![\\s\\S]))`
   );
   if (!re.test(readme))
     throw new Error(
       `bloco da tabela não encontrado: o readme precisa ter "${HEADING}" ` +
-        'seguido de um parágrafo, linha em branco e a tabela'
+        'seguido de um parágrafo e uma linha em branco'
     );
-  return readme.replace(re, (_, head) => head + table);
+  return readme.replace(re, (_, head) => head + table + '\n');
 }
 
 const { table, count } = build();
