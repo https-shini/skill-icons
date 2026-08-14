@@ -13,7 +13,7 @@
     <img src="./brand/compact-light.svg" height="26" alt="gcruz.dev">
   </picture>
   &nbsp;·&nbsp; fork de <a href="https://skillicons.dev">skillicons.dev</a>
-  &nbsp;·&nbsp; <strong>256 ícones</strong>
+  &nbsp;·&nbsp; <strong>257 ícones</strong>
   &nbsp;·&nbsp; <a href="./DEPLOY.md">Vercel</a> ou Cloudflare Workers
 </p>
 
@@ -68,11 +68,11 @@ Liste os IDs separados por vírgula em `i` (ou `icons`). A lista completa está 
   <img src="./icons/WebAssembly.svg" width="48">
 </p>
 
-`i=all` devolve todos os 256 de uma vez.
+`i=all` devolve todos os 257 de uma vez.
 
 ## Temas
 
-Parte dos ícones tem variante clara e escura — são **175** dos 256. `theme` (ou
+Parte dos ícones tem variante clara e escura — são **176** dos 257. `theme` (ou
 `t`) escolhe qual usar; o padrão é `dark`. O nome se refere ao **fundo** do badge.
 
 ```md
@@ -125,18 +125,33 @@ system, com escala, pesos e contexto de aplicação.
 
 ```md
 [![gcruz.dev](https://icons.gcruz.dev.br/icons?i=gcruz)](https://gcruz.dev.br)
-[![gc](https://icons.gcruz.dev.br/icons?i=gc)](https://gcruz.dev.br)
-[![Stack](https://icons.gcruz.dev.br/icons?i=gc,ts,react,nodejs&perline=4)](https://gcruz.dev.br)
+[![gc](https://icons.gcruz.dev.br/icons?i=gctag)](https://gcruz.dev.br)
+[![Stack](https://icons.gcruz.dev.br/icons?i=gctag,ts,react,nodejs&perline=4)](https://gcruz.dev.br)
 ```
 
-Dois IDs da marca existem na API: **`gcruz`** serve a compacta `<g/>` e **`gc`**
-serve o monograma. Os outros logos são largos demais para o badge quadrado e
-vivem só em `brand/`.
+Três IDs da marca existem na API:
+
+| ID      | Serve             | Quando usar                                                     |
+| :------ | :---------------- | :-------------------------------------------------------------- |
+| `gcruz` | a compacta `<g/>` | assinatura curta, a mais próxima da marca principal             |
+| `gctag` | `<gc/>`           | assinatura de desenvolvedor; é a que tem mais presença no badge |
+| `gc`    | o monograma `gc`  | mínima, para quando os brackets pesariam demais                 |
+
+Os outros logos são largos demais para o badge quadrado — `<gc.dev/>` teria cerca
+de 5px de altura a 48px — e vivem só em `brand/`, onde a proporção é livre.
 
 <p>
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./icons/GCruz-Dark.svg">
     <img src="./icons/GCruz-Light.svg" width="48" alt="gcruz">
+  </picture>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./icons/GCTag-Dark.svg">
+    <img src="./icons/GCTag-Light.svg" width="48" alt="gctag">
+  </picture>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./icons/GC-Dark.svg">
+    <img src="./icons/GC-Light.svg" width="48" alt="gc">
   </picture>
   <img src="./icons/TypeScript.svg" width="48">
   <img src="./icons/React-Dark.svg" width="48">
@@ -374,6 +389,7 @@ Os ícones da marca. Detalhes e assets em [Ícones da marca](#ícones-da-marca-g
 | :-----: | :-------------------------------------------: |
 |  `gc`   |  <img src="./icons/GC-Dark.svg" width="48">   |
 | `gcruz` | <img src="./icons/GCruz-Dark.svg" width="48"> |
+| `gctag` | <img src="./icons/GCTag-Dark.svg" width="48"> |
 
 ### Linguagens
 

@@ -13,7 +13,7 @@ export const CATEGORIES = [
     title: 'Marca `<gcruz.dev/>`',
     slug: 'marca',
     note: 'Os ícones da marca. Detalhes e assets em [Ícones da marca](#ícones-da-marca-gcruzdev).',
-    ids: ['gcruz', 'gc'],
+    ids: ['gcruz', 'gctag', 'gc'],
   },
   {
     title: 'Linguagens',
