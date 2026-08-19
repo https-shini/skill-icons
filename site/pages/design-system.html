@@ -1,0 +1,252 @@
+<!--pagina {"titulo":"Design System — skill-icons","descricao":"Os tokens de cor, tipografia, espaço, elevação e motion que o site realmente usa, lidos do próprio tokens.css, e os componentes em todos os estados.","nav":"design-system"}-->
+    <div class="wrap hero hero-curto">
+      <p class="t-label">Styleguide</p>
+      <h1 class="t-h1">Design System</h1>
+      <p class="t-body">
+        Cada valor desta página é lido de
+        <code>site/css/tokens.css</code> na hora do build — é o mesmo arquivo que
+        o navegador carrega. Se um token mudar e a página não mudar junto, é bug
+        do gerador, não defasagem de documentação.
+      </p>
+      <p class="t-small">
+        Os pares de contraste são recalculados a cada build e o mínimo AA é
+        verificado no CI por <code>scripts/contraste.mjs</code>.
+      </p>
+    </div>
+
+    <section id="cor">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="t-h2">Cor</h2>
+          <p>
+            Uma escala neutra por tema mais três semânticas. O tema claro é o
+            <code>:root</code>; o escuro redefine só o que muda.
+          </p>
+        </div>
+        {{dsCor}}
+      </div>
+    </section>
+
+    <section id="tipografia">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="t-h2">Tipografia</h2>
+          <p>
+            JetBrains Mono para display, títulos, rótulos e código; IBM Plex Sans
+            para leitura corrida. Oito tokens, cada um com tamanho, peso,
+            entrelinha e tracking próprios.
+          </p>
+        </div>
+        {{dsTipografia}}
+      </div>
+    </section>
+
+    <section id="espaco">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="t-h2">Espaço e grade</h2>
+          <p>Base de 4px, grade de 12 colunas, largura máxima de conteúdo.</p>
+        </div>
+        {{dsEspaco}}
+      </div>
+    </section>
+
+    <section id="superficie">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="t-h2">Superfície e elevação</h2>
+          <p>
+            Régua de 1px como padrão. Sombra <strong>só</strong> onde há
+            sobreposição real — popover, drawer, modal, toast. Card e seção
+            estática não recebem sombra decorativa.
+          </p>
+        </div>
+        {{dsSuperficie}}
+        <div class="ds-superficies">
+          <div class="ds-plano" style="background: var(--bg)">
+            <code>--bg</code>
+          </div>
+          <div class="ds-plano" style="background: var(--surface); border: var(--rule)">
+            <code>--surface</code> + <code>--rule</code>
+          </div>
+          <div class="ds-plano" style="background: var(--surface-2); border: var(--rule)">
+            <code>--surface-2</code>
+          </div>
+          <div class="ds-plano" style="background: var(--surface); box-shadow: var(--shadow-overlay)">
+            <code>--shadow-overlay</code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="motion">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="t-h2">Motion</h2>
+          <p>Quatro pares duração/easing, um por classe de interação.</p>
+        </div>
+        {{dsMotion}}
+      </div>
+    </section>
+
+    <section id="componentes">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="t-h2">Componentes</h2>
+          <p>
+            Hover e foco não se capturam numa página estática, então cada um
+            aparece duas vezes: o componente real, que responde ao seu mouse e ao
+            seu teclado, e um gêmeo com o estado forçado por classe, para o
+            estado ser visível sem interação.
+          </p>
+        </div>
+
+        <h3 class="t-h3">Botão</h3>
+        <div class="ds-estados">
+          <div><span class="t-label">padrão</span><button class="btn" type="button">Copiar</button></div>
+          <div><span class="t-label">hover</span><button class="btn forcado-hover" type="button">Copiar</button></div>
+          <div><span class="t-label">foco</span><button class="btn forcado-focus" type="button">Copiar</button></div>
+          <div><span class="t-label">ativo</span><button class="btn forcado-active" type="button">Copiar</button></div>
+          <div><span class="t-label">desabilitado</span><button class="btn" type="button" disabled>Copiar</button></div>
+          <div><span class="t-label">carregando</span><button class="btn" type="button" data-loading="true">Copiar</button></div>
+        </div>
+
+        <h3 class="t-h3">Botão de marca</h3>
+        <div class="ds-estados">
+          <div><span class="t-label">padrão</span><button class="btn btn-brand" type="button">Baixar seleção</button></div>
+          <div><span class="t-label">hover</span><button class="btn btn-brand forcado-hover" type="button">Baixar seleção</button></div>
+          <div><span class="t-label">foco</span><button class="btn btn-brand forcado-focus" type="button">Baixar seleção</button></div>
+          <div><span class="t-label">ativo</span><button class="btn btn-brand forcado-active" type="button">Baixar seleção</button></div>
+          <div><span class="t-label">desabilitado</span><button class="btn btn-brand" type="button" disabled>Baixar seleção</button></div>
+          <div><span class="t-label">carregando</span><button class="btn btn-brand" type="button" data-loading="true">Baixar seleção</button></div>
+        </div>
+
+        <h3 class="t-h3">Botão fantasma</h3>
+        <div class="ds-estados">
+          <div><span class="t-label">padrão</span><button class="btn btn-ghost" type="button">Limpar</button></div>
+          <div><span class="t-label">hover</span><button class="btn btn-ghost forcado-hover" type="button">Limpar</button></div>
+          <div><span class="t-label">foco</span><button class="btn btn-ghost forcado-focus" type="button">Limpar</button></div>
+          <div><span class="t-label">desabilitado</span><button class="btn btn-ghost" type="button" disabled>Limpar</button></div>
+        </div>
+
+        <h3 class="t-h3">Chip</h3>
+        <div class="ds-estados">
+          <div><span class="t-label">padrão</span><button class="chip" type="button" aria-pressed="false">Linguagens</button></div>
+          <div><span class="t-label">hover</span><button class="chip forcado-hover" type="button" aria-pressed="false">Linguagens</button></div>
+          <div><span class="t-label">foco</span><button class="chip forcado-focus" type="button" aria-pressed="false">Linguagens</button></div>
+          <div><span class="t-label">selecionado</span><button class="chip" type="button" aria-pressed="true">Linguagens</button></div>
+          <div><span class="t-label">removível</span><button class="chip" type="button" aria-label="Remover typescript">typescript<span class="x" aria-hidden="true">×</span></button></div>
+        </div>
+
+        <h3 class="t-h3">Tabs</h3>
+        <div class="tabs" role="tablist" aria-label="Exemplo de tabs">
+          <button class="tab" type="button" role="tab" aria-selected="true">Markdown</button>
+          <button class="tab" type="button" role="tab" aria-selected="false">HTML</button>
+          <button class="tab forcado-hover" type="button" role="tab" aria-selected="false">URL (hover)</button>
+          <button class="tab forcado-focus" type="button" role="tab" aria-selected="false">Foco</button>
+        </div>
+
+        <h3 class="t-h3">Campo e select</h3>
+        <div class="ds-estados ds-estados-largo">
+          <div class="field">
+            <span class="t-label">padrão</span>
+            <label class="sr-only" for="ds-campo">Exemplo de campo</label>
+            <input class="input" id="ds-campo" type="text" placeholder="javascript, k8s…" />
+          </div>
+          <div class="field">
+            <span class="t-label">foco</span>
+            <label class="sr-only" for="ds-campo-f">Exemplo de campo em foco</label>
+            <input class="input forcado-focus" id="ds-campo-f" type="text" placeholder="javascript, k8s…" />
+          </div>
+          <div class="field">
+            <span class="t-label">desabilitado</span>
+            <label class="sr-only" for="ds-campo-d">Exemplo de campo desabilitado</label>
+            <input class="input" id="ds-campo-d" type="text" value="256" disabled />
+          </div>
+          <div class="field">
+            <span class="t-label">select</span>
+            <label class="sr-only" for="ds-select">Exemplo de select</label>
+            <select class="select" id="ds-select">
+              <option>SVG — vetor original</option>
+              <option>PNG</option>
+            </select>
+          </div>
+          <div class="field">
+            <span class="t-label">busca</span>
+            <div class="search">
+              <label class="sr-only" for="ds-busca">Exemplo de busca</label>
+              <input class="input" id="ds-busca" type="search" placeholder="buscar ícone" />
+            </div>
+          </div>
+        </div>
+
+        <h3 class="t-h3">Toggle</h3>
+        <div class="ds-estados">
+          <div>
+            <span class="t-label">dois estados</span>
+            <div class="toggle" role="group" aria-label="Exemplo de toggle">
+              <button type="button" aria-pressed="true">Claro</button>
+              <button type="button" aria-pressed="false">Escuro</button>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="t-h3">Bloco de código com cópia</h3>
+        <div class="code">
+          <pre><code id="ds-code">[![Minhas skills](https://icons.gcruz.dev.br/icons?i=ts,react,nodejs)](https://gcruz.dev.br)</code></pre>
+          <button class="btn btn-sm copy" type="button" data-copia="ds-code" aria-label="Copiar o exemplo de snippet">
+            Copiar
+          </button>
+        </div>
+
+        <h3 class="t-h3">Tooltip</h3>
+        <div class="ds-estados">
+          <div>
+            <span class="t-label">no hover e no foco</span>
+            <button class="btn" type="button" data-tip="Copia o ID do ícone">
+              Passe o mouse ou dê Tab
+            </button>
+          </div>
+        </div>
+
+        <h3 class="t-h3">Toast</h3>
+        <div class="ds-estados">
+          <div><span class="t-label">sucesso</span><span class="toast ds-toast" data-open="true" data-kind="ok">Snippet copiado</span></div>
+          <div><span class="t-label">erro</span><span class="toast ds-toast" data-open="true" data-kind="err">Não foi possível copiar</span></div>
+        </div>
+
+        <h3 class="t-h3">Modal e drawer</h3>
+        <p class="t-small">
+          A mesma peça com ancoragem diferente: cena escura, painel, foco preso,
+          <kbd>Esc</kbd> para fechar e foco devolvido a quem abriu. O drawer é o
+          menu mobile — reduza a janela abaixo de 820px para vê-lo.
+        </p>
+        <div class="ds-estados">
+          <div>
+            <span class="t-label">modal</span>
+            <button class="btn" type="button" data-modal-abre="ds-modal" aria-expanded="false" aria-controls="ds-modal">
+              Abrir modal
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="modal" id="ds-modal" data-open="false" hidden>
+      <div class="scrim" data-fecha></div>
+      <div class="painel" role="dialog" aria-modal="true" aria-labelledby="ds-modal-titulo">
+        <h2 class="t-h3 titulo" id="ds-modal-titulo">Modal de exemplo</h2>
+        <button class="btn btn-ghost btn-sm fechar" type="button" data-fecha aria-label="Fechar o modal">
+          Fechar
+        </button>
+        <p>
+          Enquanto está aberto, o <kbd>Tab</kbd> circula só entre os controles
+          daqui de dentro: sem isso o foco escapa para a página atrás, que está
+          coberta e não recebe clique.
+        </p>
+        <div class="row">
+          <button class="btn btn-brand" type="button" data-fecha>Entendi</button>
+          <a class="btn" href="#componentes" data-fecha>Ir para os componentes</a>
+        </div>
+      </div>
+    </div>

@@ -9,72 +9,14 @@
  *   node scripts/contraste.mjs           lista todos os pares
  *   node scripts/contraste.mjs --check   sai 1 se algum par reprovar
  *
+ * A leitura dos tokens vem de scripts/tokens.mjs, a mesma que a página de
+ * Design System usa — os dois têm de estar olhando para os mesmos valores.
+ *
  * Limiares (WCAG 2.1, 1.4.3 e 1.4.11):
  *   4.5:1  texto normal
  *   3.0:1  texto grande (>=24px, ou >=18.66px em negrito) e componentes de UI
  */
-import fs from 'node:fs';
-import path from 'node:path';
-
-const TOKENS = path.join(
-  import.meta.dirname,
-  '..',
-  'site',
-  'css',
-  'tokens.css'
-);
-
-/**
- * Lê os blocos :root do tokens.css e devolve { claro, escuro }.
- *
- * O casamento do seletor é por prefixo, não por `includes`: a string
- * `:root:not([data-theme='dark'])` — que é o bloco do tema CLARO dentro da media
- * query — contém `data-theme='dark'`, e um `includes` a classificava como
- * escura, sobrescrevendo a paleta escura com valores claros. Os dois temas
- * saíam idênticos e o relatório não valia nada.
- */
-function paletas() {
-  // Comentários fora primeiro: o cabeçalho do arquivo entrava no seletor do
-  // primeiro bloco e ele deixava de casar com `:root`.
-  const css = fs.readFileSync(TOKENS, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
-  const blocos = [...css.matchAll(/([^{}]*?)\{([^}]*)\}/g)];
-
-  const claro = {};
-  const escuro = {};
-  for (const [, seletorBruto, corpo] of blocos) {
-    const seletor = seletorBruto.trim();
-    let destino = null;
-    if (seletor === ':root') destino = claro;
-    else if (seletor.startsWith(":root[data-theme='dark']")) destino = escuro;
-    if (!destino) continue;
-    for (const [, nome, valor] of corpo.matchAll(
-      /--([\w-]+):\s*(#[0-9a-fA-F]{3,8})\s*;/g
-    ))
-      destino[nome] = valor;
-  }
-  if (!Object.keys(claro).length || !Object.keys(escuro).length)
-    throw new Error('não encontrei os dois blocos de tema em tokens.css');
-  return { claro, escuro: { ...claro, ...escuro } };
-}
-
-function rgb(hex) {
-  const h = hex.slice(1);
-  const n = h.length === 3 ? [...h].map(c => c + c).join('') : h;
-  return [0, 2, 4].map(i => parseInt(n.slice(i, i + 2), 16) / 255);
-}
-
-/** Luminância relativa, WCAG 2.1 §relative luminance. */
-function luminancia(hex) {
-  const [r, g, b] = rgb(hex).map(c =>
-    c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4
-  );
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-}
-
-function razao(a, b) {
-  const [x, y] = [luminancia(a), luminancia(b)].sort((p, q) => q - p);
-  return (x + 0.05) / (y + 0.05);
-}
+import { paletas, razao } from './tokens.mjs';
 
 /**
  * [frente, fundo, mínimo, descrição, nivel]

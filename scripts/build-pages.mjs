@@ -18,6 +18,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { iconNameList } from '../lib/icons.mjs';
+import { grupos, paletas, razao } from './tokens.mjs';
 
 const ROOT = path.join(import.meta.dirname, '..');
 const SITE = path.join(ROOT, 'site');
@@ -158,6 +159,200 @@ function changelog() {
     .join('\n');
 }
 
+/* ------------------------------------------------------------------------
+   Página de Design System, gerada a partir de site/css/tokens.css.
+
+   O requisito é que o styleguide mostre o token que o código usa. Ler o mesmo
+   arquivo que o navegador carrega é a única forma de isso continuar verdadeiro
+   depois do primeiro ajuste de paleta — uma tabela digitada à mão começa certa
+   e envelhece calada.
+   ------------------------------------------------------------------------ */
+
+/** Amostra de cor + valor, do jeito que a tabela de tokens repete. */
+function celulaCor(valor) {
+  return `<span class="amostra" style="--c: ${valor}"></span><code>${valor}</code>`;
+}
+
+function secaoCor() {
+  const { claro, escuro } = paletas();
+  const nomes = Object.keys(claro);
+
+  const linhas = nomes
+    .map(n => {
+      // O contraste que interessa é o do token contra o fundo do próprio tema.
+      const par = n === 'bg' ? null : 'bg';
+      const c = par ? razao(claro[n], claro[par]).toFixed(2) : '—';
+      const e = par ? razao(escuro[n], escuro[par]).toFixed(2) : '—';
+      return `<tr>
+            <td><code>--${n}</code></td>
+            <td>${celulaCor(claro[n])}</td>
+            <td>${celulaCor(escuro[n])}</td>
+            <td class="t-code">${c === '—' ? '—' : `${c}:1 · ${e}:1`}</td>
+          </tr>`;
+    })
+    .join('\n');
+
+  return `<div class="tabela-rolavel">
+          <table class="params">
+            <thead>
+              <tr><th>Token</th><th>Claro</th><th>Escuro</th><th>Contraste sobre <code>--bg</code></th></tr>
+            </thead>
+            <tbody>
+${linhas}
+            </tbody>
+          </table>
+        </div>`;
+}
+
+function secaoTipografia() {
+  const tip = grupos().find(g => g.titulo === 'tipografia');
+  const mapa = Object.fromEntries(tip.tokens.map(t => [t.nome, t.valor]));
+
+  const familias = ['font-mono', 'font-sans']
+    .map(
+      n => `<tr><td><code>--${n}</code></td><td class="t-code">${mapa[n].replace(/</g, '&lt;')}</td></tr>`
+    )
+    .join('\n');
+
+  // os 8 tokens da escala saem dos próprios nomes, sem lista paralela
+  const escala = [
+    ...new Set(
+      tip.tokens
+        .map(t => t.nome.match(/^text-(.+)-size$/)?.[1])
+        .filter(Boolean)
+    ),
+  ];
+
+  const espécimes = escala
+    .map(k => {
+      const v = p => mapa[`text-${k}-${p}`];
+      return `<div class="ds-tipo">
+            <div class="ds-tipo-numeros">
+              <code>--text-${k}</code>
+              <span class="t-small">${v('size')} · peso ${v('weight')} · entrelinha ${v('lh')} · tracking ${v('ls')}</span>
+            </div>
+            <p class="t-${k}" style="margin:0">Ícones de tecnologia num único SVG</p>
+          </div>`;
+    })
+    .join('\n');
+
+  return `<div class="tabela-rolavel">
+          <table class="params">
+            <thead><tr><th>Família</th><th>Pilha</th></tr></thead>
+            <tbody>
+${familias}
+            </tbody>
+          </table>
+        </div>
+        <div class="ds-tipos">
+${espécimes}
+        </div>`;
+}
+
+function secaoEspaco() {
+  const g = grupos().find(x => x.titulo === 'espaço e grid');
+  const barras = g.tokens
+    .filter(t => t.nome.startsWith('space-'))
+    .map(
+      t => `<div class="ds-espaco">
+            <code>--${t.nome}</code>
+            <span class="ds-barra" style="--w: ${t.valor}"></span>
+            <span class="t-small">${t.valor}</span>
+          </div>`
+    )
+    .join('\n');
+
+  const outros = g.tokens
+    .filter(t => !t.nome.startsWith('space-'))
+    .map(t => `<tr><td><code>--${t.nome}</code></td><td class="t-code">${t.valor}</td></tr>`)
+    .join('\n');
+
+  return `<div class="ds-espacos">
+${barras}
+        </div>
+        <div class="tabela-rolavel">
+          <table class="params">
+            <thead><tr><th>Token</th><th>Valor</th></tr></thead>
+            <tbody>
+${outros}
+            </tbody>
+          </table>
+        </div>
+        <p class="t-small">A grade de 12 colunas, com o gutter do token:</p>
+        <div class="grid ds-grade">${'<span></span>'.repeat(12)}</div>`;
+}
+
+function secaoSuperficie() {
+  const g = grupos().find(x => x.titulo === 'superfície e elevação');
+  const linhas = g.tokens
+    .map(
+      t =>
+        `<tr><td><code>--${t.nome}</code></td><td class="t-code">${t.valor.replace(/</g, '&lt;')}</td></tr>`
+    )
+    .join('\n');
+  return `<div class="tabela-rolavel">
+          <table class="params">
+            <thead><tr><th>Token</th><th>Valor</th></tr></thead>
+            <tbody>
+${linhas}
+            </tbody>
+          </table>
+        </div>`;
+}
+
+function secaoMotion() {
+  const g = grupos().find(x => x.titulo === 'motion');
+  const durs = g.tokens.filter(t => t.nome.startsWith('dur-'));
+  const demos = durs
+    .map(t => {
+      const chave = t.nome.replace('dur-', '');
+      return `<div class="ds-motion">
+            <div class="ds-motion-numeros">
+              <code>--dur-${chave}</code>
+              <span class="t-small">${t.valor} · <code>--ease-${chave}</code></span>
+            </div>
+            <div class="ds-pista"><span style="--d: var(--dur-${chave}); --e: var(--ease-${chave})"></span></div>
+          </div>`;
+    })
+    .join('\n');
+  const usos = {
+    fast: 'hover, foco, chips',
+    base: 'tabs, toast, tooltip',
+    slow: 'drawer, modal',
+    lazy: 'entrada de grade, preview',
+  };
+  const tabela = durs
+    .map(t => {
+      const k = t.nome.replace('dur-', '');
+      return `<tr><td><code>--dur-${k}</code></td><td class="t-code">${t.valor}</td><td>${usos[k] ?? ''}</td></tr>`;
+    })
+    .join('\n');
+  return `<div class="ds-motions">
+${demos}
+        </div>
+        <div class="tabela-rolavel">
+          <table class="params">
+            <thead><tr><th>Token</th><th>Duração</th><th>Onde se aplica</th></tr></thead>
+            <tbody>
+${tabela}
+            </tbody>
+          </table>
+        </div>
+        <p class="t-small">
+          Sob <code>prefers-reduced-motion: reduce</code> os quatro tokens vão a
+          <code>0.01ms</code> de uma vez, no próprio <code>tokens.css</code> — nenhum
+          componente precisa lembrar da media query.
+        </p>`;
+}
+
+const SECOES_DS = {
+  '{{dsCor}}': secaoCor,
+  '{{dsTipografia}}': secaoTipografia,
+  '{{dsEspaco}}': secaoEspaco,
+  '{{dsSuperficie}}': secaoSuperficie,
+  '{{dsMotion}}': secaoMotion,
+};
+
 const paginas = fs
   .readdirSync(path.join(SITE, 'pages'))
   .filter(f => f.endsWith('.html'));
@@ -190,7 +385,13 @@ ${preencher(partials.head, valores)
     ${globais.marca}
 ${marcarNav(preencher(partials.header, valores), nav)}
     <main id="conteudo">
-${preencher(corpo.replace('{{changelog}}', changelog), valores).trimEnd()}
+${preencher(
+  Object.entries(SECOES_DS).reduce(
+    (txt, [marca, gerar]) => (txt.includes(marca) ? txt.replace(marca, gerar) : txt),
+    corpo.replace('{{changelog}}', changelog)
+  ),
+  valores
+).trimEnd()}
     </main>
 ${marcarNav(preencher(partials.footer, valores), nav)}
   </body>

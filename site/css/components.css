@@ -520,6 +520,80 @@
   font-size: var(--text-small-size);
 }
 
+/* ------------------------------------------------------------ modal */
+
+/*
+  Modal e drawer são a mesma peça com ancoragem diferente: cena escura, painel,
+  `data-open` como estado e a mesma duração. O que muda é de onde o painel entra.
+  Por isso a cena é compartilhada em `.scrim`, e não duplicada.
+*/
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  visibility: hidden;
+  display: grid;
+  place-items: center;
+  padding: var(--space-5);
+}
+
+.modal[data-open='true'] {
+  visibility: visible;
+}
+
+.modal .painel {
+  position: relative;
+  width: min(560px, 100%);
+  max-height: min(80vh, 640px);
+  overflow-y: auto;
+  background: var(--surface);
+  border: var(--rule);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-overlay);
+  padding: var(--space-6);
+  opacity: 0;
+  transform: translateY(12px) scale(0.98);
+  transition:
+    opacity var(--dur-slow) var(--ease-slow),
+    transform var(--dur-slow) var(--ease-slow);
+}
+
+.modal[data-open='true'] .painel {
+  opacity: 1;
+  transform: none;
+}
+
+.modal .titulo {
+  margin-bottom: var(--space-3);
+  padding-right: var(--space-7);
+}
+
+.modal .fechar {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+}
+
+/* Abaixo de 560px o modal ocupa a tela: um cartão centrado nessa largura vira
+   uma faixa apertada com rolagem dupla. */
+@media (max-width: 560px) {
+  .modal {
+    padding: 0;
+    place-items: stretch;
+  }
+
+  .modal .painel {
+    width: 100%;
+    max-height: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 0;
+    padding: var(--space-5);
+    padding-top: calc(var(--space-5) + env(safe-area-inset-top));
+  }
+}
+
 /* ------------------------------------------- drawer (menu mobile) */
 
 .drawer {
@@ -533,7 +607,7 @@
   visibility: visible;
 }
 
-.drawer .scrim {
+.scrim {
   position: absolute;
   inset: 0;
   background: rgb(0 0 0 / 45%);
@@ -541,7 +615,7 @@
   transition: opacity var(--dur-slow) var(--ease-slow);
 }
 
-.drawer[data-open='true'] .scrim {
+[data-open='true'] > .scrim {
   opacity: 1;
 }
 
@@ -597,4 +671,58 @@
   .site-footer .cols {
     grid-template-columns: 1fr;
   }
+}
+
+/* --------------------------------- estados forçados (página de DS) */
+
+/*
+  Um styleguide estático não consegue mostrar hover nem foco: eles dependem do
+  ponteiro e do teclado de quem está olhando. Estas classes aplicam exatamente a
+  mesma declaração da pseudo-classe correspondente, para o estado aparecer
+  parado ao lado do componente real.
+
+  Ficam ao lado das regras que copiam, de propósito: separadas, divergiriam.
+*/
+
+.btn.forcado-hover:not(:disabled) {
+  --btn-bg: var(--surface-2);
+  --btn-edge: var(--text-3);
+}
+
+.btn.forcado-active:not(:disabled) {
+  --btn-bg: var(--edge);
+}
+
+.btn-brand.forcado-hover:not(:disabled) {
+  --btn-bg: color-mix(in srgb, var(--brand) 86%, var(--text-1));
+  --btn-edge: var(--btn-bg);
+}
+
+.btn-brand.forcado-active:not(:disabled) {
+  --btn-bg: color-mix(in srgb, var(--brand) 74%, var(--text-1));
+}
+
+.btn-ghost.forcado-hover:not(:disabled) {
+  --btn-bg: var(--surface-2);
+  --btn-edge: var(--edge);
+  --btn-fg: var(--text-1);
+}
+
+.chip.forcado-hover {
+  border-color: var(--text-3);
+  color: var(--text-1);
+}
+
+.tab.forcado-hover {
+  color: var(--text-1);
+}
+
+.input.forcado-hover {
+  border-color: var(--text-3);
+}
+
+.forcado-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+  border-radius: var(--radius-sm);
 }

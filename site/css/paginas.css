@@ -462,3 +462,185 @@
     grid-column: 1 / -1;
   }
 }
+
+/* ------------------------------------------------- design system */
+
+/*
+  Container de rolagem para o que é largo por natureza. A regra do projeto é que
+  a página nunca role na horizontal: quem é largo rola dentro de si.
+*/
+.tabela-rolavel {
+  overflow-x: auto;
+  margin-block: var(--space-4);
+  -webkit-overflow-scrolling: touch;
+}
+
+.tabela-rolavel .params {
+  min-width: 460px;
+  margin-block: 0;
+}
+
+.ds-tipos {
+  display: grid;
+  gap: var(--space-5);
+  margin-top: var(--space-5);
+}
+
+.ds-tipo {
+  display: grid;
+  gap: var(--space-2);
+  padding-bottom: var(--space-4);
+  border-bottom: var(--rule);
+  overflow-x: auto;
+}
+
+.ds-tipo-numeros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
+.ds-espacos {
+  display: grid;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+
+.ds-espaco {
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.ds-barra {
+  display: block;
+  width: var(--w);
+  height: 14px;
+  border-radius: 3px;
+  background: var(--accent);
+}
+
+.ds-grade {
+  margin-top: var(--space-3);
+}
+
+.ds-grade span {
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+.ds-superficies {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+}
+
+.ds-plano {
+  display: grid;
+  place-items: center;
+  min-height: 96px;
+  padding: var(--space-4);
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+.ds-motions {
+  display: grid;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.ds-motion {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.ds-motion-numeros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: baseline;
+}
+
+.ds-pista {
+  height: 22px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  border: var(--rule);
+  padding: 3px;
+  overflow: hidden;
+}
+
+.ds-pista span {
+  display: block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--brand);
+  animation: ds-vai-e-vem 2.4s var(--e, linear) infinite alternate;
+  animation-duration: calc(var(--d) * 8);
+}
+
+@keyframes ds-vai-e-vem {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(100cqw - 14px));
+  }
+}
+
+.ds-pista {
+  container-type: inline-size;
+}
+
+/* Sem movimento, a bolinha fica parada no início em vez de piscar no lugar. */
+@media (prefers-reduced-motion: reduce) {
+  .ds-pista span {
+    animation: none;
+  }
+}
+
+.ds-estados {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+  margin-block: var(--space-4) var(--space-6);
+  align-items: flex-end;
+}
+
+.ds-estados > div {
+  display: grid;
+  gap: var(--space-2);
+  justify-items: start;
+}
+
+.ds-estados-largo > div {
+  min-width: 220px;
+  flex: 1 1 220px;
+}
+
+/*
+  O toast da galeria é uma amostra, não o toast de verdade da página. Precisa
+  anular também o estado aberto: `.toast[data-open='true']` traz
+  `translate(-50%, 0)`, e sem cancelar isso a amostra saía meio corpo para fora
+  da tela pela esquerda.
+*/
+.ds-toast,
+.ds-toast[data-open='true'] {
+  position: static;
+  transform: none;
+  left: auto;
+  bottom: auto;
+  visibility: visible;
+  opacity: 1;
+}
+
+#componentes h3 {
+  margin-top: var(--space-6);
+}
