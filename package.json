@@ -9,9 +9,13 @@
     "deploy": "node build.js && wrangler deploy",
     "readme": "node scripts/readme-table.mjs",
     "readme:check": "node scripts/readme-table.mjs --check",
-    "format": "prettier --write \"**/*.{js,mjs,json,md}\"",
-    "format:check": "prettier --check \"**/*.{js,mjs,json,md}\"",
-    "build:web": "node build.js && node scripts/vercel-assets.mjs"
+    "format": "prettier --write \"**/*.{js,mjs,json,md,css}\"",
+    "format:check": "prettier --check \"**/*.{js,mjs,json,md,css}\"",
+    "build:web": "node build.js && node scripts/vercel-assets.mjs && node scripts/build-pages.mjs",
+    "site": "node scripts/build-pages.mjs",
+    "dev:web": "npm run build:web && node scripts/serve.mjs",
+    "contraste": "node scripts/contraste.mjs",
+    "contraste:check": "node scripts/contraste.mjs --check"
   },
   "devDependencies": {
     "prettier": "^3.6.2",

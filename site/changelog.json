@@ -1,0 +1,108 @@
+[
+  {
+    "versao": "Site completo",
+    "data": "2026-08-19",
+    "mudancas": [
+      {
+        "tipo": "added",
+        "descricao": "Tokens do design system em <code>site/css/tokens.css</code> como fonte única de cor, tipografia, espaço, elevação e motion."
+      },
+      {
+        "tipo": "added",
+        "descricao": "Cabeçalho e rodapé compartilhados, com navegação, toggle de tema e menu mobile, compostos em build time por <code>scripts/build-pages.mjs</code>."
+      },
+      {
+        "tipo": "added",
+        "descricao": "Download dos ícones selecionados em SVG, PNG e WebP, individual ou em lote <code>.zip</code>, com resolução de 16 a 1024 px — tudo no cliente, sem endpoint novo."
+      },
+      {
+        "tipo": "added",
+        "descricao": "Busca por nome parcial, apelido e categoria, com contador de resultados e destaque do termo."
+      },
+      {
+        "tipo": "added",
+        "descricao": "Páginas de changelog e de erro 404."
+      },
+      {
+        "tipo": "added",
+        "descricao": "JetBrains Mono e IBM Plex Sans auto-hospedadas em fontes variáveis (77 KB no total), sem requisição a terceiro."
+      },
+      {
+        "tipo": "changed",
+        "descricao": "A marca passou a usar <code>&lt;gc/&gt;</code> na variante compacta e <code>&lt;gcruz/&gt;</code> no badge do ID <code>gcruz</code>; a abreviação da marca é <code>gc</code>, nunca <code>g</code> isolado."
+      },
+      {
+        "tipo": "changed",
+        "descricao": "CSS e JS saíram de dentro do HTML para arquivos próprios, com cache longo."
+      },
+      {
+        "tipo": "removed",
+        "descricao": "Proposta de monograma <code>g</code> isolado, incompatível com a regra de abreviação da marca."
+      }
+    ]
+  },
+  {
+    "versao": "Badge <gc/>",
+    "data": "2026-08-14",
+    "mudancas": [
+      {
+        "tipo": "added",
+        "descricao": "Ícone <code>gctag</code>: a marca em forma de tag, <code>&lt;gc/&gt;</code>, nos dois temas."
+      }
+    ]
+  },
+  {
+    "versao": "Família gc e categorias",
+    "data": "2026-08-13",
+    "mudancas": [
+      {
+        "tipo": "added",
+        "descricao": "Logos <code>&lt;gc/&gt;</code>, <code>&lt;gc.dev/&gt;</code>, <code>&lt;gcruz/&gt;</code> e o monograma <code>gc</code>, mais o ícone <code>gc</code>."
+      },
+      {
+        "tipo": "changed",
+        "descricao": "A lista de ícones do readme passou a ser agrupada em 19 categorias, validadas como partição total e exclusiva por <code>npm run readme:check</code>."
+      }
+    ]
+  },
+  {
+    "versao": "Readme e correções da página",
+    "data": "2026-08-12",
+    "mudancas": [
+      {
+        "tipo": "fixed",
+        "descricao": "A página não inicializava em origem opaca: tocar em <code>localStorage</code> lançava <code>SecurityError</code> e derrubava o script inteiro."
+      },
+      {
+        "tipo": "fixed",
+        "descricao": "O preview cortava as fileiras de baixo — um seletor <code>.preview svg</code> alcançava o SVG aninhado de cada ícone e deslocava a grade interna."
+      },
+      {
+        "tipo": "changed",
+        "descricao": "Readme refatorado, com os ícones da marca documentados."
+      }
+    ]
+  },
+  {
+    "versao": "Vercel e primeira página",
+    "data": "2026-08-10",
+    "mudancas": [
+      {
+        "tipo": "added",
+        "descricao": "Hospedagem na Vercel ao lado do Cloudflare Workers, com a lógica compartilhada em <code>lib/icons.mjs</code> para as duas não divergirem."
+      },
+      {
+        "tipo": "added",
+        "descricao": "Biblioteca da marca <code>&lt;gcruz.dev/&gt;</code>: logotipos em contorno de glifo, sem depender de fonte instalada."
+      },
+      {
+        "tipo": "added",
+        "descricao": "14 ícones novos, o <code>sql</code>, e o <code>oracle</code> refeito."
+      },
+      {
+        "tipo": "fixed",
+        "descricao": "<code>perline</code> aceitava 0 e negativos, gerando um SVG de altura infinita; ID desconhecido virava a string <code>undefined</code> dentro do SVG em vez de erro."
+      }
+    ]
+  }
+]

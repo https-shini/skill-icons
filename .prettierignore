@@ -2,5 +2,8 @@ icons/
 dist/
 brand/
 yarn.lock
-public/manifest.json
-public/brand/
+site/fonts/*.woff2
+
+# public/ é saída de scripts/build-pages.mjs e scripts/vercel-assets.mjs.
+# Formatar o gerado não tem efeito no fonte e só produz diff a cada build.
+public/

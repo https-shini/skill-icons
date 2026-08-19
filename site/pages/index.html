@@ -1,0 +1,275 @@
+<!--pagina {"titulo":"skill-icons — ícones de tecnologia para o seu README","descricao":"Escolha entre 257 ícones de tecnologia, monte o snippet e cole no seu README. Um único SVG, tema claro e escuro, sem build.","nav":"builder"}-->
+    <div class="wrap hero">
+      <p class="t-label">gcruz.dev · skill-icons</p>
+      <h1 class="t-display">
+        Ícones de tecnologia<br />
+        num único SVG.
+      </h1>
+      <p class="t-body">
+        Escolha as tecnologias, copie o snippet, cole no README.
+        {{totalIcones}} ícones servidos por uma URL — sem build, sem imagem
+        para versionar, com tema claro e escuro.
+      </p>
+      <div class="row">
+        <a class="btn btn-brand" href="#montador">Montar meu snippet</a>
+        <a class="btn" href="#catalogo">Ver o catálogo</a>
+        <a class="btn btn-ghost" href="#api">Documentação da API</a>
+      </div>
+    </div>
+
+    <section id="montador">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="t-h2">Montador</h2>
+          <p>
+            Busque por nome, por apelido (<code>js</code>, <code>k8s</code>,
+            <code>ps</code>) ou por categoria. O preview e o snippet acompanham
+            a seleção e o tema do topo da página.
+          </p>
+        </div>
+
+        <div class="montador">
+          <div class="montador-escolha">
+            <div class="search">
+              <label class="sr-only" for="busca">Buscar ícone</label>
+              <input
+                class="input"
+                id="busca"
+                type="search"
+                placeholder="javascript, k8s, banco de dados…"
+                autocomplete="off"
+                spellcheck="false"
+              />
+            </div>
+
+            <div
+              class="row filtros"
+              id="filtros"
+              role="group"
+              aria-label="Filtrar por categoria"
+            ></div>
+
+            <p class="t-small contador" id="contador" role="status" aria-live="polite">
+              Carregando o catálogo…
+            </p>
+
+            <div
+              class="tiles"
+              id="resultados"
+              role="group"
+              aria-label="Ícones disponíveis"
+            ></div>
+          </div>
+
+          <aside class="montador-saida">
+            <div class="card stack">
+              <div class="row" style="justify-content: space-between">
+                <span class="t-label" id="resumo-selecao">Nenhum ícone selecionado ainda</span>
+                <button class="btn btn-ghost btn-sm" type="button" id="limpar" disabled>
+                  Limpar
+                </button>
+              </div>
+
+              <div class="row escolhidos" id="escolhidos" aria-label="Ícones selecionados"></div>
+
+              <div class="field">
+                <label class="t-label" for="perline">Ícones por linha</label>
+                <input
+                  class="input"
+                  id="perline"
+                  type="number"
+                  min="1"
+                  max="50"
+                  step="1"
+                  aria-describedby="perline-ajuda"
+                />
+                <span class="t-small" id="perline-ajuda">Entre 1 e 50. O padrão é 15.</span>
+              </div>
+
+              <div class="preview" id="preview"></div>
+
+              <div>
+                <div class="tabs" role="tablist" aria-label="Formato do snippet">
+                  <button class="tab" type="button" role="tab" data-saida="markdown" aria-selected="true">
+                    Markdown
+                  </button>
+                  <button class="tab" type="button" role="tab" data-saida="html" aria-selected="false">
+                    HTML
+                  </button>
+                  <button class="tab" type="button" role="tab" data-saida="url" aria-selected="false">
+                    URL
+                  </button>
+                </div>
+                <div class="code">
+                  <pre><code id="saida">// escolha ao menos um ícone</code></pre>
+                  <button class="btn btn-sm copy" type="button" id="copiar-saida">
+                    Copiar
+                  </button>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="t-label" for="formato">Baixar como</label>
+                <select class="select" id="formato">
+                  <option value="svg">SVG — vetor original</option>
+                  <option value="png">PNG</option>
+                  <option value="webp">WebP</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label class="t-label" for="lado">Resolução</label>
+                <div class="row presets" id="presets"></div>
+                <input
+                  class="input"
+                  id="lado"
+                  type="number"
+                  min="16"
+                  max="1024"
+                  step="1"
+                  aria-label="Resolução personalizada em pixels"
+                  aria-describedby="lado-ajuda"
+                />
+                <span class="t-small" id="lado-ajuda">
+                  Entre 16 e 1024 px. Não se aplica ao SVG, que sai sem
+                  rasterizar.
+                </span>
+              </div>
+
+              <button class="btn btn-brand" type="button" id="baixar-lote" disabled>
+                Baixar seleção
+              </button>
+              <progress
+                class="progresso"
+                id="progresso"
+                aria-label="Progresso da conversão dos ícones"
+                hidden
+                value="0"
+                max="1"
+              ></progress>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="catalogo">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="t-h2">Catálogo</h2>
+          <p>
+            Os {{totalIcones}} ícones por categoria. Clique em qualquer um para
+            copiar o ID que vai no parâmetro <code>i</code>.
+          </p>
+        </div>
+        <div id="catalogo-lista"></div>
+      </div>
+    </section>
+
+    <section id="api">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="t-h2">API</h2>
+          <p>
+            Uma rota, três parâmetros. A resposta é um único SVG com todos os
+            ícones pedidos — é o que faz o README carregar uma imagem em vez de
+            dez.
+          </p>
+        </div>
+
+        <div class="api-grid">
+          <div class="card">
+            <h3 class="t-h3">GET /icons</h3>
+            <table class="params">
+              <thead>
+                <tr>
+                  <th>Parâmetro</th>
+                  <th>Valores</th>
+                  <th>Padrão</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>i</code> ou <code>icons</code></td>
+                  <td>IDs separados por vírgula, ou <code>all</code></td>
+                  <td><em>obrigatório</em></td>
+                </tr>
+                <tr>
+                  <td><code>t</code> ou <code>theme</code></td>
+                  <td><code>dark</code> · <code>light</code></td>
+                  <td><code>dark</code></td>
+                </tr>
+                <tr>
+                  <td><code>perline</code></td>
+                  <td>inteiro de 1 a 50</td>
+                  <td><code>15</code></td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="t-small">
+              ID desconhecido devolve <code>400</code> nomeando quais não
+              existem, em vez de renderizar um espaço vazio.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3 class="t-h3">Metadados</h3>
+            <ul class="rotas">
+              <li>
+                <code>GET /api/icons</code>
+                <span class="t-small">a lista de IDs</span>
+              </li>
+              <li>
+                <code>GET /api/manifest</code>
+                <span class="t-small">cada ID e o arquivo por tema</span>
+              </li>
+              <li>
+                <code>GET /api/svgs</code>
+                <span class="t-small">todos os SVGs em JSON</span>
+              </li>
+              <li>
+                <code>GET /svg/&lt;Arquivo&gt;.svg</code>
+                <span class="t-small">o arquivo estático, servido pela CDN</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 class="t-h3" style="margin-top: var(--space-6)">Exemplos</h3>
+        <div class="exemplos">
+          <div class="card">
+            <p class="t-label">Stack de back-end, tema claro</p>
+            <div class="preview">
+              <img
+                src="/icons?i=nodejs,nestjs,postgresql,redis,docker&theme=light&perline=5"
+                alt="Node.js, NestJS, PostgreSQL, Redis e Docker"
+                loading="lazy"
+              />
+            </div>
+            <div class="code">
+              <pre><code id="ex-1">https://icons.gcruz.dev.br/icons?i=nodejs,nestjs,postgresql,redis,docker&amp;theme=light&amp;perline=5</code></pre>
+              <button class="btn btn-sm copy" type="button" data-copia="ex-1" aria-label="Copiar a URL do exemplo de back-end">
+                Copiar
+              </button>
+            </div>
+          </div>
+
+          <div class="card">
+            <p class="t-label">Duas linhas de três</p>
+            <div class="preview">
+              <img
+                src="/icons?i=react,typescript,tailwindcss,vite,vercel,figma&perline=3"
+                alt="React, TypeScript, Tailwind, Vite, Vercel e Figma"
+                loading="lazy"
+              />
+            </div>
+            <div class="code">
+              <pre><code id="ex-2">https://icons.gcruz.dev.br/icons?i=react,typescript,tailwindcss,vite,vercel,figma&amp;perline=3</code></pre>
+              <button class="btn btn-sm copy" type="button" data-copia="ex-2" aria-label="Copiar a URL do exemplo de front-end">
+                Copiar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>

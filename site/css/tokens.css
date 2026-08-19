@@ -1,0 +1,198 @@
+/**
+ * Tokens do design system — fonte única de cor, tipografia, espaço, elevação e
+ * motion. Nenhum valor visual deve ser escrito fora daqui.
+ *
+ * PROCEDÊNCIA DE CADA BLOCO
+ *
+ *   [prompt]   valor veio literal da seção 2.1 do briefing de refatoração.
+ *   [derivado] o briefing cita o token mas não deu o número; derivei mantendo
+ *              a mesma família (slate + rose + indigo) e marquei aqui. Quando
+ *              `Design_System_dc.html` chegar, estes são os que conferir.
+ *
+ * A página de Design System é gerada a partir DESTE arquivo (scripts/tokens.mjs
+ * lê os blocos abaixo), e não escrita à mão — é o que garante que o styleguide
+ * mostre o que o código realmente usa.
+ */
+
+:root {
+  /* ---------------------------------------------------------------- cor
+     Tema claro é o padrão do :root; o escuro entra por media query e por
+     [data-theme]. Um token nunca é definido SÓ dentro de media query. */
+
+  /* [prompt] tema claro */
+  --bg: #f2f4f8;
+  --surface: #ffffff;
+  --surface-2: #e9ecf2;
+  --edge: #d3d9e3;
+  --text-1: #0f172a;
+  --text-2: #475569;
+  /* [prompt] dá #64748b, mas sobre `--bg` #f2f4f8 isso rende 4,32:1 — abaixo do
+     mínimo AA de 4,5 exigido nos requisitos técnicos. Escurecido um passo, para
+     4,77:1. Medido por scripts/contraste.mjs, não estimado. */
+  --text-3: #5f6d82;
+  --brand: #be123c;
+  --accent: #4f46e5;
+  --on-brand: #ffffff;
+
+  /* [derivado] semânticas — o briefing manda reutilizar as do Design System,
+     que não veio. Mantive a família do resto (escalas Tailwind) e afastei o
+     erro do vermelho da marca: erro é red-600, marca é rose-700. */
+  --info: #0369a1;
+  --ok: #047857;
+  --warn: #b45309;
+  --err: #dc2626;
+
+  /* --------------------------------------------------------- tipografia */
+  /* [prompt] JetBrains Mono para display, títulos, rótulos e código;
+     IBM Plex Sans para corpo de leitura corrida. */
+  --font-mono:
+    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-sans:
+    'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    system-ui, sans-serif;
+
+  /* Escala de 8 tokens. [prompt] fixou as duas pontas — display 52px/600 e
+     code 12px/400. [derivado] os seis do meio, em progressão ~1.32 no topo e
+     ~1.15 na base, com letter-spacing negativo caindo conforme o corpo cresce. */
+  --text-display-size: 52px;
+  --text-display-weight: 600;
+  --text-display-lh: 1.08;
+  --text-display-ls: -0.03em;
+
+  --text-h1-size: 38px;
+  --text-h1-weight: 600;
+  --text-h1-lh: 1.15;
+  --text-h1-ls: -0.022em;
+
+  --text-h2-size: 28px;
+  --text-h2-weight: 600;
+  --text-h2-lh: 1.22;
+  --text-h2-ls: -0.016em;
+
+  --text-h3-size: 20px;
+  --text-h3-weight: 600;
+  --text-h3-lh: 1.3;
+  --text-h3-ls: -0.01em;
+
+  --text-body-size: 16px;
+  --text-body-weight: 400;
+  --text-body-lh: 1.65;
+  --text-body-ls: 0;
+
+  --text-small-size: 14px;
+  --text-small-weight: 400;
+  --text-small-lh: 1.55;
+  --text-small-ls: 0;
+
+  --text-label-size: 12px;
+  --text-label-weight: 600;
+  --text-label-lh: 1.3;
+  --text-label-ls: 0.08em;
+
+  --text-code-size: 12px;
+  --text-code-weight: 400;
+  --text-code-lh: 1.6;
+  --text-code-ls: 0;
+
+  /* ------------------------------------------------------ espaço e grid */
+  /* [prompt] base 4px; 12 colunas, gutter 24, largura máxima 1240 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+
+  --grid-cols: 12;
+  --grid-gutter: 24px;
+  --content-max: 1240px;
+
+  /* --------------------------------------------- superfície e elevação */
+  /* [prompt] régua de 1px como padrão; sombra só onde há sobreposição real
+     (popover, drawer, toast) — nunca decorativa em card ou seção estática. */
+  --rule: 1px solid var(--edge);
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+  --shadow-overlay: 0 12px 32px -8px rgb(15 23 42 / 24%);
+  --shadow-toast: 0 8px 24px -6px rgb(15 23 42 / 20%);
+  --focus-ring: 2px solid var(--accent);
+  --focus-offset: 2px;
+
+  /* -------------------------------------------------------------- motion */
+  /* [prompt] os 4 pares duração/uso. [derivado] os easings — o briefing diz
+     "4 pares duração/easing" mas só nomeia as durações. */
+  --dur-fast: 120ms; /* hover, foco, chips */
+  --dur-base: 180ms; /* tabs, toast, tooltip */
+  --dur-slow: 280ms; /* drawer, modal */
+  --dur-lazy: 420ms; /* entrada de grade, preview */
+  --ease-fast: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-base: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-slow: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-lazy: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* [prompt] tema escuro. `--bg` é #040710 conforme a seção 2.1; #070d19 segue
+   sendo o `on-brand` escuro e o fundo assado dentro dos SVGs da marca. */
+:root[data-theme='dark'],
+:root:not([data-theme='light']) {
+  --bg: #040710;
+  --surface: #0f172a;
+  --surface-2: #16203a;
+  --edge: #24314f;
+  --text-1: #f8fafc;
+  --text-2: #a4b1c6;
+  --text-3: #7d8da6;
+  --brand: #f43f5e;
+  --accent: #818cf8;
+  --on-brand: #070d19;
+
+  --info: #38bdf8;
+  --ok: #34d399;
+  --warn: #fbbf24;
+  --err: #f87171;
+
+  --shadow-overlay: 0 12px 32px -8px rgb(0 0 0 / 64%);
+  --shadow-toast: 0 8px 24px -6px rgb(0 0 0 / 56%);
+}
+
+/* A media query só vale quando não há escolha explícita; sem isto o toggle
+   perde para a preferência do sistema em um dos sentidos. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) {
+    --bg: #f2f4f8;
+    --surface: #ffffff;
+    --surface-2: #e9ecf2;
+    --edge: #d3d9e3;
+    --text-1: #0f172a;
+    --text-2: #475569;
+    --text-3: #5f6d82;
+    --brand: #be123c;
+    --accent: #4f46e5;
+    --on-brand: #ffffff;
+
+    --info: #0369a1;
+    --ok: #047857;
+    --warn: #b45309;
+    --err: #dc2626;
+
+    --shadow-overlay: 0 12px 32px -8px rgb(15 23 42 / 24%);
+    --shadow-toast: 0 8px 24px -6px rgb(15 23 42 / 20%);
+  }
+}
+
+/* [prompt] "respeitar prefers-reduced-motion em todas as transições".
+   Zerar os tokens de duração desliga o motion do sistema inteiro de uma vez,
+   em vez de depender de cada componente lembrar da media query. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0.01ms;
+    --dur-base: 0.01ms;
+    --dur-slow: 0.01ms;
+    --dur-lazy: 0.01ms;
+  }
+}

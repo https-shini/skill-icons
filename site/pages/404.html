@@ -1,0 +1,34 @@
+<!--pagina {"titulo":"Página não encontrada — skill-icons","descricao":"Essa rota não existe neste servidor.","nav":""}-->
+    <div class="wrap hero erro">
+      <p class="t-label">Erro 404</p>
+      <h1 class="t-display">Essa rota não existe.</h1>
+      <p class="t-body">
+        Se você chegou aqui esperando um ícone, confira o ID no catálogo — o
+        endpoint <code>/icons</code> devolve <code>400</code> nomeando os IDs
+        que não reconhece, então um 404 costuma ser erro de caminho, não de
+        ícone.
+      </p>
+      <div class="row">
+        <a class="btn btn-brand" href="/">Voltar ao builder</a>
+        <a class="btn" href="/#catalogo">Ver o catálogo</a>
+        <a class="btn btn-ghost" href="/#api">Documentação da API</a>
+      </div>
+
+      <div class="card erro-exemplo">
+        <p class="t-label">O que costuma ser</p>
+        <ul class="rotas">
+          <li>
+            <code>/icons?i=js,ts</code>
+            <span class="t-small">a rota certa é <code>/icons</code>, no plural</span>
+          </li>
+          <li>
+            <code>/svg/JavaScript.svg</code>
+            <span class="t-small">os arquivos estáticos ficam em <code>/svg/</code></span>
+          </li>
+          <li>
+            <code>/api/manifest</code>
+            <span class="t-small">os metadados ficam sob <code>/api/</code></span>
+          </li>
+        </ul>
+      </div>
+    </div>

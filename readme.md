@@ -26,6 +26,7 @@
 - [Temas](#temas)
 - [Ícones por linha](#ícones-por-linha)
 - [Centralizar](#centralizar)
+- [O site](#o-site)
 - [Ícones da marca `<gcruz.dev/>`](#ícones-da-marca-gcruzdev)
 - [Referência da API](#referência-da-api)
 - [Lista de ícones](#lista-de-ícones) — 19 categorias
@@ -111,13 +112,39 @@ centralização de imagem:
 </p>
 ```
 
+## O site
+
+A instância publicada serve, além da API, um site com quatro páginas:
+
+| Página       | O que tem                                                                                     |
+| :----------- | :-------------------------------------------------------------------------------------------- |
+| `/`          | montador com busca, preview ao vivo, snippets em Markdown/HTML/URL e o catálogo por categoria |
+| `/marca`     | os logotipos da marca, nos dois temas, com o SVG de cada um pronto para copiar                |
+| `/changelog` | o histórico de mudanças, por data e por tipo                                                  |
+| `/#api`      | a documentação da API, com exemplos                                                           |
+
+O montador também **baixa os ícones selecionados** em SVG, PNG ou WebP — um
+arquivo só ou um `.zip` com todos. A conversão acontece no navegador, via
+`<canvas>`, e o `.zip` é empacotado no cliente: não há endpoint novo e a API
+pública fica intacta.
+
+Para rodar localmente:
+
+```bash
+npm run dev:web    # build + servidor em http://localhost:4173
+```
+
 ## Ícones da marca `<gcruz.dev/>`
 
 A marca é **100% tipográfica** em JetBrains Mono. Os arquivos são os contornos
 dos glifos convertidos em `<path>`: não dependem de fonte instalada e preservam a
-proporção original. Todos os assets estão em [`brand/`](./brand/), e
-[`brand/index.html`](./brand/index.html) é o documento de decisão do design
-system, com escala, pesos e contexto de aplicação.
+proporção original. Todos os assets estão em [`brand/`](./brand/), com a especificação — tokens,
+pesos, contraste e regras de uso — em [`brand/README.md`](./brand/README.md). A
+página `/marca` do site mostra todas as variações lado a lado, nos dois temas,
+com o SVG de cada uma pronto para copiar.
+
+A abreviação da marca é **`gc`**, nunca `g` isolado: a variante compacta é
+`<gc/>` e o monograma é `gc`.
 
 ### No endpoint, como qualquer outro ícone
 
@@ -131,14 +158,20 @@ system, com escala, pesos e contexto de aplicação.
 
 Três IDs da marca existem na API:
 
-| ID      | Serve             | Quando usar                                                     |
-| :------ | :---------------- | :-------------------------------------------------------------- |
-| `gcruz` | a compacta `<g/>` | assinatura curta, a mais próxima da marca principal             |
-| `gctag` | `<gc/>`           | assinatura de desenvolvedor; é a que tem mais presença no badge |
-| `gc`    | o monograma `gc`  | mínima, para quando os brackets pesariam demais                 |
+| ID      | Serve            | Lê bem a partir de | Quando usar                                         |
+| :------ | :--------------- | :----------------- | :-------------------------------------------------- |
+| `gcruz` | `<gcruz/>`       | 48px               | o badge principal, com o nome por extenso           |
+| `gctag` | `<gc/>`          | 24px               | assinatura curta; a que tem mais presença no badge  |
+| `gc`    | o monograma `gc` | 16px               | mínima, para quando até os brackets pesariam demais |
 
-Os outros logos são largos demais para o badge quadrado — `<gc.dev/>` teria cerca
-de 5px de altura a 48px — e vivem só em `brand/`, onde a proporção é livre.
+Os limites acima foram medidos numa contact sheet de 16/24/32/48/96px, não
+estimados. 48px é o tamanho em que o endpoint renderiza cada ícone, e é por isso
+que `<gcruz/>` cabe no badge principal: abaixo disso, a peça certa passa a ser
+`gctag`.
+
+O wordmark completo e o `<gc.dev/>` são largos demais para o badge quadrado —
+com 12 caracteres, o wordmark teria cerca de 4px de altura a 48px — e vivem só em
+`brand/`, onde a proporção é livre.
 
 <p>
   <picture>
@@ -158,28 +191,25 @@ de 5px de altura a 48px — e vivem só em `brand/`, onde a proporção é livre
   <img src="./icons/NodeJS-Dark.svg" width="48">
 </p>
 
-No badge quadrado entra a variante **compacta** `<g/>`, e não o wordmark. Essa é a
-regra do próprio design system para tamanho pequeno: com 12 caracteres, o wordmark
-teria cerca de 4px de altura num badge de 48px. O wordmark completo vive em
-`brand/`, onde a proporção é livre.
-
 ### Família curta `gc`
 
-Quatro variações mais curtas, para quando o lockup completo não cabe. Saem da
-mesma pipeline dos assets acima — mesmos contornos da JetBrains Mono, mesma
-escala, mesmos tokens de cor —, então são continuação da marca e não peça nova.
+Variações mais curtas, para quando o lockup completo não cabe. Saem da mesma
+pipeline dos assets acima — mesmos contornos da JetBrains Mono, mesma escala,
+mesmos tokens de cor —, então são continuação da marca e não peça nova.
 
-| Nome                                     | Prévia                                                                                                                                                                     | Formato | Dimensões     | Link direto                                                                                                                                                                                           |
-| :--------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------ | :------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`<gc/>`**<br><code>gc-bracket</code>   | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/gc-bracket-dark.svg"><img src="./brand/gc-bracket-light.svg" width="150" alt="gc-bracket"></picture> | `.svg`  | `284.8 × 101` | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/gc-bracket-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/gc-bracket-light.svg) |
-| **`<gc.dev/>`**<br><code>gc-dev</code>   | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/gc-dev-dark.svg"><img src="./brand/gc-dev-light.svg" width="190" alt="gc-dev"></picture>             | `.svg`  | `524.8 × 101` | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/gc-dev-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/gc-dev-light.svg)         |
-| **`<gcruz/>`**<br><code>gcruz-tag</code> | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/gcruz-tag-dark.svg"><img src="./brand/gcruz-tag-light.svg" width="185" alt="gcruz-tag"></picture>    | `.svg`  | `464.8 × 101` | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/gcruz-tag-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/gcruz-tag-light.svg)   |
-| **`gc`**<br><code>gc</code>              | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/gc-dark.svg"><img src="./brand/gc-light.svg" width="60" alt="gc"></picture>                          | `.svg`  | `106.2 × 74`  | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/gc-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/gc-light.svg)                 |
+O `<gc/>` não aparece aqui porque ele **é** a variante compacta canônica,
+gravada como `compact-{dark,light}` na tabela da seção seguinte.
+
+| Nome                                     | Prévia                                                                                                                                                                  | Formato | Dimensões     | Link direto                                                                                                                                                                                         |
+| :--------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------ | :------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`<gc.dev/>`**<br><code>gc-dev</code>   | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/gc-dev-dark.svg"><img src="./brand/gc-dev-light.svg" width="190" alt="gc-dev"></picture>          | `.svg`  | `524.8 × 101` | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/gc-dev-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/gc-dev-light.svg)       |
+| **`<gcruz/>`**<br><code>gcruz-tag</code> | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/gcruz-tag-dark.svg"><img src="./brand/gcruz-tag-light.svg" width="185" alt="gcruz-tag"></picture> | `.svg`  | `464.8 × 101` | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/gcruz-tag-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/gcruz-tag-light.svg) |
+| **`gc`**<br><code>gc</code>              | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/gc-dark.svg"><img src="./brand/gc-light.svg" width="60" alt="gc"></picture>                       | `.svg`  | `106.2 × 74`  | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/gc-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/gc-light.svg)               |
 
 ```html
-<!-- `<gc/>` — Assinatura de desenvolvedor: a forma mais curta que ainda lê como tag. -->
+<!-- `<gc/>` — a compacta: a forma mais curta que ainda lê como tag. -->
 <img
-  src="https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/gc-bracket-dark.svg"
+  src="https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/compact-dark.svg"
   width="300"
   alt="gcruz.dev"
 />
@@ -214,20 +244,20 @@ Variações definidas no design system:
 | :-------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------ | :------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Wordmark**<br><code>wordmark</code>         | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/wordmark-dark.svg"><img src="./brand/wordmark-light.svg" width="200" alt="wordmark"></picture>             | `.svg`  | `704.8 × 101` | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/wordmark-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/wordmark-light.svg)         |
 | **Wordmark 600**<br><code>wordmark-600</code> | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/wordmark-600-dark.svg"><img src="./brand/wordmark-600-light.svg" width="200" alt="wordmark-600"></picture> | `.svg`  | `704.4 × 101` | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/wordmark-600-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/wordmark-600-light.svg) |
-| **Compacta**<br><code>compact</code>          | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/compact-dark.svg"><img src="./brand/compact-light.svg" width="90" alt="compact"></picture>                 | `.svg`  | `224.8 × 101` | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/compact-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/compact-light.svg)           |
+| **Compacta `<gc/>`**<br><code>compact</code>  | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/compact-dark.svg"><img src="./brand/compact-light.svg" width="114" alt="compact"></picture>                | `.svg`  | `284.8 × 101` | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/compact-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/compact-light.svg)           |
 | **Tile de app**<br><code>app-tile</code>      | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/app-tile-dark.svg"><img src="./brand/app-tile-light.svg" width="64" alt="app-tile"></picture>              | `.svg`  | `256 × 256`   | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/app-tile-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/app-tile-light.svg)         |
 | **Favicon**<br><code>favicon</code>           | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/favicon-dark.svg"><img src="./brand/favicon-light.svg" width="48" alt="favicon"></picture>                 | `.svg`  | `64 × 64`     | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/favicon-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/favicon-light.svg)           |
 | **Peso 400**<br><code>peso-400</code>         | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/peso-400-dark.svg"><img src="./brand/peso-400-light.svg" width="200" alt="peso-400"></picture>             | `.svg`  | `703 × 101`   | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/peso-400-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/peso-400-light.svg)         |
 | **Peso 500**<br><code>peso-500</code>         | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/peso-500-dark.svg"><img src="./brand/peso-500-light.svg" width="200" alt="peso-500"></picture>             | `.svg`  | `703.8 × 101` | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/peso-500-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/peso-500-light.svg)         |
 
-Variações **propostas** — não constam do DS v4.0, foram derivadas e estão aqui
-para aprovação:
+Variações **propostas** — derivadas, não fazem parte da marca oficial; estão
+aqui para aprovar ou descartar. A proposta de monograma `g` isolado foi removida:
+contraria a regra de que a abreviação é sempre `gc`.
 
 | Nome                                            | Prévia                                                                                                                                                                                          | Formato | Dimensões       | Link direto                                                                                                                                                                                                         |
 | :---------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------ | :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Vertical**<br><code>proposta-vertical</code>  | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/proposta-vertical-dark.svg"><img src="./brand/proposta-vertical-light.svg" width="120" alt="proposta-vertical"></picture> | `.svg`  | `344.8 × 186.3` | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/proposta-vertical-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/proposta-vertical-light.svg) |
 | **Sem texto**<br><code>proposta-brackets</code> | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/proposta-brackets-dark.svg"><img src="./brand/proposta-brackets-light.svg" width="90" alt="proposta-brackets"></picture>  | `.svg`  | `164.8 × 94`    | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/proposta-brackets-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/proposta-brackets-light.svg) |
-| **Monograma**<br><code>proposta-monogram</code> | <picture><source media="(prefers-color-scheme: dark)" srcset="./brand/proposta-monogram-dark.svg"><img src="./brand/proposta-monogram-light.svg" width="36" alt="proposta-monogram"></picture>  | `.svg`  | `45.1 × 74`     | [dark](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/proposta-monogram-dark.svg) · [light](https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/proposta-monogram-light.svg) |
 
 ### Código pronto
 
@@ -250,10 +280,10 @@ Publicada a instância, os mesmos arquivos ficam também em `/brand/<arquivo>.sv
   alt="gcruz.dev"
 />
 
-<!-- Compacta — `<g/>`. Abaixo de 24px é a única variante legível. -->
+<!-- Compacta — `<gc/>`. Abaixo de 24px é a única variante legível. -->
 <img
   src="https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/compact-dark.svg"
-  width="180"
+  width="228"
   alt="gcruz.dev"
 />
 
@@ -300,13 +330,6 @@ Propostas:
 <img
   src="https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/proposta-brackets-dark.svg"
   width="180"
-  alt="gcruz.dev"
-/>
-
-<!-- Monograma — O `g` isolado, sem brackets. -->
-<img
-  src="https://raw.githubusercontent.com/https-shini/skill-icons/main/brand/proposta-monogram-dark.svg"
-  width="72"
   alt="gcruz.dev"
 />
 ```
@@ -738,15 +761,30 @@ Os ícones da marca. Detalhes e assets em [Ícones da marca](#ícones-da-marca-g
 ## Estrutura do repositório
 
 ```
-icons/                   os 255 ícones (429 arquivos, contando os pares de tema)
-brand/                   assets da marca <gcruz.dev/> + o documento do DS
+icons/                   os 257 ícones (433 arquivos, contando os pares de tema)
+brand/                   assets da marca <gcruz.dev/> + a especificação
 lib/icons.mjs            lógica compartilhada: resolução de nomes e composição
 index.js                 entrada do Cloudflare Worker
 api/*.mjs                entradas da Vercel
-public/index.html        a página: galeria, montador e documentação
-scripts/                 gerador da tabela do readme e dos assets da Vercel
+
+site/                    fonte do site, composta em build time
+  css/tokens.css         fonte única de cor, tipografia, espaço e motion
+  css/                   base, componentes e layout das páginas
+  js/                    tema, busca, montador, download e empacotador zip
+  partials/              cabeçalho, rodapé e <head> compartilhados
+  pages/                 uma página por arquivo, com metadados no topo
+  fonts/                 JetBrains Mono e IBM Plex Sans, variáveis
+
+scripts/build-pages.mjs  compõe site/ -> public/
+scripts/vercel-assets.mjs  copia icons/ e brand/ para public/ e gera o manifest
+scripts/readme-table.mjs   gera a lista de ícones deste arquivo
+scripts/serve.mjs        servidor local que reproduz o roteamento da Vercel
+scripts/categories.mjs   as 19 categorias, fonte única do agrupamento
 build.js                 empacota icons/ em dist/icons.{json,mjs}
+public/                  saída do build; não editar à mão
 ```
+
+`public/` é gerado. Editar `site/` e rodar `npm run build:web`.
 
 ## Adicionar um ícone
 
@@ -776,4 +814,9 @@ foi útil para você, considere apoiar o autor dele:
 
 Os logotipos de terceiros são marcas dos respectivos donos e aparecem aqui apenas
 para identificação. A marca `<gcruz.dev/>` e os assets em `brand/` são de
-Guilherme Cruz. JetBrains Mono é licenciada sob OFL-1.1.
+Guilherme Cruz.
+
+As fontes do site são auto-hospedadas em `site/fonts/`, ambas sob
+[OFL-1.1](https://scripts.sil.org/OFL): [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono)
+(que também dá os contornos da marca) e [IBM Plex Sans](https://github.com/IBM/plex).
+Detalhes em [`site/fonts/README.md`](./site/fonts/README.md).

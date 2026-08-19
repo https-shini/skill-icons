@@ -133,6 +133,10 @@ worker/
 
 # Vercel
 .vercel/
-public/svg/
-public/brand/
-public/manifest.json
+
+# public/ inteiro é saída de build: scripts/build-pages.mjs compõe as páginas a
+# partir de site/, e scripts/vercel-assets.mjs copia icons/ e brand/. Antes só
+# os assets copiados eram ignorados e public/index.html vinha versionado; agora
+# que as páginas também são geradas, versionar qualquer parte disso significaria
+# revisar o mesmo diff duas vezes. O buildCommand do vercel.json regenera tudo.
+public/

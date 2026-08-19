@@ -1,0 +1,60 @@
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand-link" href="/" aria-label="gcruz.dev — página inicial">
+      <svg class="marca" viewBox="0 0 704.8 101" aria-hidden="true">
+        <use href="#marca-gcruz" />
+      </svg>
+    </a>
+
+    <nav class="site-nav" aria-label="Principal">
+      <a href="/" data-nav="builder">Builder</a>
+      <a href="/#catalogo" data-nav="catalogo">Catálogo</a>
+      <a href="/#api" data-nav="api">API</a>
+      <a href="/marca" data-nav="marca">Marca</a>
+      <a href="/changelog" data-nav="changelog">Changelog</a>
+    </nav>
+
+    <div class="header-actions">
+      <div class="toggle" role="group" aria-label="Tema da página">
+        <button type="button" data-tema="light" aria-pressed="false">
+          Claro
+        </button>
+        <button type="button" data-tema="dark" aria-pressed="false">
+          Escuro
+        </button>
+      </div>
+      <button
+        class="btn btn-ghost btn-sm menu-btn"
+        type="button"
+        aria-label="Abrir menu"
+        aria-expanded="false"
+        aria-controls="menu-mobile"
+        data-menu-abre
+      >
+        Menu
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="drawer" id="menu-mobile" data-open="false" hidden>
+  <div class="scrim" data-menu-fecha></div>
+  <nav class="panel" aria-label="Menu mobile">
+    <button
+      class="btn btn-ghost btn-sm"
+      type="button"
+      data-menu-fecha
+      aria-label="Fechar menu"
+      style="align-self: flex-end"
+    >
+      Fechar
+    </button>
+    <a href="/" data-nav="builder">Builder</a>
+    <a href="/#catalogo" data-nav="catalogo">Catálogo</a>
+    <a href="/#api" data-nav="api">API</a>
+    <a href="/marca" data-nav="marca">Marca</a>
+      <a href="/changelog" data-nav="changelog">Changelog</a>
+    <a href="https://github.com/https-shini/skill-icons">Repositório</a>
+  </nav>
+</div>

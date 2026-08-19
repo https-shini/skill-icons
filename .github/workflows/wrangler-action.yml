@@ -23,8 +23,17 @@ jobs:
       - name: Check readme is in sync with ./icons
         run: node scripts/readme-table.mjs --check
 
+      - name: Check token contrast (AA)
+        run: node scripts/contraste.mjs --check
+
       - name: Build
         run: node build.js
+
+      # Não publica nada — só garante que o site ainda compõe. Um partial
+      # renomeado ou uma página sem o bloco <!--pagina--> quebraria aqui, e não
+      # no deploy da Vercel.
+      - name: Build the site
+        run: node scripts/vercel-assets.mjs && node scripts/build-pages.mjs
 
       # O projeto passou a ser hospedado na Vercel. Sem os secrets do
       # Cloudflare este passo é pulado, em vez de falhar para sempre.

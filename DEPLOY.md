@@ -19,20 +19,35 @@ não divergirem:
 
 # Vercel (recomendado)
 
-Além da API, a Vercel serve a página em `public/index.html` — galeria dos ícones,
-montador de snippet, documentação da API e a biblioteca da marca.
+Além da API, a Vercel serve o site composto em `public/` — montador com busca e
+download, catálogo por categoria, documentação da API, biblioteca da marca e
+changelog.
+
+O fonte do site fica em `site/`; `public/` é **saída de build** e não deve ser
+editado à mão. Para desenvolver localmente:
+
+```bash
+npm run dev:web      # build + servidor em http://localhost:4173
+```
+
+`scripts/serve.mjs` reproduz a ordem de roteamento da Vercel — estático primeiro,
+depois as funções, e o resto no `404.html` — então o que funciona ali funciona
+publicado.
 
 ## Importar o projeto
 
 1. Em [vercel.com/new](https://vercel.com/new), importe `https-shini/skill-icons`.
 2. Deixe o framework como **Other**. O `vercel.json` já define o build
-   (`node build.js && node scripts/vercel-assets.mjs`) e o output (`public`).
+   (`node build.js && node scripts/vercel-assets.mjs && node scripts/build-pages.mjs`)
+   e o output (`public`).
 3. Deploy. Não há variável de ambiente nem secret a configurar.
 
 Teste depois de publicar:
 
 ```
-https://<projeto>.vercel.app/                        página
+https://<projeto>.vercel.app/                        montador, catálogo e API
+https://<projeto>.vercel.app/marca                   biblioteca da marca
+https://<projeto>.vercel.app/changelog               histórico
 https://<projeto>.vercel.app/icons?i=oracle,sql,jwt  o SVG
 https://<projeto>.vercel.app/api/manifest            metadados
 ```
@@ -48,9 +63,13 @@ haver dois CDNs em série.
 
 - `/icons` → rewrite para `api/render.mjs`
 - `/api/icons`, `/api/manifest`, `/api/svgs` → funções de mesmo nome
-- `/svg/<Arquivo>.svg` → cópia estática de `icons/`, servida pela CDN. A galeria
-  usa estes arquivos, então navegar a página não invoca função nenhuma
-- `/brand/` → assets da marca e o documento do DS
+- `/svg/<Arquivo>.svg` → cópia estática de `icons/`, servida pela CDN. O catálogo
+  e o download usam estes arquivos, então navegar o site não invoca função nenhuma
+- `/brand/` → assets da marca
+- `/css/site.css`, `/js/*.js`, `/fonts/*.woff2` → o site em si
+- `/manifest.json` → ID, tema, categoria e apelidos de cada ícone, numa
+  requisição só; é o que alimenta a busca do montador
+- qualquer outra rota → `404.html`
 
 Os SVGs estáticos ficam em `/svg/` e não em `/icons/` de propósito: `/icons` é a
 rota da função, e assim não se depende da ordem de precedência entre filesystem e
@@ -104,16 +123,19 @@ Configure dois secrets em **Settings → Secrets and variables → Actions**:
 | `CF_API_TOKEN`  | Cloudflare → My Profile → API Tokens → template "Edit Cloudflare Workers" |
 | `CF_ACCOUNT_ID` | Cloudflare → Workers & Pages → Overview, na barra lateral                 |
 
-O workflow não instala dependências: `build.js` e `scripts/readme-table.mjs` usam
-apenas a stdlib do Node, e a `wrangler-action` traz a própria wrangler. O passo
+O workflow não instala dependências: `build.js`, `scripts/readme-table.mjs`,
+`scripts/contraste.mjs` e `scripts/build-pages.mjs` usam apenas a stdlib do Node,
+e a `wrangler-action` traz a própria wrangler. O passo
 Publish é guardado por `if: secrets.CF_API_TOKEN != ''` — sem os secrets ele é
 pulado em vez de falhar, o que importa se você usar só a Vercel.
 
 ## Adicionando um ícone novo
 
 1. Coloque o SVG em `icons/` seguindo as convenções abaixo.
-2. Rode `yarn readme` para regenerar a tabela do readme.
-3. Publique.
+2. Coloque o ID numa categoria em `scripts/categories.mjs` — `yarn readme:check`
+   falha se ele ficar sem categoria, em vez de sumir no meio da tabela.
+3. Rode `yarn readme` para regenerar a tabela do readme.
+4. Publique.
 
 Convenções (as mesmas dos ícones que já existem):
 

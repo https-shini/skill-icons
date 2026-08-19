@@ -1,0 +1,24 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{{titulo}}</title>
+<meta name="description" content="{{descricao}}" />
+<link rel="icon" href="/brand/favicon-dark.svg" />
+<link rel="preload" href="/fonts/jetbrains-mono-var.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="/fonts/ibm-plex-sans-var.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="stylesheet" href="/css/site.css" />
+<meta property="og:title" content="{{titulo}}" />
+<meta property="og:description" content="{{descricao}}" />
+<meta property="og:type" content="website" />
+<!--
+  O tema é aplicado antes do primeiro paint. Inline e síncrono de propósito:
+  num arquivo externo a página pintaria clara e piscaria para escura.
+-->
+<script>
+  try {
+    var t = localStorage.getItem('si:tema');
+    if (t === 'dark' || t === 'light')
+      document.documentElement.dataset.theme = t;
+  } catch (e) {
+    /* origem opaca: segue a preferência do sistema */
+  }
+</script>
