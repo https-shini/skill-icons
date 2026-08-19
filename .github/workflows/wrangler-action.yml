@@ -26,6 +26,9 @@ jobs:
       - name: Check token contrast (AA)
         run: node scripts/contraste.mjs --check
 
+      - name: Check icon normalization
+        run: node scripts/normalizar-icones.mjs --check
+
       - name: Build
         run: node build.js
 

@@ -15,7 +15,9 @@
     "site": "node scripts/build-pages.mjs",
     "dev:web": "npm run build:web && node scripts/serve.mjs",
     "contraste": "node scripts/contraste.mjs",
-    "contraste:check": "node scripts/contraste.mjs --check"
+    "contraste:check": "node scripts/contraste.mjs --check",
+    "icones": "node scripts/normalizar-icones.mjs",
+    "icones:check": "node scripts/normalizar-icones.mjs --check"
   },
   "devDependencies": {
     "prettier": "^3.6.2",
