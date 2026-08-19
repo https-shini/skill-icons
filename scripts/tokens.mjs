@@ -10,7 +10,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const TOKENS = path.join(import.meta.dirname, '..', 'site', 'css', 'tokens.css');
+const TOKENS = path.join(
+  import.meta.dirname,
+  '..',
+  'site',
+  'css',
+  'tokens.css'
+);
 
 const semComentarios = css => css.replace(/\/\*[\s\S]*?\*\//g, '');
 

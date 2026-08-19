@@ -210,16 +210,15 @@ function secaoTipografia() {
 
   const familias = ['font-mono', 'font-sans']
     .map(
-      n => `<tr><td><code>--${n}</code></td><td class="t-code">${mapa[n].replace(/</g, '&lt;')}</td></tr>`
+      n =>
+        `<tr><td><code>--${n}</code></td><td class="t-code">${mapa[n].replace(/</g, '&lt;')}</td></tr>`
     )
     .join('\n');
 
   // os 8 tokens da escala saem dos próprios nomes, sem lista paralela
   const escala = [
     ...new Set(
-      tip.tokens
-        .map(t => t.nome.match(/^text-(.+)-size$/)?.[1])
-        .filter(Boolean)
+      tip.tokens.map(t => t.nome.match(/^text-(.+)-size$/)?.[1]).filter(Boolean)
     ),
   ];
 
@@ -264,7 +263,10 @@ function secaoEspaco() {
 
   const outros = g.tokens
     .filter(t => !t.nome.startsWith('space-'))
-    .map(t => `<tr><td><code>--${t.nome}</code></td><td class="t-code">${t.valor}</td></tr>`)
+    .map(
+      t =>
+        `<tr><td><code>--${t.nome}</code></td><td class="t-code">${t.valor}</td></tr>`
+    )
     .join('\n');
 
   return `<div class="ds-espacos">
@@ -387,7 +389,8 @@ ${marcarNav(preencher(partials.header, valores), nav)}
     <main id="conteudo">
 ${preencher(
   Object.entries(SECOES_DS).reduce(
-    (txt, [marca, gerar]) => (txt.includes(marca) ? txt.replace(marca, gerar) : txt),
+    (txt, [marca, gerar]) =>
+      txt.includes(marca) ? txt.replace(marca, gerar) : txt,
     corpo.replace('{{changelog}}', changelog)
   ),
   valores
