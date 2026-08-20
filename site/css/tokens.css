@@ -54,17 +54,19 @@
   /* Escala de 8 tokens. [prompt] fixou as duas pontas — display 52px/600 e
      code 12px/400. [derivado] os seis do meio, em progressão ~1.32 no topo e
      ~1.15 na base, com letter-spacing negativo caindo conforme o corpo cresce. */
-  --text-display-size: 52px;
+  /* Fluidos: o token passa a valer em qualquer largura, em vez de saltar em
+     três breakpoints. O mínimo é o que cabe num celular de 320px. */
+  --text-display-size: clamp(30px, 1.5rem + 3.2vw, 52px);
   --text-display-weight: 600;
   --text-display-lh: 1.08;
   --text-display-ls: -0.03em;
 
-  --text-h1-size: 38px;
+  --text-h1-size: clamp(25px, 1.35rem + 2.1vw, 38px);
   --text-h1-weight: 600;
   --text-h1-lh: 1.15;
   --text-h1-ls: -0.022em;
 
-  --text-h2-size: 28px;
+  --text-h2-size: clamp(21px, 1.15rem + 1.1vw, 28px);
   --text-h2-weight: 600;
   --text-h2-lh: 1.22;
   --text-h2-ls: -0.016em;

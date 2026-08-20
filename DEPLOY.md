@@ -46,8 +46,10 @@ Teste depois de publicar:
 
 ```
 https://<projeto>.vercel.app/                        montador, catálogo e API
-https://<projeto>.vercel.app/marca                   biblioteca da marca
+https://<projeto>.vercel.app/design-system           os tokens em uso
+https://<projeto>.vercel.app/marca                   identidade da marca
 https://<projeto>.vercel.app/changelog               histórico
+https://<projeto>.vercel.app/sobre                   o fork e os créditos
 https://<projeto>.vercel.app/icons?i=oracle,sql,jwt  o SVG
 https://<projeto>.vercel.app/api/manifest            metadados
 ```

@@ -256,21 +256,9 @@ section:first-of-type {
   border: 0;
 }
 
-@media (max-width: 900px) {
-  :root {
-    --text-display-size: 38px;
-    --text-h1-size: 30px;
-    --text-h2-size: 24px;
-  }
-}
-
+/* Os três tamanhos de título viraram clamp() em tokens.css e não precisam mais
+   de degraus por media query. */
 @media (max-width: 560px) {
-  :root {
-    --text-display-size: 30px;
-    --text-h1-size: 25px;
-    --text-h2-size: 21px;
-  }
-
   .wrap {
     padding-inline: var(--space-4);
   }

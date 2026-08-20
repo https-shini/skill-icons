@@ -17,7 +17,8 @@
     "contraste": "node scripts/contraste.mjs",
     "contraste:check": "node scripts/contraste.mjs --check",
     "icones": "node scripts/normalizar-icones.mjs",
-    "icones:check": "node scripts/normalizar-icones.mjs --check"
+    "icones:check": "node scripts/normalizar-icones.mjs --check",
+    "responsivo": "node scripts/responsivo.mjs"
   },
   "devDependencies": {
     "prettier": "^3.6.2",

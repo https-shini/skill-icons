@@ -33,6 +33,7 @@
 }
 
 .montador-saida {
+  min-width: 0;
   position: sticky;
   top: calc(60px + var(--space-4));
 }
@@ -199,9 +200,20 @@
 
 /* --------------------------------------------------------------- API */
 
+/*
+  `minmax(0, …)` e não `1fr` puro nas grades que recebem conteúdo largo.
+
+  `1fr` é atalho de `minmax(auto, 1fr)`, e `auto` como mínimo vira `min-content`:
+  uma URL de 90 caracteres num <pre> empurrava a coluna para 1808px numa janela
+  de 1440 e a página inteira passava a rolar na horizontal. Com mínimo 0 a coluna
+  encolhe e quem rola é o container de dentro, que é o comportamento pedido.
+
+  A mesma armadilha vale para qualquer item de grade ou flex: o padrão é
+  `min-width: auto`, e é sempre ele que estoura a página.
+*/
 .api-grid {
   display: grid;
-  grid-template-columns: 1.6fr 1fr;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
   gap: var(--grid-gutter);
   align-items: start;
 }
@@ -248,7 +260,7 @@
 
 .exemplos {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--grid-gutter);
   margin-top: var(--space-4);
 }
@@ -266,7 +278,7 @@
 
 .cl-entrada {
   display: grid;
-  grid-template-columns: 220px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
   gap: var(--grid-gutter);
   padding-bottom: var(--space-7);
   border-bottom: var(--rule);
@@ -292,7 +304,7 @@
 
 .cl-lista li {
   display: grid;
-  grid-template-columns: 96px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 96px) minmax(0, 1fr);
   gap: var(--space-3);
   align-items: baseline;
   color: var(--text-2);
@@ -337,7 +349,7 @@
 
 @media (max-width: 1080px) {
   .montador {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .montador-saida {
@@ -346,13 +358,13 @@
 
   .api-grid,
   .exemplos {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
 @media (max-width: 720px) {
   .cl-entrada {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-4);
   }
 
@@ -367,7 +379,7 @@
   }
 
   .cl-lista li {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-1);
   }
 
@@ -401,7 +413,7 @@
 
 .peca {
   display: grid;
-  grid-template-columns: 1fr 1fr minmax(0, 1.2fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.2fr);
   gap: var(--space-4);
   align-items: center;
   padding: var(--space-4);
@@ -446,6 +458,7 @@
   display: grid;
   gap: var(--space-2);
   justify-items: start;
+  min-width: 0;
 }
 
 .peca-nome {
@@ -455,7 +468,7 @@
 
 @media (max-width: 860px) {
   .peca {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .peca-meta {
@@ -475,8 +488,13 @@
   -webkit-overflow-scrolling: touch;
 }
 
+/*
+  A largura mínima mantém a tabela legível quando há espaço, mas não pode ser
+  maior que a viewport: num celular de 320px ela empurrava a página em vez de
+  rolar dentro do container.
+*/
 .tabela-rolavel .params {
-  min-width: 460px;
+  min-width: min(460px, 100%);
   margin-block: 0;
 }
 
@@ -494,6 +512,10 @@
   overflow-x: auto;
 }
 
+.ds-tipos > * {
+  min-width: 0;
+}
+
 .ds-tipo-numeros {
   display: flex;
   flex-wrap: wrap;
@@ -509,7 +531,7 @@
 
 .ds-espaco {
   display: grid;
-  grid-template-columns: 90px 1fr auto;
+  grid-template-columns: minmax(0, 90px) minmax(0, 1fr) auto;
   align-items: center;
   gap: var(--space-3);
 }
@@ -535,7 +557,7 @@
 
 .ds-superficies {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
   gap: var(--space-4);
   margin-top: var(--space-5);
 }
@@ -654,7 +676,7 @@
 */
 .mk-temas {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   gap: var(--grid-gutter);
 }
 
@@ -682,7 +704,7 @@
 
 .mk-specs {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto minmax(0, 1fr);
   gap: var(--space-2) var(--space-4);
   margin: 0;
   padding: var(--space-4) var(--space-5);
@@ -753,8 +775,12 @@
 
 .mk-contextos {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
   gap: var(--grid-gutter);
+}
+
+.mk-contextos > .card {
+  min-width: 0;
 }
 
 .mk-palco {
@@ -798,7 +824,7 @@
 
 .mk-nao {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
   gap: var(--grid-gutter);
   margin-top: var(--space-4);
 }

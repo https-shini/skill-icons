@@ -342,7 +342,8 @@
 .toast {
   position: fixed;
   left: 50%;
-  bottom: var(--space-5);
+  bottom: calc(var(--space-5) + env(safe-area-inset-bottom));
+  max-width: calc(100vw - var(--space-6));
   transform: translate(-50%, calc(100% + var(--space-6)));
   z-index: 60;
   display: flex;
@@ -414,6 +415,12 @@
   align-items: center;
   gap: var(--space-5);
   min-height: 60px;
+  /* o notch do iOS come a esquerda em paisagem */
+  padding-inline: max(
+    var(--space-5),
+    env(safe-area-inset-left),
+    env(safe-area-inset-right)
+  );
 }
 
 .brand-link {
@@ -481,7 +488,7 @@
 
 .site-footer .cols {
   display: grid;
-  grid-template-columns: 1.4fr repeat(3, 1fr);
+  grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr));
   gap: var(--grid-gutter);
 }
 
@@ -652,7 +659,12 @@
   background: var(--surface-2);
 }
 
-@media (max-width: 820px) {
+/*
+  A navegação passou de 4 para 7 links. O ponto de corte antigo, 820px, deixava a
+  barra espremida bem antes de sumir; 1040px é onde ela cabe de fato com o
+  logotipo e o toggle ao lado — medido, não estimado.
+*/
+@media (max-width: 1040px) {
   .site-nav {
     display: none;
   }
@@ -662,14 +674,102 @@
     margin-left: auto;
   }
 
+  .site-header .bar {
+    gap: var(--space-3);
+  }
+
   .site-footer .cols {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 520px) {
   .site-footer .cols {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/*
+  Abaixo de 400px o logotipo em tamanho cheio, o toggle de tema e o botão de menu
+  não cabem na mesma linha — a barra empurrava a página inteira para 384px. O
+  toggle vira ícone: os rótulos "Claro"/"Escuro" saem do fluxo mas continuam no
+  nome acessível, que é o que o leitor de tela anuncia.
+*/
+@media (max-width: 400px) {
+  .brand-link .marca {
+    height: 16px;
+    width: calc(16px * (704.8 / 101));
+  }
+
+  .toggle button {
+    padding-inline: var(--space-2);
+    font-size: 0;
+    display: inline-flex;
+    justify-content: center;
+  }
+
+  .toggle button::before {
+    font-size: var(--text-code-size);
+  }
+
+  .toggle button[data-tema='light']::before {
+    content: '☀';
+  }
+
+  .toggle button[data-tema='dark']::before {
+    content: '☾';
+  }
+}
+
+/* ------------------------------------------------- alvo de toque */
+
+/*
+  Em tela sensível ao toque o alvo mínimo é 44x44px. Chip (26px) e btn-sm (30px)
+  reprovam por padrão — a altura vem do texto, que é pequeno de propósito.
+
+  O acréscimo é em `min-height` e padding, não em `font-size`: o rótulo continua
+  do mesmo tamanho, só a área clicável cresce. `pointer: coarse` e não largura de
+  tela, porque o que importa é o dedo, não a janela.
+*/
+@media (pointer: coarse) {
+  .btn,
+  .btn-sm,
+  .chip,
+  .toggle button,
+  .tab,
+  .input,
+  .select {
+    min-height: 44px;
+  }
+
+  .chip,
+  .toggle button {
+    padding-inline: var(--space-4);
+  }
+
+  .tiles .tile {
+    min-height: 88px;
+  }
+
+  .site-nav a,
+  .drawer .panel a,
+  .site-footer a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* O logotipo é link para a home: a caixa cresce, o desenho não. */
+  .brand-link {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Com os rótulos reduzidos a ícone abaixo de 400px, o botão do toggle ficava
+     com 39px de largura. */
+  .toggle button {
+    min-width: 44px;
+    justify-content: center;
   }
 }
 

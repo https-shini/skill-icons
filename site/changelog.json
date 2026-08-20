@@ -1,5 +1,51 @@
 [
   {
+    "versao": "Design System, marca e responsividade",
+    "data": "2026-08-20",
+    "mudancas": [
+      {
+        "tipo": "added",
+        "descricao": "Página <code>/design-system</code>, gerada no build a partir de <code>site/css/tokens.css</code> — o mesmo arquivo que o navegador carrega, para o styleguide não envelhecer calado."
+      },
+      {
+        "tipo": "added",
+        "descricao": "Componente de modal, o único da especificação que faltava. Modal e drawer passaram a compartilhar a mesma lógica de foco preso, <kbd>Esc</kbd> e retorno de foco."
+      },
+      {
+        "tipo": "added",
+        "descricao": "Página <code>/marca</code> ampliada para identidade completa: temas, escala de 96 a 16px, variante compacta, pesos, contexto de aplicação e diretrizes de uso."
+      },
+      {
+        "tipo": "added",
+        "descricao": "Página <code>/sobre</code>: o que é o fork, o que mudou em relação ao original, como publicar a própria instância e os créditos."
+      },
+      {
+        "tipo": "added",
+        "descricao": "<code>scripts/responsivo.mjs</code>: auditoria de 6 páginas × 15 larguras × 2 temas, afirmando ausência de rolagem horizontal, de transbordo e de alvo de toque abaixo de 44px."
+      },
+      {
+        "tipo": "fixed",
+        "descricao": "Grades declaradas com <code>1fr</code> puro — que é <code>minmax(auto, 1fr)</code> — deixavam o mínimo virar <code>min-content</code>: uma URL longa num <code>&lt;pre&gt;</code> empurrava a página para 1808px numa janela de 1440. Todas passaram a <code>minmax(0, 1fr)</code>."
+      },
+      {
+        "tipo": "fixed",
+        "descricao": "Abaixo de 400px o logotipo, o toggle de tema e o botão de menu não cabiam na mesma linha e estouravam a barra."
+      },
+      {
+        "tipo": "changed",
+        "descricao": "Títulos passaram a usar <code>clamp()</code> em vez de três degraus por media query, e o drawer entra a 1040px, onde a navegação de 7 itens realmente deixa de caber."
+      },
+      {
+        "tipo": "changed",
+        "descricao": "Alvos de toque de 44×44px sob <code>pointer: coarse</code>, e <code>env(safe-area-inset-*)</code> no cabeçalho e no toast."
+      },
+      {
+        "tipo": "fixed",
+        "descricao": "Fundos e arredondamento normalizados em 76 ícones: 16 fundos fora do token e 60 que desenhavam o canto num <code>&lt;path&gt;</code> em vez de <code>rect rx=\"60\"</code>."
+      }
+    ]
+  },
+  {
     "versao": "Site completo",
     "data": "2026-08-19",
     "mudancas": [

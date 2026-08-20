@@ -1,0 +1,195 @@
+<!--pagina {"titulo":"Sobre — skill-icons","descricao":"O que é este fork do skill-icons, o que ele mudou em relação ao original, como publicar sua própria instância e a quem pertence cada logotipo.","nav":"sobre"}-->
+    <div class="wrap hero hero-curto">
+      <p class="t-label">Sobre</p>
+      <h1 class="t-h1">Um fork com instância própria</h1>
+      <p class="t-body">
+        Este é um fork do
+        <a href="https://skillicons.dev">skillicons.dev</a>, o serviço que
+        devolve vários ícones de tecnologia como um único SVG. O código de
+        composição é o mesmo; o que muda é o conjunto de ícones, a hospedagem e o
+        site em volta.
+      </p>
+    </div>
+
+    <section id="o-que-e">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="t-h2">Por que um fork, e não o original</h2>
+        </div>
+        <p>
+          O domínio <code>skillicons.dev</code> serve apenas o repositório
+          oficial. Os {{totalIcones}} IDs daqui incluem
+          <strong>16 que não existem lá</strong> — entre eles <code>oracle</code>
+          refeito, <code>sql</code>, <code>jwt</code>, <code>render</code> e os
+          três da marca. Pedir um deles ao domínio oficial devolve
+          <code>400</code>.
+        </p>
+        <p>
+          Manter um fork publicado é o que torna esses ícones utilizáveis. A API
+          é idêntica à do original, então qualquer snippet existente continua
+          funcionando trocando só o domínio.
+        </p>
+      </div>
+    </section>
+
+    <section id="mudou">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="t-h2">O que mudou em relação ao original</h2>
+          <p>
+            O histórico completo, com data e tipo, está no
+            <a href="/changelog">changelog</a>.
+          </p>
+        </div>
+        <div class="tabela-rolavel">
+          <table class="params">
+            <thead>
+              <tr><th>Área</th><th>O que mudou</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Ícones</td>
+                <td>
+                  16 novos, o <code>oracle</code> redesenhado, e os fundos e o
+                  arredondamento normalizados em 76 arquivos
+                </td>
+              </tr>
+              <tr>
+                <td>API</td>
+                <td>
+                  <code>perline</code> passou a rejeitar 0 e negativos, que
+                  geravam um SVG de altura infinita; ID desconhecido devolve
+                  <code>400</code> nomeando quais, em vez de renderizar a string
+                  <code>undefined</code>
+                </td>
+              </tr>
+              <tr>
+                <td>Hospedagem</td>
+                <td>
+                  Vercel ao lado do Cloudflare Workers, com a lógica compartilhada
+                  em <code>lib/icons.mjs</code> para as duas não divergirem
+                </td>
+              </tr>
+              <tr>
+                <td>Site</td>
+                <td>
+                  Montador com busca e download, catálogo por categoria, design
+                  system, identidade de marca e changelog
+                </td>
+              </tr>
+              <tr>
+                <td>Marca</td>
+                <td>
+                  Os logotipos <code>&lt;gcruz.dev/&gt;</code> como SVG, e três
+                  deles disponíveis como ícone da API
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="como-funciona">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="t-h2">Como a composição funciona</h2>
+        </div>
+        <p>
+          Cada ícone é um SVG de 256×256 guardado em <code>icons/</code>. O
+          endpoint não devolve os arquivos: ele os concatena num único documento,
+          cada um dentro de um <code>&lt;g transform="translate(…)"&gt;</code>
+          numa grade de células de 300×300. É por isso que um badge com dez
+          tecnologias custa <strong>uma</strong> requisição, e não dez.
+        </p>
+        <p>
+          Essa escolha tem uma consequência que vale saber: como tudo vira um
+          documento só, <code>id</code> repetido entre dois ícones colidiria.
+          Por isso as convenções de <code>icons/</code> pedem que se evite
+          <code>id</code> e <code>&lt;defs&gt;</code>, e que texto seja desenhado
+          como <code>&lt;path&gt;</code> em vez de <code>&lt;text&gt;</code>.
+        </p>
+      </div>
+    </section>
+
+    <section id="instancia">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="t-h2">Publicar a sua própria instância</h2>
+          <p>
+            Todo o passo a passo está em
+            <a href="https://github.com/https-shini/skill-icons/blob/main/DEPLOY.md">DEPLOY.md</a>.
+            O resumo:
+          </p>
+        </div>
+        <div class="api-grid">
+          <div class="card">
+            <h3 class="t-h3">Vercel</h3>
+            <p class="t-small">
+              Importe o repositório, deixe o framework como <em>Other</em> e
+              publique. O <code>vercel.json</code> já define build e output; não
+              há variável de ambiente nem secret a configurar. Serve a API e o
+              site.
+            </p>
+          </div>
+          <div class="card">
+            <h3 class="t-h3">Cloudflare Workers</h3>
+            <p class="t-small">
+              <code>npx wrangler login</code> e <code>yarn deploy</code>. Serve
+              só a API. O bundle precisa caber no limite de 1 MiB comprimido do
+              plano gratuito — hoje está em cerca de 805 KiB.
+            </p>
+          </div>
+        </div>
+        <p class="t-small">
+          Rodar localmente: <code>npm run dev:web</code> sobe o site e a API em
+          <code>localhost:4173</code>, com a mesma ordem de roteamento da Vercel.
+        </p>
+      </div>
+    </section>
+
+    <section id="creditos">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="t-h2">Créditos e licenças</h2>
+        </div>
+        <div class="tabela-rolavel">
+          <table class="params">
+            <thead>
+              <tr><th>O quê</th><th>De quem</th><th>Licença</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Projeto original</td>
+                <td><a href="https://github.com/tandpfun/skill-icons">tandpfun</a></td>
+                <td>MIT</td>
+              </tr>
+              <tr>
+                <td>Logotipos de tecnologias</td>
+                <td>Cada empresa ou projeto</td>
+                <td>Marcas dos respectivos donos, aqui apenas para identificação</td>
+              </tr>
+              <tr>
+                <td>JetBrains Mono</td>
+                <td><a href="https://github.com/JetBrains/JetBrainsMono">JetBrains</a></td>
+                <td>OFL-1.1</td>
+              </tr>
+              <tr>
+                <td>IBM Plex Sans</td>
+                <td><a href="https://github.com/IBM/plex">IBM</a></td>
+                <td>OFL-1.1</td>
+              </tr>
+              <tr>
+                <td>Marca <code>&lt;gcruz.dev/&gt;</code></td>
+                <td>Guilherme Cruz</td>
+                <td>Uso restrito ao titular</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="t-small">
+          Se o projeto original foi útil para você, considere apoiar quem o
+          criou: <a href="https://ko-fi.com/Q5Q860KQ2">ko-fi.com/thijsdev</a>.
+        </p>
+      </div>
+    </section>

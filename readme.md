@@ -116,12 +116,14 @@ centralização de imagem:
 
 A instância publicada serve, além da API, um site com quatro páginas:
 
-| Página       | O que tem                                                                                     |
-| :----------- | :-------------------------------------------------------------------------------------------- |
-| `/`          | montador com busca, preview ao vivo, snippets em Markdown/HTML/URL e o catálogo por categoria |
-| `/marca`     | os logotipos da marca, nos dois temas, com o SVG de cada um pronto para copiar                |
-| `/changelog` | o histórico de mudanças, por data e por tipo                                                  |
-| `/#api`      | a documentação da API, com exemplos                                                           |
+| Página           | O que tem                                                                                     |
+| :--------------- | :-------------------------------------------------------------------------------------------- |
+| `/`              | montador com busca, preview ao vivo, snippets em Markdown/HTML/URL e o catálogo por categoria |
+| `/design-system` | os tokens de cor, tipografia, espaço, elevação e motion, lidos do próprio `tokens.css`        |
+| `/marca`         | a identidade completa: temas, escala, pesos, contexto de aplicação, diretrizes e os assets    |
+| `/changelog`     | o histórico de mudanças, por data e por tipo                                                  |
+| `/sobre`         | o que é o fork, o que mudou, como publicar a sua instância e os créditos                      |
+| `/#api`          | a documentação da API, com exemplos                                                           |
 
 O montador também **baixa os ícones selecionados** em SVG, PNG ou WebP — um
 arquivo só ou um `.zip` com todos. A conversão acontece no navegador, via
@@ -133,6 +135,11 @@ Para rodar localmente:
 ```bash
 npm run dev:web    # build + servidor em http://localhost:4173
 ```
+
+O site é responsivo de 320 a 2560px. `npm run responsivo` percorre as 6 páginas em
+15 larguras e nos 2 temas e afirma, em cada combinação, que a página não rola na
+horizontal, que nenhum elemento transborda a viewport e que todo alvo de toque tem
+ao menos 44×44px.
 
 ## Ícones da marca `<gcruz.dev/>`
 
