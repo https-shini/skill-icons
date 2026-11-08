@@ -1,0 +1,15 @@
+# Licenças dos assets adicionados
+
+O código da aplicação mantém a licença MIT da raiz. Os assets abaixo conservam licenças e direitos próprios. Logotipos não transferem direitos de marca nem implicam endosso.
+
+| Assets                                                                     | Origem e licença                                                                                | Adaptações                                                                                                                                                   |
+| -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Lucide, Ruff, Biome, Gemini, Claude, OpenRouter, Jupyter, Jinja, Socket.IO | Simple Icons — [CC0 1.0](SimpleIcons-CC0.txt)                                                   | Contornos de versão fixada; escala, centralização e cores por tema                                                                                           |
+| Bandit                                                                     | PyCQA/bandit — [Apache 2.0](Bandit-Apache-2.0.txt)                                              | Logomark oficial em PNG, redução proporcional e incorporação no SVG; fundo temático                                                                          |
+| GolangCI                                                                   | golangci/golangci-lint — [GPL 3.0](GolangCI-GPL-3.0.txt)                                        | Otimização, estilos em atributos, prefixação de IDs, escala e fundo; fonte correspondente em [assets/upstream/golangci.svg](../assets/upstream/golangci.svg) |
+| Motion                                                                     | SVGL — [MIT](SVGL-MIT.txt)                                                                      | Logomarca Motion com escala e cores por tema; conferida com a referência do projeto Motion                                                                   |
+| Radon                                                                      | Badge tipográfico deste catálogo; glifos da JetBrains Mono sob [OFL 1.1](JetBrainsMono-OFL.txt) | Texto convertido em paths; não é uma logomarca oficial de Radon                                                                                              |
+
+Fontes exatas, versões fixadas, hashes e descrições das adaptações: [assets/icon-sources.json](../assets/icon-sources.json). O catálogo novo não contém fotos pessoais, logo de empresa sem referência ou capas extraídas do portfólio mencionado pelo usuário.
+
+As fontes/logo originais permanecem atribuídas aos seus autores e projetos. O arquivo GPL completo e a fonte do desenho acompanham os assets correspondentes. As descrições de proveniência não constituem declaração de propriedade sobre as marcas.

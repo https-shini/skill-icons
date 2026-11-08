@@ -1,5 +1,7 @@
 # Publicando a sua própria instância
 
+Produção do projeto: **https://skill-icons-gcruz.vercel.app**. O domínio `icons.gcruz.dev.br` aparece como exemplo opcional de domínio próprio e não está vinculado ao projeto de produção consultado nesta publicação.
+
 Os ícones deste repositório **não** aparecem em `skillicons.dev` — aquele domínio
 serve apenas o repositório oficial. Para usar os ícones daqui você publica a sua
 própria instância; a API fica idêntica (`/icons?i=...`, `&theme=`, `&perline=`),
@@ -83,7 +85,7 @@ rewrite.
 
 ## Pré-requisitos
 
-- Node 20 ou superior
+- Node 24.x
 - Uma conta na Cloudflare (o plano gratuito é suficiente)
 
 ## Primeira publicação
@@ -117,7 +119,7 @@ certificado automaticamente — leva alguns minutos na primeira vez.
 
 ## Deploy automático pelo GitHub Actions
 
-O workflow `.github/workflows/wrangler-action.yml` publica a cada push na `main`.
+O workflow `.github/workflows/wrangler-action.yml` valida push na `main` e pull requests. A publicação opcional do Worker ocorre somente na `main`, fora de PR, após a validação.
 Configure dois secrets em **Settings → Secrets and variables → Actions**:
 
 | Secret          | Onde obter                                                                |
@@ -128,7 +130,7 @@ Configure dois secrets em **Settings → Secrets and variables → Actions**:
 O workflow não instala dependências: `build.js`, `scripts/readme-table.mjs`,
 `scripts/contraste.mjs` e `scripts/build-pages.mjs` usam apenas a stdlib do Node,
 e a `wrangler-action` traz a própria wrangler. O passo
-Publish é guardado por `if: secrets.CF_API_TOKEN != ''` — sem os secrets ele é
+Publish consulta os secrets pelo contexto `env` e exige token e account ID — sem ambos ele é
 pulado em vez de falhar, o que importa se você usar só a Vercel.
 
 ## Adicionando um ícone novo
@@ -160,10 +162,4 @@ Convenções (as mesmas dos ícones que já existem):
 
 ## Limite de tamanho
 
-O bundle atual tem cerca de **800 KiB comprimido**. O limite do plano gratuito da
-Cloudflare é **1 MiB comprimido** por Worker (3 MiB nos planos pagos). Na Vercel
-isso não é restrição: as funções rodam no runtime Node, cujo limite é de centenas
-de MB. Ou seja,
-ainda cabem ícones, mas não indefinidamente — quando chegar perto do limite, a
-saída de `wrangler deploy` avisa, e as opções são migrar para um plano pago ou
-servir os SVGs de um bucket em vez de embuti-los no script.
+O catálogo cresceu para 459 SVGs. Meça o bundle final com o Wrangler antes de publicar e confirme os limites vigentes do plano contratado. O tamanho gzip de dist/icons.mjs é apenas uma referência local, não o tamanho final do Worker. Não presuma capacidade usando os limites históricos deste documento. Se o crescimento justificar, avalie distribuição versionada de assets mantendo o contrato público, conforme o roadmap.

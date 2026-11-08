@@ -16,6 +16,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { CATEGORIES } from './categories.mjs';
+import { ICON_ALIASES } from '../lib/catalog.mjs';
 
 const ROOT = path.join(import.meta.dirname, '..');
 const README = path.join(ROOT, 'readme.md');
@@ -36,21 +37,9 @@ function iconFiles() {
   return byId;
 }
 
-/**
- * alias -> id canônico, lido do shortNames de lib/icons.mjs.
- *
- * Lido por regex, e não por `import`, de propósito: lib/icons.mjs importa
- * dist/icons.mjs, que só existe depois do build — e este script roda antes dele
- * no CI. Parsear o texto mantém a checagem independente da ordem.
- */
+/** Metadados importáveis antes do build, inclusive aliases com pontuação. */
 function shortNames() {
-  const src = fs.readFileSync(path.join(ROOT, 'lib', 'icons.mjs'), 'utf8');
-  const start = src.indexOf('shortNames = {');
-  const block = src.slice(start, src.indexOf('};', start));
-  const map = new Map();
-  for (const m of block.matchAll(/^\s*([a-z0-9]+):\s*'([a-z0-9]+)'/gm))
-    map.set(m[1], m[2]);
-  return map;
+  return new Map(Object.entries(ICON_ALIASES));
 }
 
 /** IDs já exibidos na tabela atual, na ordem em que aparecem */

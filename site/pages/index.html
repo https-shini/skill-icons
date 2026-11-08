@@ -1,4 +1,4 @@
-<!--pagina {"titulo":"skill-icons — ícones de tecnologia para o seu README","descricao":"Escolha entre 257 ícones de tecnologia, monte o snippet e cole no seu README. Um único SVG, tema claro e escuro, sem build.","nav":"builder"}-->
+<!--pagina {"titulo":"skill-icons — ícones de tecnologia para o seu README","descricao":"Escolha entre {{totalIcones}} ícones de tecnologia, monte o snippet e cole no seu README. Um único SVG, tema claro e escuro, sem build.","nav":"builder"}-->
     <div class="wrap hero">
       <p class="t-label">gcruz.dev · skill-icons</p>
       <h1 class="t-display">
@@ -28,6 +28,16 @@
           </p>
         </div>
 
+        <div class="stack" style="margin-bottom: var(--space-4)">
+          <label class="row motion-toggle" for="animar-icones">
+            <input type="checkbox" role="switch" id="animar-icones" checked aria-describedby="animacao-ajuda" />
+            Animar ícones ao interagir
+          </label>
+          <p class="t-small" id="animacao-ajuda">
+            Movimento interno ao passar o mouse, focar pelo teclado ou selecionar.
+            SVG mantém a animação; PNG e WebP são estáticos.
+          </p>
+        </div>
         <div class="montador">
           <div class="montador-escolha">
             <div class="search">
@@ -249,7 +259,7 @@
               />
             </div>
             <div class="code">
-              <pre><code id="ex-1">https://icons.gcruz.dev.br/icons?i=nodejs,nestjs,postgresql,redis,docker&amp;theme=light&amp;perline=5</code></pre>
+              <pre><code id="ex-1">https://skill-icons-gcruz.vercel.app/icons?i=nodejs,nestjs,postgresql,redis,docker&amp;theme=light&amp;perline=5</code></pre>
               <button class="btn btn-sm copy" type="button" data-copia="ex-1" aria-label="Copiar a URL do exemplo de back-end">
                 Copiar
               </button>
@@ -266,7 +276,7 @@
               />
             </div>
             <div class="code">
-              <pre><code id="ex-2">https://icons.gcruz.dev.br/icons?i=react,typescript,tailwindcss,vite,vercel,figma&amp;perline=3</code></pre>
+              <pre><code id="ex-2">https://skill-icons-gcruz.vercel.app/icons?i=react,typescript,tailwindcss,vite,vercel,figma&amp;perline=3</code></pre>
               <button class="btn btn-sm copy" type="button" data-copia="ex-2" aria-label="Copiar a URL do exemplo de front-end">
                 Copiar
               </button>

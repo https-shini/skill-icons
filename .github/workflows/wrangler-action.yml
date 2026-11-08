@@ -1,49 +1,52 @@
-name: Deploy
+name: Validate and deploy
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+  pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
-  deploy:
+  validate:
     runs-on: ubuntu-latest
-    name: Deploy
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 20
-
-      # build.js e o gerador da tabela usam apenas a stdlib do Node,
-      # e a wrangler-action instala a própria wrangler — nenhum install aqui.
-      - name: Check readme is in sync with ./icons
-        run: node scripts/readme-table.mjs --check
-
-      - name: Check token contrast (AA)
-        run: node scripts/contraste.mjs --check
-
+          node-version: 24
+      # Checks, build e testes usam somente módulos nativos do Node.
+      - name: Check catalog documentation
+        run: npm run readme:check
+      - name: Check contrast
+        run: npm run contraste:check
       - name: Check icon normalization
-        run: node scripts/normalizar-icones.mjs --check
+        run: npm run icones:check
+      - name: Test catalog, builder state and animations
+        run: npm test
+      - name: Build site
+        run: npm run build:web
 
-      - name: Build
-        run: node build.js
-
-      # Não publica nada — só garante que o site ainda compõe. Um partial
-      # renomeado ou uma página sem o bloco <!--pagina--> quebraria aqui, e não
-      # no deploy da Vercel.
-      - name: Build the site
-        run: node scripts/vercel-assets.mjs && node scripts/build-pages.mjs
-
-      # O projeto passou a ser hospedado na Vercel. Sem os secrets do
-      # Cloudflare este passo é pulado, em vez de falhar para sempre.
-      - name: Publish
-        if: ${{ secrets.CF_API_TOKEN != '' }}
+  deploy:
+    needs: validate
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    env:
+      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Build Worker data
+        run: npm run build
+      - name: Publish optional Cloudflare Worker
+        if: env.CF_API_TOKEN != '' && env.CF_ACCOUNT_ID != ''
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.CF_API_TOKEN }}
-          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          apiToken: ${{ env.CF_API_TOKEN }}
+          accountId: ${{ env.CF_ACCOUNT_ID }}
           wranglerVersion: '4'
