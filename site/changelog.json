@@ -1,5 +1,63 @@
 [
   {
+    "versao": "Animações refinadas e interação suave",
+    "data": "2026-11-08",
+    "mudancas": [
+      {
+        "tipo": "changed",
+        "descricao": "Os 270 IDs passam a usar 12 famílias de movimento, com ritmos por tecnologia, preparação de entrada e acentos internos em React, Python, Prettier, Gemini, Claude, Jupyter, Lucide, Motion e OpenRouter."
+      },
+      {
+        "tipo": "added",
+        "descricao": "Transição suave entre arte estática e animada, carregamento sob demanda, pausa fora da área visível e em abas ocultas, e fallback para o original se a animação não carregar."
+      },
+      {
+        "tipo": "changed",
+        "descricao": "Movimento reduzido interrompe as camadas da página. Primeiro quadro dos 459 SVGs conserva a pose original; testes de navegador cobrem as 12 famílias e a pausa por visibilidade."
+      }
+    ]
+  },
+  {
+    "versao": "Catálogo ampliado e montador mais confiável",
+    "data": "2026-11-08",
+    "mudancas": [
+      {
+        "tipo": "added",
+        "descricao": "Treze tecnologias com temas claro/escuro e animação: Lucide, Ruff, Bandit, Radon, Biome, golangci-lint, Gemini, Claude, OpenRouter, Motion, Socket.IO, Jupyter e Jinja. Radon usa badge tipográfico próprio, identificado como tal."
+      },
+      {
+        "tipo": "added",
+        "descricao": "Aliases para nomes usados nos projetos, incluindo Dockerfile, Shell, Jupyter Notebook, PL/pgSQL e Procfile. Catálogo com 270 IDs, 459 SVGs e 73 aliases."
+      },
+      {
+        "tipo": "fixed",
+        "descricao": "Busca sem interpretação de HTML, recuperação de estado salvo inválido, filtro restaurado corretamente e foco de teclado preservado ao atualizar a grade."
+      },
+      {
+        "tipo": "changed",
+        "descricao": "Metadados leves compartilhados entre API e documentação, manifesto com requisição em voo compartilhada, testes de catálogo/estado e CI validando pull requests com Node 24."
+      }
+    ]
+  },
+  {
+    "versao": "Animação interna dos ícones",
+    "data": "2026-11-08",
+    "mudancas": [
+      {
+        "tipo": "added",
+        "descricao": "Todos os 257 IDs têm versões com movimento interno: flutuação, pulsação, rotação ou luminosidade. No site, animam ao passar o mouse, focar pelo teclado ou selecionar."
+      },
+      {
+        "tipo": "added",
+        "descricao": "Controle de animação persistente, respeito à preferência de movimento reduzido e parâmetro opcional <code>animation=true</code> nos badges SVG."
+      },
+      {
+        "tipo": "added",
+        "descricao": "Downloads SVG e ZIP conservam a animação; PNG e WebP continuam estáticos. Testes nativos de Node cobrem todos os 433 SVGs e o contrato da API."
+      }
+    ]
+  },
+  {
     "versao": "Design System, marca e responsividade",
     "data": "2026-08-20",
     "mudancas": [

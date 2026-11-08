@@ -110,6 +110,58 @@
   display: block;
 }
 
+/* O original mantém o layout; só a versão animada entra/sai em opacidade.
+   O overlay é criado sob demanda, não duplica o catálogo no carregamento. */
+.si-icon-stage {
+  display: inline-grid;
+  position: relative;
+  flex-shrink: 0;
+  max-width: 100%;
+  line-height: 0;
+  vertical-align: middle;
+}
+
+.si-icon-stage > img:not([data-motion-overlay]) {
+  grid-area: 1 / 1;
+  opacity: 1;
+  transition: opacity 0s;
+}
+
+.si-icon-stage > [data-motion-overlay] {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  max-height: none;
+  object-fit: contain;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-base);
+}
+
+.si-icon-stage[data-motion-active='true'] > [data-motion-overlay] {
+  opacity: 1;
+}
+
+/* Após a entrada, o original deixa de cobrir partes transparentes da arte.
+   Opacidade preserva a semântica da imagem, ao contrário de visibility:hidden. */
+.si-icon-stage[data-motion-active='true'] > img:not([data-motion-overlay]) {
+  opacity: 0;
+  transition-delay: var(--dur-base);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .si-icon-stage > img:not([data-motion-overlay]) {
+    opacity: 1 !important;
+    transition: none;
+  }
+
+  .si-icon-stage > [data-motion-overlay] {
+    display: none;
+    transition: none;
+  }
+}
+
 .tile-id {
   max-width: 100%;
   overflow: hidden;

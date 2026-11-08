@@ -1,0 +1,251 @@
+/** E2E opcional e estrito: requer servidor ativo e Playwright/Chromium disponíveis. */
+import assert from 'node:assert/strict';
+
+const candidates = [
+  process.env.PLAYWRIGHT_CORE,
+  'playwright-core',
+  'playwright',
+].filter(Boolean);
+let chromium;
+for (const candidate of candidates) {
+  try {
+    const module = await import(candidate);
+    chromium = module.chromium ?? module.default?.chromium;
+    if (chromium) break;
+  } catch {
+    /* tenta o próximo */
+  }
+}
+if (!chromium)
+  throw new Error(
+    'Instale Playwright ou aponte PLAYWRIGHT_CORE para o módulo; a validação não foi executada.'
+  );
+const base =
+  process.argv.find(a => a.startsWith('--base='))?.slice(7) ??
+  'http://localhost:4173';
+const browser = await chromium.launch({
+  ...(process.env.CHROMIUM ? { executablePath: process.env.CHROMIUM } : {}),
+  args: ['--no-sandbox'],
+});
+try {
+  const page = await browser.newPage({
+    viewport: { width: 1440, height: 1000 },
+    reducedMotion: 'no-preference',
+  });
+  const errors = [];
+  page.on('pageerror', e => errors.push(e.message));
+  await page.goto(base, { waitUntil: 'networkidle' });
+  const manifest = await (
+    await page.request.get(base + '/manifest.json')
+  ).json();
+  assert.equal(await page.locator('#resultados .tile').count(), manifest.count);
+  const queries = {
+    'lucide-react': 'lucide',
+    'golangci-lint': 'golangci',
+    'Framer Motion': 'motion',
+    'Socket.IO': 'socketio',
+    'Jupyter Notebook': 'jupyter',
+    'PL/pgSQL': 'postgresql',
+    Dockerfile: 'docker',
+    'GitHub OAuth': 'github',
+    Procfile: 'heroku',
+    Claude: 'claude',
+    Gemini: 'gemini',
+    Radon: 'radon',
+    Bandit: 'bandit',
+  };
+  for (const [query, id] of Object.entries(queries)) {
+    await page.locator('#busca').fill(query);
+    assert.equal(
+      await page.locator('#resultados .tile').first().getAttribute('data-id'),
+      id,
+      query
+    );
+  }
+  await page.locator('#busca').fill('<img src=x onerror="window.auditXss=1">');
+  assert.equal(await page.locator('#resultados img').count(), 0);
+  assert.equal(await page.evaluate(() => window.auditXss), undefined);
+  assert.match(await page.locator('#resultados').textContent(), /<img/);
+  await page.evaluate(() => {
+    localStorage.setItem('si:selecao', '{}');
+    localStorage.setItem('si:categoria', 'linguagens');
+    localStorage.setItem('si:perline', 'Infinity');
+    localStorage.setItem('si:formato', 'garbage');
+  });
+  await page.reload({ waitUntil: 'networkidle' });
+  assert.ok((await page.locator('#resultados .tile').count()) > 0);
+  assert.equal(
+    await page
+      .locator('#filtros [aria-pressed="true"]')
+      .getAttribute('data-cat'),
+    'linguagens'
+  );
+  assert.equal(await page.locator('#perline').inputValue(), '15');
+  assert.equal(await page.locator('#formato').inputValue(), 'svg');
+  await page.locator('#filtros [data-cat=""]').click();
+  await page.locator('#resultados .tile').first().focus();
+  await page.keyboard.press('End');
+  await page.locator('#filtros [data-cat="linguagens"]').click();
+  assert.equal(await page.locator('#resultados [tabindex="0"]').count(), 1);
+  await page.locator('#resultados [data-id="python"]').focus();
+  await page.evaluate(() =>
+    document.querySelector('[data-tema="dark"]').click()
+  );
+  assert.equal(
+    await page.evaluate(() => document.activeElement.dataset.id),
+    'python'
+  );
+  await page.locator('#filtros [data-cat=""]').click();
+  await page.locator('#busca').fill('bandit');
+  await page.locator('#resultados .tile').click();
+  await page.waitForFunction(
+    () =>
+      document.querySelector('#preview img')?.complete &&
+      document.querySelector('#preview img').naturalWidth > 0
+  );
+  assert.match(
+    await page.locator('#saida').textContent(),
+    /bandit.*animation=true/
+  );
+  const pendingDownload = page.waitForEvent('download');
+  await page.locator('#baixar-lote').click();
+  const download = await pendingDownload;
+  assert.equal(download.suggestedFilename(), 'bandit-animated.svg');
+  assert.equal(await download.failure(), null);
+  await page.locator('#animar-icones').uncheck();
+  assert.doesNotMatch(
+    await page.locator('#saida').textContent(),
+    /animation=true/
+  );
+  await page.locator('#animar-icones').check();
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.waitForFunction(
+    () =>
+      !document.querySelector('#saida').textContent.includes('animation=true')
+  );
+  assert.equal(await page.locator('#animar-icones').isDisabled(), true);
+  // Choreografia do site: uma camada por ícone, apenas enquanto visível.
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.mouse.move(0, 0);
+  const bandit = page.locator('#resultados [data-id="bandit"]');
+  await bandit.scrollIntoViewIfNeeded();
+  await page.waitForFunction(() =>
+    document.querySelector(
+      '#resultados [data-id="bandit"] [data-motion-overlay]'
+    )
+  );
+  assert.equal(await bandit.locator('[data-motion-overlay]').count(), 1);
+  assert.equal(
+    await bandit.locator('[data-motion-overlay]').getAttribute('aria-hidden'),
+    'true'
+  );
+  await page.evaluate(() => {
+    Object.defineProperty(document, 'hidden', {
+      configurable: true,
+      value: true,
+    });
+    document.dispatchEvent(new Event('visibilitychange'));
+  });
+  assert.equal(await page.locator('[data-motion-overlay]').count(), 0);
+  await page.evaluate(() => {
+    delete document.hidden;
+    document.dispatchEvent(new Event('visibilitychange'));
+  });
+  await page.waitForFunction(() =>
+    document.querySelector(
+      '#resultados [data-id="bandit"] [data-motion-overlay]'
+    )
+  );
+  await page.locator('#api').scrollIntoViewIfNeeded();
+  await page.waitForFunction(
+    () =>
+      !document.querySelector(
+        '#resultados [data-id="bandit"] [data-motion-overlay]'
+      )
+  );
+  await bandit.scrollIntoViewIfNeeded();
+  await page.waitForFunction(() =>
+    document.querySelector(
+      '#resultados [data-id="bandit"] [data-motion-overlay]'
+    )
+  );
+  await page.locator('#limpar').click();
+  await page.mouse.move(0, 0);
+  await page.waitForFunction(
+    () => !document.querySelector('#resultados [data-motion-overlay]')
+  );
+  const ready = page.waitForResponse(r =>
+    new URL(r.url()).pathname.endsWith('/svg/animated/Ruff-Dark.svg')
+  );
+  let failures = 0;
+  await page.route('**/svg/animated/Ruff-Dark.svg*', route => {
+    failures++;
+    return route.fulfill({ status: 404, body: 'missing' });
+  });
+  await page.locator('#busca').fill('ruff');
+  const ruff = page.locator('#resultados [data-id="ruff"]');
+  await ruff.hover();
+  await ready;
+  await page.waitForTimeout(200);
+  assert.equal(await ruff.locator('[data-motion-overlay]').count(), 0);
+  assert.equal(
+    await ruff
+      .locator('img')
+      .evaluate(img => img.complete && img.naturalWidth > 0),
+    true
+  );
+  assert.equal(failures, 1);
+
+  // Verifica movimento real nas 12 famílias e parada no SVG independente.
+  for (const file of [
+    'React-Dark.svg',
+    'Docker.svg',
+    'Rocket.svg',
+    'Motion-Dark.svg',
+    'SocketIO-Dark.svg',
+    'Prettier-Dark.svg',
+    'Python-Dark.svg',
+    'Gemini-Dark.svg',
+    'PostgreSQL-Dark.svg',
+    'JavaScript.svg',
+    'Flask-Dark.svg',
+    'RobloxStudio.svg',
+  ]) {
+    await page.goto(`${base}/svg/animated/${file}`);
+    const moved = await page
+      .locator('.si-motion-art')
+      .first()
+      .evaluate(el => {
+        const animation = el.getAnimations()[0];
+        if (!animation) return false;
+        animation.pause();
+        animation.currentTime = 0;
+        const before = [
+          getComputedStyle(el).transform,
+          getComputedStyle(el).opacity,
+        ].join();
+        animation.currentTime = animation.effect.getTiming().duration * 0.45;
+        return (
+          before !==
+          [getComputedStyle(el).transform, getComputedStyle(el).opacity].join()
+        );
+      });
+    assert.equal(moved, true, file);
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    assert.equal(
+      await page
+        .locator('.si-motion-art')
+        .first()
+        .evaluate(el => el.getAnimations().length),
+      0,
+      file
+    );
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+  }
+  assert.deepEqual(errors, []);
+  console.log(
+    `E2E passou: ${manifest.count} ícones, aliases, HTML literal, estado inválido, filtros, teclado, preview, SVG, movimento reduzido, pausa fora da tela, fallback e 12 famílias animadas.`
+  );
+} finally {
+  await browser.close();
+}

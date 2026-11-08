@@ -1,0 +1,262 @@
+{
+  "added": "2026-11-08",
+  "icons": [
+    {
+      "id": "lucide",
+      "file": "Lucide",
+      "light": "#C53030",
+      "dark": "#F56565",
+      "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/1bb2f6e6ea50f920de8d2f3d273ae48564a5eaee/icons/lucide.svg",
+      "brandSource": "https://lucide.dev",
+      "license": "licenses/SimpleIcons-CC0.txt",
+      "adaptations": "Escala e centralização; cores de primeiro plano adaptadas ao tema; contorno preservado.",
+      "variants": [
+        {
+          "file": "icons/Lucide-Dark.svg",
+          "sha256": "c9b9336c44ac04a42e714bb0b5949575dc83e3a02a101772bbf24b6bb6a8c454"
+        },
+        {
+          "file": "icons/Lucide-Light.svg",
+          "sha256": "d167bc81ece70b118e86ec4624b442d9c9c2fa1d21122b921ec099c94f9da570"
+        }
+      ]
+    },
+    {
+      "id": "ruff",
+      "file": "Ruff",
+      "light": "#536B12",
+      "dark": "#D7FF64",
+      "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/1bb2f6e6ea50f920de8d2f3d273ae48564a5eaee/icons/ruff.svg",
+      "brandSource": "https://astral.sh/ruff",
+      "license": "licenses/SimpleIcons-CC0.txt",
+      "adaptations": "Escala e centralização; cores de primeiro plano adaptadas ao tema; contorno preservado.",
+      "variants": [
+        {
+          "file": "icons/Ruff-Dark.svg",
+          "sha256": "5d6672d89ce38fc0821e076f080f73b824e5150d7265a1a995ce92bf60bb8c98"
+        },
+        {
+          "file": "icons/Ruff-Light.svg",
+          "sha256": "463ba47e66e46bf5a2d54956d967dffb033763461ff75b2fcaa48fea2b772189"
+        }
+      ]
+    },
+    {
+      "id": "biome",
+      "file": "Biome",
+      "light": "#2563EB",
+      "dark": "#60A5FA",
+      "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/1bb2f6e6ea50f920de8d2f3d273ae48564a5eaee/icons/biome.svg",
+      "brandSource": "https://github.com/biomejs/resources/blob/551f36498dfe34b24bc7755fcdd0fa501b757cf4/svg/icon-light-mono.svg",
+      "license": "licenses/SimpleIcons-CC0.txt",
+      "adaptations": "Escala e centralização; cores de primeiro plano adaptadas ao tema; contorno preservado.",
+      "variants": [
+        {
+          "file": "icons/Biome-Dark.svg",
+          "sha256": "974e28d1d109f9abb986cb961e3bae8bcf9504be0dd609c61387b1ec63e81f75"
+        },
+        {
+          "file": "icons/Biome-Light.svg",
+          "sha256": "339cda09802937e4abb3565f48767711c1c260fb8efc390b5fdf34dffcbd1904"
+        }
+      ]
+    },
+    {
+      "id": "gemini",
+      "file": "Gemini",
+      "light": "#8E75B2",
+      "dark": "#8E75B2",
+      "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/1bb2f6e6ea50f920de8d2f3d273ae48564a5eaee/icons/googlegemini.svg",
+      "brandSource": "https://gemini.google.com",
+      "license": "licenses/SimpleIcons-CC0.txt",
+      "adaptations": "Escala e centralização; cores de primeiro plano adaptadas ao tema; contorno preservado.",
+      "variants": [
+        {
+          "file": "icons/Gemini-Dark.svg",
+          "sha256": "379c7f521179f3a78e2482e53dab3edd7c06332d70672d9a50debdea91c3482a"
+        },
+        {
+          "file": "icons/Gemini-Light.svg",
+          "sha256": "55f4978d33fc9df7affe0d031f92b3c71946f923cd09b64a8b7b00c9c035f70e"
+        }
+      ]
+    },
+    {
+      "id": "claude",
+      "file": "Claude",
+      "light": "#A84F33",
+      "dark": "#D97757",
+      "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/1bb2f6e6ea50f920de8d2f3d273ae48564a5eaee/icons/claude.svg",
+      "brandSource": "https://claude.ai",
+      "license": "licenses/SimpleIcons-CC0.txt",
+      "adaptations": "Escala e centralização; cores de primeiro plano adaptadas ao tema; contorno preservado.",
+      "variants": [
+        {
+          "file": "icons/Claude-Dark.svg",
+          "sha256": "05188d720bac9a5694a8648af8f120deb6a9946fbe3c2ded7134a3227edf178f"
+        },
+        {
+          "file": "icons/Claude-Light.svg",
+          "sha256": "294d6b0a792bf88db3a8ad77b541b381b7b3bea7c078ab85218422c905d102a3"
+        }
+      ]
+    },
+    {
+      "id": "openrouter",
+      "file": "OpenRouter",
+      "light": "#475569",
+      "dark": "#CBD5E1",
+      "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/1bb2f6e6ea50f920de8d2f3d273ae48564a5eaee/icons/openrouter.svg",
+      "brandSource": "https://openrouter.ai",
+      "license": "licenses/SimpleIcons-CC0.txt",
+      "adaptations": "Escala e centralização; cores de primeiro plano adaptadas ao tema; contorno preservado.",
+      "variants": [
+        {
+          "file": "icons/OpenRouter-Dark.svg",
+          "sha256": "47b4d113bd3e4e0bdb5c252f5674868b94c7e7084d9f8113a60c2d95bc7298ea"
+        },
+        {
+          "file": "icons/OpenRouter-Light.svg",
+          "sha256": "b475ca866b027171a1f86d38694bcaae41bc3cfc846046a052bd7fd39c356a10"
+        }
+      ]
+    },
+    {
+      "id": "jupyter",
+      "file": "Jupyter",
+      "light": "#B74E13",
+      "dark": "#F37626",
+      "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/1bb2f6e6ea50f920de8d2f3d273ae48564a5eaee/icons/jupyter.svg",
+      "brandSource": "https://github.com/jupyter/design/blob/80716ee75dd7b2a6ec6abcd89922d020483589b1/logos/Logo%20Mark/logomark-whitebody-whitemoons/logomark-whitebody-whitemoons.svg",
+      "license": "licenses/SimpleIcons-CC0.txt",
+      "adaptations": "Escala e centralização; cores de primeiro plano adaptadas ao tema; contorno preservado.",
+      "variants": [
+        {
+          "file": "icons/Jupyter-Dark.svg",
+          "sha256": "1a8137081600b2f771d09f9a1113cc8c52790ed5470237b8fdac9ba1636dd48d"
+        },
+        {
+          "file": "icons/Jupyter-Light.svg",
+          "sha256": "3b860d742cd82e3fc351ea88b193d238de37af84cf264b49a8140272f2b1d807"
+        }
+      ]
+    },
+    {
+      "id": "jinja",
+      "file": "Jinja",
+      "light": "#7E0C1B",
+      "dark": "#E5B8C0",
+      "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/1bb2f6e6ea50f920de8d2f3d273ae48564a5eaee/icons/jinja.svg",
+      "brandSource": "https://jinja.palletsprojects.com",
+      "license": "licenses/SimpleIcons-CC0.txt",
+      "adaptations": "Escala e centralização; cores de primeiro plano adaptadas ao tema; contorno preservado.",
+      "variants": [
+        {
+          "file": "icons/Jinja-Dark.svg",
+          "sha256": "fa1f1d4e79ddc29ea151d499dab3fa47253cb952f8cd4d67a15445e23cabb77e"
+        },
+        {
+          "file": "icons/Jinja-Light.svg",
+          "sha256": "5a2d6125c752b76b57f525a2259bac10795681aa823447433164694dd57b6b22"
+        }
+      ]
+    },
+    {
+      "id": "socketio",
+      "file": "SocketIO",
+      "light": "#010101",
+      "dark": "#F8FAFC",
+      "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/1bb2f6e6ea50f920de8d2f3d273ae48564a5eaee/icons/socketdotio.svg",
+      "brandSource": "https://socket.io",
+      "license": "licenses/SimpleIcons-CC0.txt",
+      "adaptations": "Escala e centralização; cores de primeiro plano adaptadas ao tema; contorno preservado.",
+      "variants": [
+        {
+          "file": "icons/SocketIO-Dark.svg",
+          "sha256": "a3fbdaff0d25236cbc967ced8246834c0b1da2e38d068bb5ac85eb9f4f46134f"
+        },
+        {
+          "file": "icons/SocketIO-Light.svg",
+          "sha256": "bb743df60a010cb2a3340f045b1025d0d49424fc09fc0775d749a1a4886da724"
+        }
+      ]
+    },
+    {
+      "id": "golangci",
+      "file": "GolangCI",
+      "source": "https://raw.githubusercontent.com/golangci/golangci-lint/3c9a9d824b90df617026ff40517edef18d93e2f9/docs/static/images/logo-nocircle.svg",
+      "brandSource": "https://github.com/golangci/golangci-lint",
+      "license": "licenses/GolangCI-GPL-3.0.txt",
+      "adaptations": "Escala, otimização, estilos convertidos em atributos e IDs prefixados. Fonte correspondente em assets/upstream/golangci.svg.",
+      "variants": [
+        {
+          "file": "icons/GolangCI-Dark.svg",
+          "sha256": "b39d57b88e3e337425a66980266693472936f2767e34134a3747ec6e22c41e25"
+        },
+        {
+          "file": "icons/GolangCI-Light.svg",
+          "sha256": "2674b1ca76584f1faea4f1a775426ee35c8b24a33e5a1580592cb76b37f5d9e8"
+        }
+      ]
+    },
+    {
+      "id": "motion",
+      "file": "Motion",
+      "light": "#0F1115",
+      "dark": "#FFF140",
+      "source": "https://raw.githubusercontent.com/pheralb/svgl/ab436304f9a6e3bf8c29027bb040934fea31aca7/static/library/motion.svg",
+      "brandSource": "https://github.com/motiondivision/motion",
+      "license": "licenses/SVGL-MIT.txt",
+      "adaptations": "Marca Motion, anteriormente Framer Motion; não é a marca do construtor de sites Framer. Escala e cor adaptadas ao tema.",
+      "variants": [
+        {
+          "file": "icons/Motion-Dark.svg",
+          "sha256": "db9e4d1089c1df9328f69739c4190923edd82cdb4b5c5ceeba4e837266d14a5f"
+        },
+        {
+          "file": "icons/Motion-Light.svg",
+          "sha256": "e4d8c393fae3423cbf7c56882e9998c2c02538f0c2edacf69bf6d3b092864c4f"
+        }
+      ]
+    },
+    {
+      "id": "bandit",
+      "file": "Bandit",
+      "source": "https://raw.githubusercontent.com/PyCQA/bandit/48ef27bd1bbc32f4e585c92310f7a574e87f6b04/logo/logomark.png",
+      "sourceSha256": "51812020f09c48bb5c65ff39d8c20ed2c78ed78858127b9d03507f9a5db0d435",
+      "brandSource": "https://github.com/PyCQA/bandit",
+      "license": "licenses/Bandit-Apache-2.0.txt",
+      "adaptations": "PNG oficial proporcional a 348px no lado maior, embutido no SVG; não há logotipo vetorial independente no asset SVG upstream.",
+      "variants": [
+        {
+          "file": "icons/Bandit-Dark.svg",
+          "sha256": "300ad7fe740d766271208b6c22f710a8bf86c74246be05b62508e73aa466e691"
+        },
+        {
+          "file": "icons/Bandit-Light.svg",
+          "sha256": "ddd452a69358565485dda80c81ea358a6577cb09ac263cdfe3606063bcd8861d"
+        }
+      ]
+    },
+    {
+      "id": "radon",
+      "file": "Radon",
+      "light": "#4F46E5",
+      "dark": "#C4B5FD",
+      "source": "site/fonts/jetbrains-mono-var.woff2",
+      "brandSource": "https://github.com/rubik/radon",
+      "license": "licenses/JetBrainsMono-OFL.txt",
+      "adaptations": "Badge tipográfico original deste catálogo, autorizado pelo usuário; não é logomarca oficial do Radon. Glifos convertidos em paths; sem fontes ou texto em runtime.",
+      "variants": [
+        {
+          "file": "icons/Radon-Dark.svg",
+          "sha256": "61dc37479890e05d9fa1c08a5f3297322d971f6b38a89bcba466ef4cb5b3a8e4"
+        },
+        {
+          "file": "icons/Radon-Light.svg",
+          "sha256": "ccdac78d5d08331226294acccba709702798423f85672d5d7ea336ac5222f603"
+        }
+      ]
+    }
+  ]
+}

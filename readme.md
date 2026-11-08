@@ -13,7 +13,7 @@
     <img src="./brand/compact-light.svg" height="26" alt="gcruz.dev">
   </picture>
   &nbsp;·&nbsp; fork de <a href="https://skillicons.dev">skillicons.dev</a>
-  &nbsp;·&nbsp; <strong>257 ícones</strong>
+  &nbsp;·&nbsp; <strong>270 ícones</strong>
   &nbsp;·&nbsp; <a href="./DEPLOY.md">Vercel</a> ou Cloudflare Workers
 </p>
 
@@ -34,13 +34,19 @@
 - [Adicionar um ícone](#adicionar-um-ícone)
 - [Créditos e licença](#créditos-e-licença)
 
+## Animações internas
+
+Os 270 IDs têm versões com animação dentro da arte, em 12 famílias de movimento. As transições são suaves e o movimento pausa fora da área visível ou em abas ocultas. No site, elas iniciam ao passar o mouse, focar pelo teclado ou selecionar, e podem ser desligadas no controle do montador. Movimento reduzido do dispositivo é respeitado.
+
+Acrescente `&animation=true` à URL do badge para movimento contínuo. Sem o parâmetro, a API continua estática. Downloads SVG/ZIP podem conservar movimento; PNG e WebP permanecem estáticos. Consulte [a documentação da implementação](docs/ANIMACOES_AVANCADAS.md) e execute `npm run test:animation` para validar os 459 assets.
+
 ## Como funciona
 
 Um endpoint recebe a lista de ícones e devolve **um único SVG** com todos eles
 lado a lado. Uma requisição por badge, não uma por ícone.
 
 ```
-https://icons.gcruz.dev.br/icons?i=ts,react,nodejs,docker
+https://skill-icons-gcruz.vercel.app/icons?i=ts,react,nodejs,docker
 ```
 
 > [!IMPORTANT]
@@ -59,7 +65,7 @@ Liste os IDs separados por vírgula em `i` (ou `icons`). A lista completa está 
 [Lista de ícones](#lista-de-ícones).
 
 ```md
-[![Minhas skills](https://icons.gcruz.dev.br/icons?i=js,html,css,wasm)](https://gcruz.dev.br)
+[![Minhas skills](https://skill-icons-gcruz.vercel.app/icons?i=js,html,css,wasm)](https://gcruz.dev.br)
 ```
 
 <p>
@@ -69,15 +75,15 @@ Liste os IDs separados por vírgula em `i` (ou `icons`). A lista completa está 
   <img src="./icons/WebAssembly.svg" width="48">
 </p>
 
-`i=all` devolve todos os 257 de uma vez.
+`i=all` devolve todos os 270 de uma vez.
 
 ## Temas
 
-Parte dos ícones tem variante clara e escura — são **176** dos 257. `theme` (ou
+Parte dos ícones tem variante clara e escura — são **189** dos 270. `theme` (ou
 `t`) escolhe qual usar; o padrão é `dark`. O nome se refere ao **fundo** do badge.
 
 ```md
-[![Minhas skills](https://icons.gcruz.dev.br/icons?i=java,kotlin,nodejs,figma&theme=light)](https://gcruz.dev.br)
+[![Minhas skills](https://skill-icons-gcruz.vercel.app/icons?i=java,kotlin,nodejs,figma&theme=light)](https://gcruz.dev.br)
 ```
 
 <p>
@@ -96,7 +102,7 @@ nos dois temas — `theme` simplesmente não os afeta.
 `400`.
 
 ```md
-[![Minhas skills](https://icons.gcruz.dev.br/icons?i=aws,gcp,azure,react,vue,flutter&perline=3)](https://gcruz.dev.br)
+[![Minhas skills](https://skill-icons-gcruz.vercel.app/icons?i=aws,gcp,azure,react,vue,flutter&perline=3)](https://gcruz.dev.br)
 ```
 
 ## Centralizar
@@ -107,7 +113,9 @@ centralização de imagem:
 ```html
 <p align="center">
   <a href="https://gcruz.dev.br">
-    <img src="https://icons.gcruz.dev.br/icons?i=git,kubernetes,docker,c,vim" />
+    <img
+      src="https://skill-icons-gcruz.vercel.app/icons?i=git,kubernetes,docker,c,vim"
+    />
   </a>
 </p>
 ```
@@ -158,9 +166,9 @@ A abreviação da marca é **`gc`**, nunca `g` isolado: a variante compacta é
 `gcruz` é um ID normal da API e se combina com os demais na mesma requisição:
 
 ```md
-[![gcruz.dev](https://icons.gcruz.dev.br/icons?i=gcruz)](https://gcruz.dev.br)
-[![gc](https://icons.gcruz.dev.br/icons?i=gctag)](https://gcruz.dev.br)
-[![Stack](https://icons.gcruz.dev.br/icons?i=gctag,ts,react,nodejs&perline=4)](https://gcruz.dev.br)
+[![gcruz.dev](https://skill-icons-gcruz.vercel.app/icons?i=gcruz)](https://gcruz.dev.br)
+[![gc](https://skill-icons-gcruz.vercel.app/icons?i=gctag)](https://gcruz.dev.br)
+[![Stack](https://skill-icons-gcruz.vercel.app/icons?i=gctag,ts,react,nodejs&perline=4)](https://gcruz.dev.br)
 ```
 
 Três IDs da marca existem na API:
@@ -400,8 +408,8 @@ Erros:
 | `?theme=azul`     | `400` — só `dark` ou `light`.                              |
 | `/icons` sem `i`  | `400` — nenhum ícone especificado.                         |
 
-Atalhos de nome: 44 aliases estão definidos em `shortNames`, em
-[`lib/icons.mjs`](./lib/icons.mjs) — `js`, `ts`, `py`, `k8s`, `rr`, `fa`, `ws`,
+Atalhos de nome: 73 aliases estão definidos em `ICON_ALIASES`, em
+[`lib/catalog.mjs`](./lib/catalog.mjs) — `js`, `ts`, `py`, `k8s`, `rr`, `fa`, `ws`,
 `rtl`, entre outros.
 
 ## Lista de ícones
@@ -502,6 +510,8 @@ Os ícones da marca. Detalhes e assets em [Ícones da marca](#ícones-da-marca-g
 |    `htmx`     |    <img src="./icons/Htmx-Dark.svg" width="48">     |
 |   `jquery`    |      <img src="./icons/JQuery.svg" width="48">      |
 |     `lit`     |     <img src="./icons/Lit-Dark.svg" width="48">     |
+|   `lucide`    |   <img src="./icons/Lucide-Dark.svg" width="48">    |
+|   `motion`    |   <img src="./icons/Motion-Dark.svg" width="48">    |
 |   `nextjs`    |   <img src="./icons/NextJS-Dark.svg" width="48">    |
 |   `nuxtjs`    |   <img src="./icons/NuxtJS-Dark.svg" width="48">    |
 |    `p5js`     |       <img src="./icons/p5js.svg" width="48">       |
@@ -552,6 +562,7 @@ Os ícones da marca. Detalhes e assets em [Ícones da marca](#ícones-da-marca-g
 | `firebase`  | <img src="./icons/Firebase-Dark.svg" width="48">  |
 |   `flask`   |   <img src="./icons/Flask-Dark.svg" width="48">   |
 |  `graphql`  |  <img src="./icons/GraphQL-Dark.svg" width="48">  |
+|   `jinja`   |   <img src="./icons/Jinja-Dark.svg" width="48">   |
 |    `jwt`    |    <img src="./icons/JWT-Dark.svg" width="48">    |
 |   `kafka`   |     <img src="./icons/Kafka.svg" width="48">      |
 |   `ktor`    |   <img src="./icons/Ktor-Dark.svg" width="48">    |
@@ -563,6 +574,7 @@ Os ícones da marca. Detalhes e assets em [Ícones da marca](#ícones-da-marca-g
 | `rabbitmq`  | <img src="./icons/RabbitMQ-Dark.svg" width="48">  |
 |   `rails`   |     <img src="./icons/Rails.svg" width="48">      |
 |  `rocket`   |     <img src="./icons/Rocket.svg" width="48">     |
+| `socketio`  | <img src="./icons/SocketIO-Dark.svg" width="48">  |
 |  `spring`   |  <img src="./icons/Spring-Dark.svg" width="48">   |
 | `supabase`  | <img src="./icons/Supabase-Dark.svg" width="48">  |
 |  `symfony`  |  <img src="./icons/Symfony-Dark.svg" width="48">  |
@@ -629,13 +641,18 @@ Os ícones da marca. Detalhes e assets em [Ícones da marca](#ícones-da-marca-g
 
 |     Icon ID      |                          Icon                          |
 | :--------------: | :----------------------------------------------------: |
+|     `bandit`     |     <img src="./icons/Bandit-Dark.svg" width="48">     |
+|     `biome`      |     <img src="./icons/Biome-Dark.svg" width="48">      |
 |    `cypress`     |    <img src="./icons/Cypress-Dark.svg" width="48">     |
 |     `eslint`     |       <img src="./icons/ESLint.svg" width="48">        |
+|    `golangci`    |    <img src="./icons/GolangCI-Dark.svg" width="48">    |
 |     `husky`      |     <img src="./icons/Husky-Dark.svg" width="48">      |
 |      `jest`      |        <img src="./icons/Jest.svg" width="48">         |
 |   `playwright`   |   <img src="./icons/Playwright-Dark.svg" width="48">   |
 |    `postman`     |       <img src="./icons/Postman.svg" width="48">       |
 |    `prettier`    |    <img src="./icons/Prettier-Dark.svg" width="48">    |
+|     `radon`      |     <img src="./icons/Radon-Dark.svg" width="48">      |
+|      `ruff`      |      <img src="./icons/Ruff-Dark.svg" width="48">      |
 |    `selenium`    |      <img src="./icons/Selenium.svg" width="48">       |
 | `testinglibrary` | <img src="./icons/TestingLibrary-Dark.svg" width="48"> |
 |     `vitest`     |     <img src="./icons/Vitest-Dark.svg" width="48">     |
@@ -657,7 +674,11 @@ Os ícones da marca. Detalhes e assets em [Ícones da marca](#ícones-da-marca-g
 |   Icon ID    |                        Icon                         |
 | :----------: | :-------------------------------------------------: |
 |  `anaconda`  |  <img src="./icons/Anaconda-Dark.svg" width="48">   |
+|   `claude`   |   <img src="./icons/Claude-Dark.svg" width="48">    |
+|   `gemini`   |   <img src="./icons/Gemini-Dark.svg" width="48">    |
+|  `jupyter`   |   <img src="./icons/Jupyter-Dark.svg" width="48">   |
 |   `opencv`   |   <img src="./icons/OpenCV-Dark.svg" width="48">    |
+| `openrouter` | <img src="./icons/OpenRouter-Dark.svg" width="48">  |
 |  `pytorch`   |   <img src="./icons/PyTorch-Dark.svg" width="48">   |
 |    `ros`     |     <img src="./icons/ROS-Dark.svg" width="48">     |
 |  `sklearn`   | <img src="./icons/ScikitLearn-Dark.svg" width="48"> |
@@ -768,7 +789,7 @@ Os ícones da marca. Detalhes e assets em [Ícones da marca](#ícones-da-marca-g
 ## Estrutura do repositório
 
 ```
-icons/                   os 257 ícones (433 arquivos, contando os pares de tema)
+icons/                   os 270 ícones (459 arquivos, contando os pares de tema)
 brand/                   assets da marca <gcruz.dev/> + a especificação
 lib/icons.mjs            lógica compartilhada: resolução de nomes e composição
 index.js                 entrada do Cloudflare Worker
@@ -827,3 +848,7 @@ As fontes do site são auto-hospedadas em `site/fonts/`, ambas sob
 [OFL-1.1](https://scripts.sil.org/OFL): [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono)
 (que também dá os contornos da marca) e [IBM Plex Sans](https://github.com/IBM/plex).
 Detalhes em [`site/fonts/README.md`](./site/fonts/README.md).
+
+## Ampliação do catálogo
+
+Treze novas tecnologias foram incluídas com temas e animações. Veja o [mapeamento dos nomes do anexo](docs/ATUALIZACAO_DO_CATALOGO.md) e as [licenças e origens](licenses/README.md). Para verificar o catálogo e o montador: `npm test`.

@@ -18,10 +18,16 @@
     "contraste:check": "node scripts/contraste.mjs --check",
     "icones": "node scripts/normalizar-icones.mjs",
     "icones:check": "node scripts/normalizar-icones.mjs --check",
-    "responsivo": "node scripts/responsivo.mjs"
+    "responsivo": "node scripts/responsivo.mjs",
+    "test:animation": "node build.js && node --test tests/animation.test.mjs",
+    "test": "node build.js && node --test tests/*.test.mjs",
+    "test:web": "node scripts/verify-web.mjs"
   },
   "devDependencies": {
     "prettier": "^3.6.2",
     "wrangler": "^4.42.0"
+  },
+  "engines": {
+    "node": "24.x"
   }
 }

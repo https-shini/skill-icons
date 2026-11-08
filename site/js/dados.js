@@ -6,11 +6,21 @@
  * vêm de `shortNames` em lib/icons.mjs, não de uma segunda lista escrita à mão
  * que divergiria na primeira adição.
  */
+import { assetUrl } from './assets.js';
+
 let cache;
 
-export async function catalogo() {
-  if (cache) return cache;
-  const r = await fetch('/manifest.json');
+export function catalogo() {
+  if (!cache)
+    cache = carregarCatalogo().catch(erro => {
+      cache = undefined;
+      throw erro;
+    });
+  return cache;
+}
+
+async function carregarCatalogo() {
+  const r = await fetch(assetUrl('/manifest.json'));
   if (!r.ok) throw new Error(`manifest indisponível (${r.status})`);
   const dados = await r.json();
 
@@ -21,8 +31,7 @@ export async function catalogo() {
     busca: normalizar([i.id, ...i.alias, titulos.get(i.cat) ?? ''].join(' ')),
   }));
 
-  cache = { icones, categorias: dados.categorias, total: dados.count };
-  return cache;
+  return { icones, categorias: dados.categorias, total: dados.count };
 }
 
 /** Sem acento e em minúsculas, para "césar" achar "cesar" e vice-versa. */

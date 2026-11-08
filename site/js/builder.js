@@ -9,6 +9,9 @@ import { store } from './store.js';
 import { toast, copiar } from './toast.js';
 import { temaAtual, aoMudarTema } from './tema.js';
 import { gerar, lote, salvar, nomeArquivo } from './download.js';
+import { animacoesAtivas, aoMudarAnimacao } from './animacao.js';
+import { normalizarEstado } from './estado.js';
+import { assetUrl } from './assets.js';
 
 const TAMANHOS = [64, 128, 256, 512];
 const MIN_LADO = 16;
@@ -23,14 +26,17 @@ export async function iniciarBuilder() {
   const { icones, categorias } = await catalogo();
   const porId = new Map(icones.map(i => [i.id, i]));
 
-  const estado = {
-    selecao: store.getJSON('selecao', []).filter(id => porId.has(id)),
-    termo: '',
-    categoria: store.get('categoria', '') || null,
-    perline: Number(store.get('perline', '15')) || 15,
-    formato: store.get('formato', 'svg'),
-    lado: Number(store.get('lado', '256')) || 256,
-  };
+  const estado = normalizarEstado(
+    {
+      selecao: store.getJSON('selecao', []),
+      categoria: store.get('categoria', ''),
+      perline: store.get('perline', '15'),
+      formato: store.get('formato', 'svg'),
+      lado: store.get('lado', '256'),
+    },
+    porId,
+    categorias.map(c => c.slug)
+  );
 
   const el = {
     busca: $('#busca'),
@@ -64,16 +70,22 @@ export async function iniciarBuilder() {
       )
       .join('');
 
-  el.filtros.addEventListener('click', e => {
-    const chip = e.target.closest('[data-cat]');
-    if (!chip) return;
-    estado.categoria = chip.dataset.cat || null;
-    store.set('categoria', estado.categoria ?? '');
+  function sincronizarFiltros() {
     for (const c of el.filtros.children)
       c.setAttribute(
         'aria-pressed',
         String((c.dataset.cat || null) === estado.categoria)
       );
+  }
+  sincronizarFiltros();
+
+  el.filtros.addEventListener('click', e => {
+    const chip = e.target.closest('[data-cat]');
+    if (!chip) return;
+    estado.categoria = chip.dataset.cat || null;
+    store.set('categoria', estado.categoria ?? '');
+    ativo = 0;
+    sincronizarFiltros();
     renderResultados();
   });
 
@@ -102,6 +114,15 @@ export async function iniciarBuilder() {
   function renderResultados() {
     const lista = visiveis();
     const tema = temaAtual();
+    const tinhaFoco = el.resultados.contains(document.activeElement);
+    const idFocado = tinhaFoco
+      ? document.activeElement.closest('[data-id]')?.dataset.id
+      : null;
+    const indiceFocado = lista.findIndex(i => i.id === idFocado);
+    ativo =
+      indiceFocado >= 0
+        ? indiceFocado
+        : Math.max(0, Math.min(ativo, lista.length - 1));
 
     el.contador.textContent =
       lista.length === icones.length
@@ -109,7 +130,10 @@ export async function iniciarBuilder() {
         : `${lista.length} de ${icones.length} ${lista.length === 1 ? 'ícone' : 'ícones'}`;
 
     if (!lista.length) {
-      el.resultados.innerHTML = `<p class="vazio t-small">Nenhum ícone para “${el.busca.value}”. Tente o nome da tecnologia ou um apelido como <code>js</code>, <code>k8s</code>, <code>ps</code>.</p>`;
+      const mensagem = document.createElement('p');
+      mensagem.className = 'vazio t-small';
+      mensagem.textContent = `Nenhum ícone para “${el.busca.value}”. Tente o nome da tecnologia ou um apelido como js, k8s, ps.`;
+      el.resultados.replaceChildren(mensagem);
       return;
     }
 
@@ -125,11 +149,15 @@ export async function iniciarBuilder() {
             data-id="${i.id}"
             tabindex="${n === ativo ? 0 : -1}"
           >
-            <img src="/svg/${arquivoDe(i, tema)}" alt="" width="48" height="48" loading="lazy" decoding="async" />
+            <img src="${assetUrl(`/svg/${arquivoDe(i, tema)}`)}" alt="" width="48" height="48" loading="lazy" decoding="async" />
             <span class="tile-id">${destacar(i.id, estado.termo)}</span>
           </button>`;
       })
       .join('');
+    if (tinhaFoco)
+      el.resultados
+        .querySelector('[tabindex="0"]')
+        ?.focus({ preventScroll: true });
   }
 
   el.resultados.addEventListener('click', e => {
@@ -238,7 +266,8 @@ export async function iniciarBuilder() {
     const tema = temaAtual();
     if (tema === 'light') p.push('theme=light');
     if (estado.perline !== 15) p.push(`perline=${estado.perline}`);
-    return `${location.origin}/icons?${p.join('&')}`;
+    if (animacoesAtivas()) p.push('animation=true');
+    return assetUrl(`${location.origin}/icons?${p.join('&')}`);
   }
 
   function snippet() {
@@ -318,6 +347,8 @@ export async function iniciarBuilder() {
   el.baixarLote.addEventListener('click', async () => {
     if (!estado.selecao.length) return;
     const tema = temaAtual();
+    const { formato, lado } = estado;
+    const animated = animacoesAtivas();
     const itens = estado.selecao.map(id => ({
       id,
       arquivo: arquivoDe(porId.get(id), tema),
@@ -326,8 +357,8 @@ export async function iniciarBuilder() {
     // Um ícone só não precisa de zip — devolve o arquivo direto.
     if (itens.length === 1) {
       try {
-        const blob = await gerar(itens[0].arquivo, estado.formato, estado.lado);
-        salvar(blob, nomeArquivo(itens[0].id, estado.formato, estado.lado));
+        const blob = await gerar(itens[0].arquivo, formato, lado, animated);
+        salvar(blob, nomeArquivo(itens[0].id, formato, lado, animated));
         toast('Ícone baixado');
       } catch (e) {
         toast(e.message, 'err');
@@ -340,15 +371,16 @@ export async function iniciarBuilder() {
     try {
       const { blob, falhas } = await lote(
         itens,
-        estado.formato,
-        estado.lado,
+        formato,
+        lado,
         (feito, total) => {
           el.progresso.value = feito;
           el.progresso.max = total;
           el.progresso.textContent = `${feito} de ${total}`;
-        }
+        },
+        animated
       );
-      salvar(blob, `skill-icons-${estado.formato}-${itens.length}.zip`);
+      salvar(blob, `skill-icons-${formato}-${itens.length}.zip`);
       toast(
         falhas.length
           ? `${itens.length - falhas.length} ícones no .zip; falhou: ${falhas.join(', ')}`
@@ -371,6 +403,7 @@ export async function iniciarBuilder() {
     renderResultados();
     renderSaida();
   });
+  aoMudarAnimacao(renderSaida);
 
   renderResultados();
   renderSelecao();

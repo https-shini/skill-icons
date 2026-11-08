@@ -7,6 +7,7 @@
  */
 import { iniciarTema } from './tema.js';
 import { toast } from './toast.js';
+import { iniciarAnimacoes } from './animacao.js';
 
 /**
  * Sobreposição com foco preso: serve o drawer do menu e os modais.
@@ -107,6 +108,7 @@ function iniciarCopias() {
 }
 
 iniciarTema();
+iniciarAnimacoes();
 iniciarMenu();
 iniciarModais();
 iniciarCopias();

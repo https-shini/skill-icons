@@ -21,6 +21,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { manifest, iconNameList, shortNames } from '../lib/icons.mjs';
 import { CATEGORIES } from './categories.mjs';
+import { animateSvg } from '../lib/animation.mjs';
 
 const ROOT = path.join(import.meta.dirname, '..');
 const PUBLIC = path.join(ROOT, 'public');
@@ -33,6 +34,19 @@ function copyDir(from, to) {
 
 const svgs = copyDir(path.join(ROOT, 'icons'), path.join(PUBLIC, 'svg'));
 const brand = copyDir(path.join(ROOT, 'brand'), path.join(PUBLIC, 'brand'));
+copyDir(path.join(ROOT, 'licenses'), path.join(PUBLIC, 'licenses'));
+copyDir(path.join(ROOT, 'assets'), path.join(PUBLIC, 'assets'));
+fs.copyFileSync(
+  path.join(ROOT, 'assets', 'icon-sources.json'),
+  path.join(PUBLIC, 'icon-sources.json')
+);
+const animatedDir = path.join(PUBLIC, 'svg', 'animated');
+fs.mkdirSync(animatedDir, { recursive: true });
+for (const file of fs.readdirSync(path.join(ROOT, 'icons'))) {
+  if (!file.endsWith('.svg')) continue;
+  const original = fs.readFileSync(path.join(ROOT, 'icons', file), 'utf8');
+  fs.writeFileSync(path.join(animatedDir, file), animateSvg(original, file));
+}
 
 // mapa de ID -> nome de arquivo real, que o manifest do lib não conhece
 const files = new Map();

@@ -21,6 +21,7 @@
  *     de progresso realmente pinta.
  */
 import { zip } from './zip.js';
+import { assetUrl } from './assets.js';
 
 const TIPOS = {
   svg: { mime: 'image/svg+xml', ext: 'svg' },
@@ -31,12 +32,13 @@ const TIPOS = {
 const cacheSvg = new Map();
 
 /** Busca o SVG cru do estático. O cache evita rebuscar no lote. */
-export async function buscarSvg(arquivo) {
-  if (cacheSvg.has(arquivo)) return cacheSvg.get(arquivo);
-  const r = await fetch(`/svg/${arquivo}`);
+export async function buscarSvg(arquivo, animated = false) {
+  const caminho = assetUrl(`/svg/${animated ? 'animated/' : ''}${arquivo}`);
+  if (cacheSvg.has(caminho)) return cacheSvg.get(caminho);
+  const r = await fetch(caminho);
   if (!r.ok) throw new Error(`falhou ao buscar ${arquivo}: ${r.status}`);
   const texto = await r.text();
-  cacheSvg.set(arquivo, texto);
+  cacheSvg.set(caminho, texto);
   return texto;
 }
 
@@ -96,8 +98,10 @@ export async function rasterizar(svgTexto, formato, lado) {
 }
 
 /** Bytes de um ícone no formato pedido. SVG sai sem rasterizar. */
-export async function gerar(arquivo, formato, lado) {
-  const svg = await buscarSvg(arquivo);
+export async function gerar(arquivo, formato, lado, animated = false) {
+  // Rasterização sempre parte do original: PNG/WebP continuam previsíveis e
+  // não dependem de qual frame o navegador desenhou durante a animação.
+  const svg = await buscarSvg(arquivo, animated && formato === 'svg');
   if (formato === 'svg') return new Blob([svg], { type: TIPOS.svg.mime });
   return rasterizar(svg, formato, lado);
 }
@@ -116,8 +120,8 @@ export function salvar(blob, nome) {
   setTimeout(() => URL.revokeObjectURL(url), 0);
 }
 
-export function nomeArquivo(id, formato, lado) {
-  const sufixo = formato === 'svg' ? '' : `-${lado}`;
+export function nomeArquivo(id, formato, lado, animated = false) {
+  const sufixo = formato === 'svg' ? (animated ? '-animated' : '') : `-${lado}`;
   return `${id}${sufixo}.${TIPOS[formato].ext}`;
 }
 
@@ -127,16 +131,22 @@ export function nomeArquivo(id, formato, lado) {
  * @param {{id: string, arquivo: string}[]} itens
  * @param {(feito: number, total: number) => void} [aoProgredir]
  */
-export async function lote(itens, formato, lado, aoProgredir) {
+export async function lote(
+  itens,
+  formato,
+  lado,
+  aoProgredir,
+  animated = false
+) {
   const arquivos = [];
   const falhas = [];
 
   for (let i = 0; i < itens.length; i++) {
     const { id, arquivo } = itens[i];
     try {
-      const blob = await gerar(arquivo, formato, lado);
+      const blob = await gerar(arquivo, formato, lado, animated);
       arquivos.push({
-        nome: nomeArquivo(id, formato, lado),
+        nome: nomeArquivo(id, formato, lado, animated),
         dados: new Uint8Array(await blob.arrayBuffer()),
       });
     } catch (e) {

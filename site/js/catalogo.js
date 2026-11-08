@@ -11,6 +11,7 @@
 import { catalogo, arquivoDe } from './dados.js';
 import { copiar } from './toast.js';
 import { temaAtual, aoMudarTema } from './tema.js';
+import { assetUrl } from './assets.js';
 
 export async function iniciarCatalogo() {
   const alvo = document.querySelector('#catalogo-lista');
@@ -43,7 +44,7 @@ export async function iniciarCatalogo() {
                     aria-label="Copiar o ID ${i.id}"
                     data-tip="Copiar ID"
                   >
-                    <img src="/svg/${arquivoDe(i, tema)}" alt="" width="48" height="48" loading="lazy" decoding="async" />
+                    <img src="${assetUrl(`/svg/${arquivoDe(i, tema)}`)}" alt="" width="48" height="48" loading="lazy" decoding="async" />
                     <span class="tile-id">${i.id}</span>
                   </button>`
               )

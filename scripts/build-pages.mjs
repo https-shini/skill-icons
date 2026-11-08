@@ -17,6 +17,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { createHash } from 'node:crypto';
 import { iconNameList } from '../lib/icons.mjs';
 import { grupos, paletas, razao } from './tokens.mjs';
 
@@ -60,7 +61,24 @@ function simboloMarca() {
   );
 }
 
+// Uma versão de conteúdo para toda a cadeia de imports. Só versionar site.js
+// deixaria dependências antigas em cache, mesmo com HTML recém-publicado.
+const assetHash = createHash('sha256');
+for (const directory of ['site/js', 'site/css', 'lib']) {
+  for (const file of fs.readdirSync(path.join(ROOT, directory)).sort()) {
+    assetHash.update(`${directory}/${file}`);
+    assetHash.update(fs.readFileSync(path.join(ROOT, directory, file)));
+  }
+}
+for (const file of [
+  'dist/icons.mjs',
+  'scripts/categories.mjs',
+  'scripts/build-pages.mjs',
+])
+  assetHash.update(fs.readFileSync(path.join(ROOT, file)));
+
 const globais = {
+  assetVersion: assetHash.digest('hex').slice(0, 12),
   ano: String(new Date().getFullYear()),
   totalIcones: String(iconNameList.length),
   marca: simboloMarca(),
@@ -372,7 +390,11 @@ for (const arquivo of paginas) {
 
   const { titulo, descricao, nav } = JSON.parse(meta[1]);
   const corpo = bruto.slice(meta[0].length);
-  const valores = { ...globais, titulo, descricao };
+  const valores = {
+    ...globais,
+    titulo: preencher(titulo, globais),
+    descricao: preencher(descricao, globais),
+  };
 
   const html = `<!doctype html>
 <html lang="pt-BR">
@@ -408,6 +430,19 @@ ${marcarNav(preencher(partials.footer, valores), nav)}
 fs.rmSync(path.join(PUBLIC, 'css'), { recursive: true, force: true });
 const css = juntarCss(path.join(PUBLIC, 'css', 'site.css'));
 const js = copiarDir(path.join(SITE, 'js'), path.join(PUBLIC, 'js'));
+for (const file of fs.readdirSync(path.join(PUBLIC, 'js'))) {
+  if (!file.endsWith('.js')) continue;
+  const destino = path.join(PUBLIC, 'js', file);
+  const source = fs.readFileSync(destino, 'utf8');
+  fs.writeFileSync(
+    destino,
+    source.replace(
+      /(['"])(\.\.?\/[^'"\n]+\.js)\1/g,
+      (_, quote, specifier) =>
+        `${quote}${specifier}?v=${globais.assetVersion}${quote}`
+    )
+  );
+}
 const fontes = copiarDir(path.join(SITE, 'fonts'), path.join(PUBLIC, 'fonts'));
 
 console.log(
