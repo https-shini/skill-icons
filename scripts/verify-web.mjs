@@ -201,7 +201,15 @@ try {
   const ruff = page.locator('#resultados [data-id="ruff"]');
   await ruff.hover();
   await ready;
-  await page.waitForTimeout(200);
+  await page.waitForFunction(() => {
+    const tile = document.querySelector('#resultados [data-id="ruff"]');
+    const img = tile?.querySelector('img:not([data-motion-overlay])');
+    return (
+      !tile?.querySelector('[data-motion-overlay]') &&
+      img?.complete &&
+      img.naturalWidth > 0
+    );
+  });
   assert.equal(await ruff.locator('[data-motion-overlay]').count(), 0);
   assert.equal(
     await ruff
