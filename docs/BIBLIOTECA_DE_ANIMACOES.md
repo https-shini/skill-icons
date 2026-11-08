@@ -1,4 +1,6 @@
-# Biblioteca de animações — 64 modelos
+# Biblioteca de animações — 85 modelos
+
+Atualização: a biblioteca reúne 85 modelos, incluindo 21 novas assinaturas e uma coleção com 46 padrões exclusivos. Consulte [Meu arsenal](MEU_ARSENAL.md) para as associações atuais, exemplos e validação. As seções abaixo registram a arquitetura e os 64 modelos da entrega inicial.
 
 Implementação de 08/11/2026. Esta é a referência atual; [a versão anterior](ANIMACOES_AVANCADAS.md) descreve a etapa de 12 famílias.
 
@@ -13,7 +15,7 @@ Implementação de 08/11/2026. Esta é a referência atual; [a versão anterior]
 
 Os 64 modelos são composições distintas, com storyboards, elementos e trajetórias próprios. Temas e durações não são contabilizados como modelos. A biblioteca cobre os 270 IDs por associação explícita ou fallback determinístico; **não são 270 animações exclusivas desenhadas à mão**. Os campos `icon` indicam os exemplos para os quais cada composição foi concebida. Uma escolha explícita de `model` permite aplicar qualquer composição a outro ícone; o encaixe semântico deve ser avaliado pelo integrador, especialmente nas composições com olhos, asas ou recortes de contêineres.
 
-## Catálogo de storyboards
+## Catálogo inicial de storyboards (64)
 
 | Nº  | ID da API                 | Nome                       | Universo     | Ícone sugerido | Mecanismo distintivo                               |
 | --- | ------------------------- | -------------------------- | ------------ | -------------- | -------------------------------------------------- |

@@ -1204,3 +1204,34 @@
   opacity: 0.55;
   cursor: default;
 }
+.motion-collections {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 24px 0 12px;
+}
+.motion-collections .btn {
+  min-height: 44px;
+  border: 1px solid var(--edge);
+}
+.motion-collections [aria-pressed='true'] {
+  color: var(--accent);
+  background: var(--surface-2);
+  border-color: var(--accent);
+}
+.motion-collections span {
+  font-size: 11px;
+  opacity: 0.85;
+}
+.motion-arsenal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 16px;
+}
+.motion-arsenal-actions[hidden] {
+  display: none;
+}
+.motion-arsenal-actions .btn {
+  min-height: 44px;
+}

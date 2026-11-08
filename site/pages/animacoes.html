@@ -1,20 +1,29 @@
-<!--pagina {"titulo":"64 animações — gcruz.dev Skill Icons","descricao":"Explore 64 composições de movimento para seus ícones: marca, física, profundidade, energia, construção, orgânicos, cinema e tecnologia.","nav":"animacoes"}-->
+<!--pagina {"titulo":"{{totalAnimacoes}} animações — gcruz.dev Skill Icons","descricao":"Explore {{totalAnimacoes}} composições de movimento para seus ícones: marca, física, profundidade, energia, construção, orgânicos, cinema e tecnologia.","nav":"animacoes"}-->
 <div class="wrap hero motion-hero">
   <div>
     <p class="t-label">Laboratório de movimento · SVG</p>
-    <h1 class="t-h1">Uma identidade.<br /><span>64 maneiras de mover.</span></h1>
+    <h1 class="t-h1">Uma identidade.<br /><span>{{totalAnimacoes}} maneiras de mover.</span></h1>
     <p class="t-body">Da assinatura que se desenha ao átomo em órbita. Explore composições com personalidade, escolha seu ícone e leve o movimento para sua interface.</p>
-    <a href="#explorar" class="btn btn-brand">Explorar animações <span aria-hidden="true">↓</span></a>
+    <a href="/animacoes?colecao=arsenal#explorar" class="btn btn-brand">Explorar meu arsenal <span aria-hidden="true">↓</span></a>
   </div>
-  <div class="motion-index" aria-label="64 modelos em 8 universos criativos">
-    <strong>64<span>modelos autorais</span></strong>
-    <p>8 universos criativos<br />270 ícones compatíveis<br />2 temas</p>
+  <div class="motion-index" aria-label="{{totalAnimacoes}} modelos em 8 universos criativos">
+    <strong>{{totalAnimacoes}}<span>modelos autorais</span></strong>
+    <p>8 universos criativos<br />270 ícones compatíveis<br />2 temas<br />{{totalArsenal}} assinaturas no seu arsenal</p>
     <span class="t-label">Feitos para interagir</span>
   </div>
 </div>
 <section id="explorar">
   <div class="wrap">
     <div class="section-head"><div><p class="t-label">Encontre seu movimento</p><h2 class="t-h2">Biblioteca de animações</h2></div><p>Passe o mouse, use o teclado ou toque para fixar uma prévia.</p></div>
+    <div class="motion-collections" role="group" aria-label="Coleção de animações">
+      <button type="button" class="btn btn-ghost" data-motion-collection="" aria-pressed="true">Toda a biblioteca <span>{{totalAnimacoes}}</span></button>
+      <button type="button" class="btn btn-ghost" data-motion-collection="arsenal" aria-pressed="false">Meu arsenal <span>{{totalArsenal}}</span></button>
+    </div>
+    <div class="motion-arsenal-actions" id="motion-arsenal-actions" hidden>
+      <button class="btn btn-sm" type="button" id="motion-copy-arsenal">Copiar URL dos {{totalArsenal}}</button>
+      <a class="btn btn-sm btn-ghost" id="motion-download-arsenal" download="meu-arsenal-animado.svg">Baixar arsenal em SVG</a>
+    </div>
+    <p class="t-small" id="motion-collection-description">Composições para explorar com todos os ícones.</p>
     <div class="motion-toolbar">
       <label>Buscar animação<input id="motion-search" type="search" placeholder="Ex.: prisma, tecido, React…" autocomplete="off" /></label>
       <label>Universo<select id="motion-category"><option value="">Todos os universos</option></select></label>

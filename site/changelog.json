@@ -1,5 +1,27 @@
 [
   {
+    "versao": "Seu arsenal, 46 assinaturas exclusivas",
+    "data": "2026-11-08",
+    "mudancas": [
+      {
+        "tipo": "added",
+        "descricao": "Coleção Meu arsenal com os 43 ícones de tecnologias das referências e os três ícones da marca. Cada ID recebe uma animação padrão diferente, reservada a ele."
+      },
+      {
+        "tipo": "added",
+        "descricao": "21 composições novas: Java com vapor, Tux com pés e piscada, salto do MySQL, caligrafia do Sass, cristal Obsidian, roteamento OpenRouter, validação Pydantic e assinatura JWT, entre outras. Biblioteca com 85 modelos e 170 previews."
+      },
+      {
+        "tipo": "changed",
+        "descricao": "A marca escreve e abre os brackets mais cedo; o monograma recebe ressonância no encontro das letras. A galeria filtra o arsenal, busca aliases e permite copiar a URL ou baixar os 46 em um SVG."
+      },
+      {
+        "tipo": "added",
+        "descricao": "Aliases para HTML5, CSS3, Node.js, VS Code e Docker Compose. São 270 IDs e 81 aliases; os SVGs fonte permanecem preservados."
+      }
+    ]
+  },
+  {
     "versao": "64 composições de movimento",
     "data": "2026-11-08",
     "mudancas": [

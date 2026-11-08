@@ -57,15 +57,19 @@ const BASE =
   process.argv.find(a => a.startsWith('--base='))?.slice(7) ??
   'http://localhost:4173';
 
-const PAGINAS = [
-  '/',
-  '/design-system',
-  '/marca',
-  '/animacoes',
-  '/changelog',
-  '/sobre',
-  '/rota-inexistente',
-];
+const pageOverride = process.argv.find(a => a.startsWith('--page='))?.slice(7);
+const PAGINAS = pageOverride
+  ? [pageOverride]
+  : [
+      '/',
+      '/design-system',
+      '/marca',
+      '/animacoes',
+      '/animacoes?colecao=arsenal',
+      '/changelog',
+      '/sobre',
+      '/rota-inexistente',
+    ];
 
 /** [rótulo, largura, altura]. A faixa de toque é tudo abaixo de 820px. */
 const TELAS = [

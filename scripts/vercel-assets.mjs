@@ -21,6 +21,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { manifest, iconNameList, shortNames } from '../lib/icons.mjs';
 import { CATEGORIES } from './categories.mjs';
+import { ARSENAL_GROUPS, ARSENAL_BINDINGS } from '../lib/arsenal.mjs';
 import { animateSvg } from '../lib/animation.mjs';
 import {
   animationManifest,
@@ -122,6 +123,13 @@ fs.writeFileSync(
   JSON.stringify({
     count: animations.length,
     categories: MOTION_CATEGORIES,
+    collections: {
+      arsenal: {
+        title: 'Meu arsenal',
+        count: Object.keys(ARSENAL_BINDINGS).length,
+        groups: ARSENAL_GROUPS,
+      },
+    },
     models: animations,
   })
 );

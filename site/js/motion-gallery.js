@@ -11,6 +11,13 @@ export async function iniciarGaleria() {
   const iconChoice = document.getElementById('motion-icon');
   const count = document.getElementById('motion-count');
   const error = document.getElementById('motion-error');
+  const collectionButtons = [
+    ...document.querySelectorAll('[data-motion-collection]'),
+  ];
+  let collection =
+    new URL(location.href).searchParams.get('colecao') === 'arsenal'
+      ? 'arsenal'
+      : '';
   let data,
     icons,
     pinned = null;
@@ -28,17 +35,47 @@ export async function iniciarGaleria() {
     url.searchParams.set('model', model.id);
     return assetUrl(url.href);
   };
+  const arsenalUrl = () => {
+    const url = new URL('/icons', location.origin);
+    url.searchParams.set(
+      'i',
+      data.collections.arsenal.groups.flatMap(g => g.ids).join(',')
+    );
+    url.searchParams.set('animation', 'true');
+    url.searchParams.set('t', temaAtual());
+    url.searchParams.set('perline', '8');
+    return assetUrl(url.href);
+  };
   function render() {
     if (!data || !icons) return;
     const q = normalizar(search.value.trim());
     const chosen = icons.find(i => i.id === iconChoice.value);
     const models = data.models.filter(
       m =>
+        (!collection || m.collections?.includes(collection)) &&
         (!category.value || m.category === category.value) &&
         normalizar(
-          `${m.title} ${m.concept} ${m.icon} ${data.categories[m.category]}`
+          `${m.title} ${m.concept} ${m.icon} ${icons.find(i => i.id === m.icon)?.alias.join(' ') ?? ''} ${data.categories[m.category]}`
         ).includes(q)
     );
+    if (collection) {
+      const order = data.collections[collection].groups.flatMap(g => g.ids);
+      models.sort((a, b) => order.indexOf(a.icon) - order.indexOf(b.icon));
+    }
+    for (const b of collectionButtons)
+      b.setAttribute(
+        'aria-pressed',
+        String(b.dataset.motionCollection === collection)
+      );
+    const arsenal = data.collections.arsenal;
+    const brands = arsenal.groups.find(g => g.id === 'marca').ids.length;
+    document.getElementById('motion-collection-description').textContent =
+      collection
+        ? `${arsenal.count - brands} tecnologias e ${brands} ícones da sua marca. Cada um tem uma animação padrão exclusiva, já aplicada nas URLs com animation=true.`
+        : 'Explore todos os modelos ou compare diferentes movimentos com o mesmo ícone.';
+    document.getElementById('motion-arsenal-actions').hidden =
+      collection !== 'arsenal';
+    document.getElementById('motion-download-arsenal').href = arsenalUrl();
     grid.replaceChildren();
     for (const model of models) {
       const icon = chosen ?? icons.find(i => i.id === model.icon);
@@ -113,7 +150,8 @@ export async function iniciarGaleria() {
       card.append(top, preview, details);
       grid.append(card);
     }
-    count.textContent = `${models.length} de ${data.count} modelos${chosen ? ` · comparando com ${chosen.id}` : ''}`;
+    const total = collection ? data.collections[collection].count : data.count;
+    count.textContent = `${models.length} de ${total} modelos${chosen ? ` · comparando com ${chosen.id}` : ''}`;
     if (!models.length)
       grid.append(
         element(
@@ -156,9 +194,27 @@ export async function iniciarGaleria() {
       pinned = null;
       render();
     });
+  for (const button of collectionButtons)
+    button.addEventListener('click', () => {
+      collection = button.dataset.motionCollection;
+      pinned = null;
+      category.value = '';
+      search.value = '';
+      iconChoice.value = '';
+      const url = new URL(location.href);
+      if (collection) url.searchParams.set('colecao', collection);
+      else url.searchParams.delete('colecao');
+      history.replaceState(null, '', url);
+      render();
+    });
   aoMudarTema(() => {
     if (data) render();
   });
+  document
+    .getElementById('motion-copy-arsenal')
+    .addEventListener('click', () =>
+      copiar(arsenalUrl(), 'URL do arsenal copiada')
+    );
   document.getElementById('motion-retry').addEventListener('click', load);
   await load();
 }

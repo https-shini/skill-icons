@@ -19,6 +19,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { iconNameList } from '../lib/icons.mjs';
+import { MOTION_MODELS } from '../lib/motion-library.mjs';
+import { ARSENAL_BINDINGS } from '../lib/arsenal.mjs';
 import { grupos, paletas, razao } from './tokens.mjs';
 
 const ROOT = path.join(import.meta.dirname, '..');
@@ -78,6 +80,8 @@ for (const file of [
   assetHash.update(fs.readFileSync(path.join(ROOT, file)));
 
 const globais = {
+  totalAnimacoes: String(MOTION_MODELS.length),
+  totalArsenal: String(Object.keys(ARSENAL_BINDINGS).length),
   assetVersion: assetHash.digest('hex').slice(0, 12),
   ano: String(new Date().getFullYear()),
   totalIcones: String(iconNameList.length),
