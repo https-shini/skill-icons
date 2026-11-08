@@ -159,3 +159,5 @@ Execução local em 08/11/2026, com Node 24.22.1 e Chromium 156.0.8078.79:
 | Responsividade                                 | 210 combinações aprovadas; nenhum transbordo, rolagem horizontal ou alvo inferior a 44px |
 
 Revisão visual dos 64 modelos em quatro momentos do ciclo complementou a verificação automatizada. A amostragem não substitui a avaliação dos usuários nem a validação nos demais motores de navegador.
+
+Após a publicação, o E2E completo também passou em `https://skill-icons-gcruz.vercel.app`, incluindo navegação sem extensão, galeria e execução dos 64 modelos. A verificação HTTP pública confirmou os dois manifestos, 128 previews e 64 composições de API com ícones repetidos, XML válido e IDs isolados. A validação encontrou e corrigiu a configuração de URLs limpas da Vercel. O teste de fallback passou a aguardar a imagem original e a remoção do overlay em vez de depender de uma espera fixa de 200ms.
