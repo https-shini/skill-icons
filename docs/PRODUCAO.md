@@ -23,6 +23,10 @@ https://skill-icons-gcruz.vercel.app/svg/animated/Claude-Dark.svg
 
 O site contém o montador, que gera URLs e snippets, além de permitir download SVG animado e ZIP. PNG/WebP continuam estáticos. O catálogo desta versão tem 270 IDs e 459 SVGs, com 73 aliases.
 
+## Rotas das páginas
+
+O projeto usa `cleanUrls: true` em `vercel.json`. Assim, `/animacoes`, `/marca`, `/design-system`, `/sobre` e `/changelog` resolvem os arquivos HTML gerados, sem extensão. Essa configuração é necessária na Vercel; o servidor local já oferecia essa resolução. O E2E verifica os endereços da navegação também no domínio publicado. `/icons` continua sendo a rota da API de SVG.
+
 ## Coerência de cache na publicação
 
 O build calcula uma versão de conteúdo compartilhada por CSS, módulos JS, manifesto, imagens e snippets do montador. A versão aparece no meta `si-version` e no parâmetro `v` das URLs geradas. Todos os imports relativos dos módulos publicados recebem a mesma versão; os fontes permanecem sem query para ferramentas/testes locais.
