@@ -1,177 +1,208 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { animateSvg, MOTION_STYLE } from '../lib/animation.mjs';
-import { motionProfile, MOTION_PROFILES } from '../lib/motion-profiles.mjs';
+import { animateSvg, motionStyles } from '../lib/animation.mjs';
+import {
+  MOTION_MODELS,
+  MOTION_CATEGORIES,
+  motionProfile,
+  animationManifest,
+} from '../lib/motion-library.mjs';
 import { generateSvg, handle, icons } from '../lib/icons.mjs';
+const geometryTags = svg =>
+  svg.match(/<(?:path|rect|circle|ellipse|polygon|polyline|image)\b[^>]*>/g) ??
+  [];
 
-test('todo o catálogo tem versão animada sem modificar o original', () => {
-  const files = fs.readdirSync(new URL('../icons/', import.meta.url));
-  for (const file of files.filter(f => f.endsWith('.svg'))) {
-    const source = fs.readFileSync(
-      new URL(`../icons/${file}`, import.meta.url),
-      'utf8'
+test('64 storyboards com conceitos, mecanismos, CSS e composições distintos em oito universos', () => {
+  assert.equal(MOTION_MODELS.length, 64);
+  assert.equal(Object.keys(MOTION_CATEGORIES).length, 8);
+  for (const field of ['id', 'title', 'concept', 'mechanism'])
+    assert.equal(new Set(MOTION_MODELS.map(m => m[field])).size, 64, field);
+  const css = new Set(),
+    compositions = new Set();
+  for (const model of MOTION_MODELS) {
+    assert.match(model.id, /^[a-z]+(?:-[a-z]+)*$/);
+    assert.ok(icons[model.icon] || icons[`${model.icon}-dark`], model.icon);
+    assert.ok(model.duration >= 6 && model.duration <= 10);
+    // Retira o nome do modelo: renomear a mesma animação não passa este teste.
+    css.add(motionStyles([model.id]).replaceAll(model.id, 'MODEL'));
+    const rendered = animateSvg(icons['react-dark'], 'react-dark', {
+      model: model.id,
+    });
+    compositions.add(
+      rendered
+        .slice(rendered.indexOf('data-motion-model'))
+        .replaceAll(model.id, 'MODEL')
+        .replace(/<style>[\s\S]*?<\/style>/g, '')
     );
-    const result = animateSvg(source, file);
-    assert.match(result, /class="si-motion-art si-motion-\w+"/);
-    assert.ok(result.includes(MOTION_STYLE));
-    // Preserva integralmente cada tag do desenho (attrs, transforms, cores,
-    // referências, imagens embutidas), acrescentando somente style e grupos.
-    const tags = source.match(/<(?:[^"'>]|"[^"]*"|'[^']*')*>/g);
-    let cursor = 0;
-    for (const tag of tags) {
-      const at = result.indexOf(tag, cursor);
+  }
+  assert.equal(css.size, 64);
+  assert.equal(compositions.size, 64);
+  for (const category of Object.keys(MOTION_CATEGORIES))
+    assert.equal(MOTION_MODELS.filter(m => m.category === category).length, 8);
+  assert.ok(animationManifest().every(m => !('compose' in m)));
+});
+
+test('todo o catálogo preserva sua geometria de origem uma vez, inclusive imagens e transforms', () => {
+  for (const [name, source] of Object.entries(icons)) {
+    const out = animateSvg(source, name);
+    assert.match(out, /data-motion-model="[a-z-]+"/);
+    // Só o namespace muda: cores, referências e transforms são preservados.
+    const profile = motionProfile(name);
+    const prefix = `sk-${profile.id.replace(/[^a-z0-9]/g, '')}-${profile.mode}-0-`;
+    const renderedTags = geometryTags(out).map(tag =>
+      tag.replaceAll(prefix, '')
+    );
+    for (const tag of geometryTags(source))
       assert.ok(
-        at >= cursor,
-        `${file}: tag original perdida: ${tag.slice(0, 80)}`
+        renderedTags.includes(tag),
+        `${name}: tag original perdida ${tag.slice(0, 80)}`
       );
-      cursor = at + tag.length;
-    }
-  }
-});
-
-test('arte move em conjunto e fundo permanece fora da animação', () => {
-  const svg =
-    '<svg><rect width="256" height="256"/><path d="M1 1"/><g transform="translate(2)"><path d="M2 2"/></g><defs><mask id="x"/></defs></svg>';
-  const result = animateSvg(svg, 'Example-Dark.svg');
-  assert.ok(
-    result.indexOf('<rect') < result.indexOf('<g class="si-motion-art')
-  );
-  assert.match(
-    result,
-    /<g transform="translate\(2\)"><path d="M2 2"\/><\/g><\/g><\/g><defs>/
-  );
-});
-
-test('fundos dentro de clips e paths especiais são preservados', () => {
-  for (const [id, staticPaths] of [
-    ['sqlite', 2],
-    ['webassembly', 1],
-  ]) {
-    const source = icons[id];
-    const result = animateSvg(source, id);
-    const before = result.slice(0, result.indexOf('<g class="si-motion-art'));
-    assert.equal((before.match(/<path\b/g) ?? []).length, staticPaths);
-  }
-  const rocket = animateSvg(icons.rocket, 'rocket');
-  assert.match(
-    rocket,
-    /<g clip-path=[^>]+><rect[^>]+\/><g class="si-motion-entry"><g class="si-motion-art/s
-  );
-  assert.match(
-    animateSvg(icons.robloxstudio, 'robloxstudio'),
-    /si-motion-glow/
-  );
-});
-
-test('pares temáticos compartilham movimento; cada símbolo mantém seu perfil', () => {
-  for (const [id, mode] of [
-    ['react', 'orbit'],
-    ['javascript', 'pulse'],
-    ['python', 'swing'],
-  ]) {
-    const key = icons[id] ? id : `${id}-dark`;
-    const result = animateSvg(icons[key], key);
-    assert.match(result, new RegExp(`si-motion-art si-motion-${mode}`));
-    if (icons[`${id}-light`]) {
-      const light = animateSvg(icons[`${id}-light`], `${id}-light`);
-      assert.equal(
-        result.match(/--si-motion-cycle:([^";]+)/)[1],
-        light.match(/--si-motion-cycle:([^";]+)/)[1]
-      );
-    }
-  }
-});
-
-test('CSS oferece redução de movimento sem scripts ou filtros novos', () => {
-  assert.match(MOTION_STYLE, /prefers-reduced-motion:reduce/);
-  assert.match(MOTION_STYLE, /animation:none!important/);
-  assert.doesNotMatch(MOTION_STYLE, /<script|filter:/);
-});
-
-test('API mantém saída estática padrão e permite animação explícita', async () => {
-  const request = query =>
-    handle(
-      new Request(`https://example.test/icons?i=js,react,python&${query}`)
+    const ids = [...out.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
+    assert.equal(new Set(ids).size, ids.length, `${name}: ID repetido`);
+    for (const ref of out.matchAll(/(?:url\(#|(?:xlink:)?href="#)([^)" ]+)/g))
+      assert.ok(ids.includes(ref[1]), `${name}: referência quebrada ${ref[1]}`);
+    const embedded = (source.match(/data:image\//g) ?? []).length;
+    assert.equal(
+      (out.match(/data:image\//g) ?? []).length,
+      embedded,
+      `${name}: imagem duplicada`
     );
-  const plain = await request('');
-  const off = await request('animation=false');
-  assert.equal(plain.status, 200);
-  assert.equal(await plain.text(), await off.text());
-  const on = await request('animation=true');
-  const body = await on.text();
-  assert.equal(on.status, 200);
-  assert.equal((body.match(/<style>/g) ?? []).length, 1);
-  assert.equal((body.match(/class="si-motion-art/g) ?? []).length, 3);
-  assert.equal((await request('animation=unknown')).status, 400);
-  for (const id of ['constructor', '__proto__', 'toString']) {
-    const invalid = await handle(
-      new Request(`https://example.test/icons?i=${id}&animation=true`)
-    );
-    assert.equal(invalid.status, 400);
+    assert.equal((out.match(/<style>/g) ?? []).length, 1);
   }
 });
 
-test('composição conserva dimensões, ordem e repetições', () => {
-  const names = ['react-dark', 'javascript', 'react-dark'];
-  const plain = generateSvg(names, 2);
-  const animated = generateSvg(names, 2, true);
-  assert.equal(plain.match(/<svg[^>]+>/)[0], animated.match(/<svg[^>]+>/)[0]);
-  assert.equal(
-    (animated.match(/si-motion-art si-motion-orbit/g) ?? []).length,
-    2
-  );
-  assert.ok(
-    animated.indexOf('si-motion-art si-motion-orbit') <
-      animated.indexOf('si-motion-art si-motion-pulse')
-  );
-});
-
-test('doze famílias cobrem o catálogo com perfis determinísticos e pares iguais', () => {
-  const assigned = new Set();
-  for (const spec of Object.values(MOTION_PROFILES)) {
-    for (const id of spec.ids.split(' ').filter(Boolean)) {
-      assert.ok(!assigned.has(id), `perfil duplicado: ${id}`);
-      assigned.add(id);
+test('fundos ficam fora do palco e paths de fundo especiais permanecem fixos', () => {
+  for (const name of ['react-dark', 'rocket', 'sqlite', 'webassembly']) {
+    const out = animateSvg(icons[name], name, { includeStyle: false });
+    const before = out.slice(0, out.indexOf('<defs><g id='));
+    if (['sqlite', 'webassembly'].includes(name))
       assert.ok(
-        icons[id] || icons[`${id}-dark`],
-        `perfil para ID inexistente: ${id}`
+        (before.match(/<path\b/g) ?? []).length >= (name === 'sqlite' ? 2 : 1)
       );
-    }
+    else assert.match(before, /<rect\b/);
+    assert.doesNotMatch(before, /sk-scene/);
   }
-  const modes = new Set();
+});
+
+test('perfis são determinísticos, compartilham temas e tratam marcas explicitamente', () => {
   for (const key of Object.keys(icons)) {
     const profile = motionProfile(key);
-    modes.add(profile.mode);
-    assert.ok(MOTION_PROFILES[profile.mode]);
-    assert.ok(profile.duration >= 3 && profile.duration < 16);
     assert.deepEqual(profile, motionProfile(key));
-    const base = profile.id;
-    if (icons[`${base}-light`])
-      assert.deepEqual(
-        motionProfile(`${base}-light`),
-        motionProfile(`${base}-dark`)
-      );
+    assert.ok(MOTION_MODELS.some(m => m.id === profile.mode));
+    assert.deepEqual(profile, motionProfile(profile.id + '-light'));
   }
-  assert.equal(modes.size, 12);
+  for (const [id, model] of [
+    ['gcruz', 'assinatura-vetorial'],
+    ['gctag', 'portal-brackets'],
+    ['gc', 'fusao-monograma'],
+    ['react', 'reator-atomico'],
+    ['python', 'serpentes-entrelacadas'],
+    ['docker', 'carga-containers'],
+    ['bandit', 'guaxinim-vivo'],
+  ])
+    assert.equal(motionProfile(id).mode, model);
 });
 
-test('camadas específicas têm acentos sem duplicar a geometria', () => {
-  for (const [id, detail] of [
-    ['react-dark', 'orbit'],
-    ['python-dark', 'weave'],
-    ['prettier-dark', 'scan'],
-    ['gemini-dark', 'radiance'],
-    ['motion-dark', 'flow'],
-  ]) {
-    const output = animateSvg(icons[id], id);
-    assert.match(output, new RegExp(`si-motion-detail si-detail-${detail}`));
+test('todos os modelos aceitam arte simples, grupos, gradientes e imagem embutida', () => {
+  for (const model of MOTION_MODELS)
+    for (const name of ['javascript', 'python-dark', 'sqlite', 'bandit-dark']) {
+      const source = icons[name];
+      assert.ok(source, name);
+      const out = animateSvg(source, name, { model: model.id });
+      const ids = [...out.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
+      assert.equal(
+        new Set(ids).size,
+        ids.length,
+        `${model.id}/${name}: ID repetido`
+      );
+      for (const m of out.matchAll(/(?:url\(#|(?:xlink:)?href="#)([^)" ]+)/g))
+        assert.ok(
+          ids.includes(m[1]),
+          `${model.id}: referência ${m[1]} quebrada`
+        );
+      assert.doesNotMatch(out, /<script|\bon\w+=|NaN|undefined/);
+    }
+});
+
+test('saída reduzida restaura a arte e CSS é seletivo por modelo', () => {
+  const css = motionStyles(['reator-atomico', 'reator-atomico']);
+  assert.match(css, /prefers-reduced-motion:reduce/);
+  assert.match(css, /animation:none!important/);
+  assert.match(
+    css,
+    /\.sk-scene \.sk-rest\{opacity:1!important;transform:none!important/
+  );
+  assert.doesNotMatch(css, /sk-meteoro/);
+  assert.equal(
+    (css.match(/@keyframes sk-reator-atomico-core\{/g) ?? []).length,
+    1
+  );
+  assert.throws(() => motionStyles(['invalid']));
+});
+
+test('composição animada isola IDs em repetições e preserva dimensões e ordem', () => {
+  const names = ['python-dark', 'react-dark', 'python-dark'];
+  const plain = generateSvg(names, 2),
+    out = generateSvg(names, 2, true);
+  assert.equal(plain.match(/<svg[^>]+>/)[0], out.match(/<svg[^>]+>/)[0]);
+  assert.equal((out.match(/<style>/g) ?? []).length, 1);
+  const ids = [...out.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
+  assert.equal(new Set(ids).size, ids.length);
+  assert.equal((out.match(/data-motion-model=/g) ?? []).length, 3);
+  const a = out.indexOf('data-motion-model="serpentes-entrelacadas"'),
+    b = out.indexOf('data-motion-model="reator-atomico"');
+  assert.ok(a < b);
+  assert.equal(
+    (out.match(/@keyframes sk-serpentes-entrelacadas-core\{/g) ?? []).length,
+    1
+  );
+});
+
+test('API preserva padrão estático, expõe catálogo e seleciona cada um dos 64 modelos', async () => {
+  const request = q =>
+    handle(new Request('https://example.test/icons?i=js,react,python&' + q));
+  assert.equal(
+    await (await request('')).text(),
+    await (await request('animation=false')).text()
+  );
+  for (const model of MOTION_MODELS) {
+    const r = await request('animation=true&model=' + model.id);
+    assert.equal(r.status, 200);
+    assert.equal((await r.text()).match(/data-motion-model=/g).length, 3);
+  }
+  for (const q of [
+    'animation=unknown',
+    'animation=true&model=constructor',
+    'animation=true&model=__proto__',
+    'animation=true&model=%3Cscript%3E',
+  ])
+    assert.equal((await request(q)).status, 400);
+  assert.equal((await request('animation=true&model=')).status, 200);
+  for (const id of ['constructor', '__proto__', 'toString'])
     assert.equal(
-      (output.match(/<path\b/g) ?? []).length,
-      (icons[id].match(/<path\b/g) ?? []).length
+      (
+        await handle(
+          new Request(`https://example.test/icons?i=${id}&animation=true`)
+        )
+      ).status,
+      400
+    );
+  const r = await handle(new Request('https://example.test/api/animations'));
+  assert.equal(r.status, 200);
+  assert.deepEqual(await r.json(), animationManifest());
+});
+
+test('SVGs originais versionados continuam idênticos ao catálogo gerado', () => {
+  for (const file of fs
+    .readdirSync(new URL('../icons/', import.meta.url))
+    .filter(n => n.endsWith('.svg'))) {
+    const key = file.replace(/\.svg$/, '').toLowerCase();
+    assert.equal(
+      fs
+        .readFileSync(new URL('../icons/' + file, import.meta.url), 'utf8')
+        .trim(),
+      icons[key].trim()
     );
   }
-  const glow = animateSvg(icons.robloxstudio, 'robloxstudio');
-  assert.match(glow, /si-motion-entry-glow/);
-  assert.doesNotMatch(glow, /class="si-motion-detail/);
 });

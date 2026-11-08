@@ -22,6 +22,8 @@ export function aoMudarAnimacao(fn) {
 function fontes(img) {
   if (img.hasAttribute('data-motion-overlay')) return null;
   const src = img.getAttribute('src') ?? '';
+  if (img.dataset.motionSrc)
+    return { estatico: src, animado: img.dataset.motionSrc, preview: false };
   if (src.startsWith('/svg/')) {
     const file = src.replace(/^\/svg\/(?:animated\/)?/, '');
     return {
@@ -43,6 +45,7 @@ function interagindo(img) {
   return (
     tile?.matches(':hover, :focus-visible') ||
     tile?.getAttribute('aria-checked') === 'true' ||
+    tile?.getAttribute('aria-pressed') === 'true' ||
     img.closest('.peca-previa')?.matches(':hover') ||
     img.closest('#preview')
   );
@@ -205,14 +208,19 @@ export function iniciarAnimacoes() {
 
   // Não observa src nem atributos de animação: evita ciclos no reconciliador.
   const observer = new MutationObserver(sincronizar);
-  for (const id of ['montador', 'catalogo-lista', 'marca-lista']) {
+  for (const id of [
+    'montador',
+    'catalogo-lista',
+    'marca-lista',
+    'motion-grid',
+  ]) {
     const el = document.getElementById(id);
     if (el)
       observer.observe(el, {
         childList: true,
         subtree: true,
         attributes: true,
-        attributeFilter: ['aria-checked'],
+        attributeFilter: ['aria-checked', 'aria-pressed'],
       });
   }
   sincronizar();

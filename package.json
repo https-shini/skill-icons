@@ -21,7 +21,8 @@
     "responsivo": "node scripts/responsivo.mjs",
     "test:animation": "node build.js && node --test tests/animation.test.mjs",
     "test": "node build.js && node --test tests/*.test.mjs",
-    "test:web": "node scripts/verify-web.mjs"
+    "test:web": "node scripts/verify-web.mjs",
+    "test:motion:visual": "node scripts/verify-motion.mjs"
   },
   "devDependencies": {
     "prettier": "^3.6.2",

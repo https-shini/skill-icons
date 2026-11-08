@@ -61,6 +61,7 @@ const PAGINAS = [
   '/',
   '/design-system',
   '/marca',
+  '/animacoes',
   '/changelog',
   '/sobre',
   '/rota-inexistente',
