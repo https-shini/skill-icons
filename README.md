@@ -2,15 +2,17 @@
 
 Ícones de tecnologias em um único SVG para README e currículo, com um site estático para buscar, selecionar, gerar snippets e baixar arquivos. Fork de [tandpfun/skill-icons](https://github.com/tandpfun/skill-icons), mantido em [https-shini/skill-icons](https://github.com/https-shini/skill-icons).
 
-**Catálogo atual:** 270 IDs, 459 SVGs, 189 IDs com dois temas, 73 aliases e 19 categorias. A biblioteca contém 64 modelos de animação e os 13 novos ícones têm temas claro/escuro. Busca, estado persistido, foco e CI foram melhorados. Veja o [relatório desta atualização](docs/ATUALIZACAO_DO_CATALOGO.md) e a [auditoria histórica](docs/ANALISE_E_PLANO_DE_MELHORIAS.md).
+**Catálogo atual:** 270 IDs, 459 SVGs, 189 IDs com dois temas, 81 aliases e 19 categorias. A biblioteca contém 85 modelos de animação e os 13 novos ícones têm temas claro/escuro. Busca, estado persistido, foco e CI foram melhorados. Veja o [relatório desta atualização](docs/ATUALIZACAO_DO_CATALOGO.md) e a [auditoria histórica](docs/ANALISE_E_PLANO_DE_MELHORIAS.md).
 
 ## Animações internas
 
-A biblioteca reúne **64 modelos autorais em oito universos**: marca, física, profundidade, energia, construção, orgânicos, cinema e tecnologia. Inclui assinatura da marca, fragmentação e reconstrução, tecido, prisma, eclipse, orbitais do React, serpentes do Python e carga de contêineres do Docker.
+A biblioteca reúne **85 modelos autorais em oito universos**: marca, física, profundidade, energia, construção, orgânicos, cinema e tecnologia. Inclui assinatura da marca, fragmentação e reconstrução, tecido, prisma, eclipse, orbitais do React, serpentes do Python e carga de contêineres do Docker.
 
 Explore a [galeria de animações](https://skill-icons-gcruz.vercel.app/animacoes), compare os modelos com qualquer ícone, fixe uma prévia e copie a URL ou baixe o SVG. Os 270 IDs têm composição padrão explícita ou contextual; isso não significa 270 animações manuais exclusivas.
 
 No site, hover, foco e seleção ativam movimento; ícones fora da área visível e abas ocultas pausam. O controle permite desligar e a preferência de movimento reduzido do dispositivo prevalece. API padrão: `/icons?i=react,ts,python&animation=true`. Modelo escolhido: `/icons?i=gemini&animation=true&model=explosao-reconstroi`. Sem `animation=true`, a saída permanece estática. SVG e ZIP podem preservar animação; PNG/WebP são estáticos.
+
+A coleção [Meu arsenal](https://skill-icons-gcruz.vercel.app/animacoes?colecao=arsenal#explorar) reúne **43 tecnologias e três ícones da marca com 46 padrões exclusivos**. Java tem vapor da xícara, Linux tem os pés e a piscada do Tux, MySQL salta sobre a água, Sass recebe caligrafia e OpenRouter roteia pacotes. O site permite copiar a URL ou baixar os 46 juntos. Veja o [mapa completo das assinaturas](docs/MEU_ARSENAL.md).
 
 Veja [todos os modelos, arquitetura, compatibilidade e validação](docs/BIBLIOTECA_DE_ANIMACOES.md).
 
@@ -31,7 +33,7 @@ npm run responsivo
 - API de composição de SVG com IDs/aliases, tema claro ou escuro e quantidade de ícones por linha.
 - Montador com busca por nome, alias e categoria; seleção persistida no navegador e preview.
 - Snippets em Markdown, HTML e URL; download individual ou ZIP em SVG, PNG e WebP.
-- Catálogo, galeria de 64 animações, design system, biblioteca da marca, changelog, página Sobre e 404.
+- Catálogo, galeria de 85 animações, design system, biblioteca da marca, changelog, página Sobre e 404.
 - Backend compartilhado entre Vercel e Cloudflare Workers; site completo servido pelo caminho Vercel.
 
 Não há contas de usuário, autenticação, banco de dados nem upload. Preferências e seleção ficam em localStorage, sem sincronização remota. Os ícones deste fork não são publicados automaticamente no domínio do projeto original.
@@ -52,14 +54,14 @@ Exemplo de uso:
 | t ou theme | dark ou light; padrão dark                                                                        |
 | perline    | Inteiro de 1 a 50; padrão 15                                                                      |
 | animation  | true ou false; padrão false                                                                       |
-| model      | ID de um dos 64 modelos; opcional, exige animation=true para reproduzir; desconhecido retorna 400 |
+| model      | ID de um dos 85 modelos; opcional, exige animation=true para reproduzir; desconhecido retorna 400 |
 
 IDs são sensíveis a maiúsculas na API. IDs desconhecidos, tema inválido, perline inválido ou ausência de ícones retornam 400. Ordem e repetições válidas são preservadas.
 
 | Rota                            | Resposta                                                                             |
 | ------------------------------- | ------------------------------------------------------------------------------------ |
 | /icons?i=js,ts                  | SVG composto                                                                         |
-| /api/animations                 | Metadados dos 64 modelos de animação                                                 |
+| /api/animations                 | Metadados dos 85 modelos de animação                                                 |
 | /animations.json                | Manifesto estático com modelos e universos                                           |
 | /motion/reator-atomico-dark.svg | Prévia animada em SVG                                                                |
 | /api/icons                      | Lista JSON de IDs                                                                    |
@@ -150,7 +152,7 @@ Esse caminho não serve as páginas de public. O fallback do Worker depende da c
 
 ## Verificações e testes
 
-`npm test` executa os 16 testes nativos de Node para animação, catálogo, aliases, integridade de assets, estado e cache. `npm run test:animation` executa apenas os nove testes de animação. Também existem os verificadores:
+`npm test` executa os 18 testes nativos de Node para animação, catálogo, aliases, integridade de assets, estado e cache. `npm run test:animation` executa apenas os 11 testes de animação. Também existem os verificadores:
 
 ```bash
 npm test
@@ -166,7 +168,7 @@ A auditoria confirmou esses checks no fonte original. Para layout, com o servido
 npm run responsivo
 ```
 
-O script aceita `--base=URL` e as variáveis opcionais acima. Ele testa sete páginas × quinze larguras × dois temas (210 combinações), incluindo a galeria de animações. Se Playwright estiver ausente, o script atual **pula com exit 0**; portanto uma execução verde não garante que tenha testado algo. Ele também não cobre sozinho toda a acessibilidade, downloads ou segurança. A suíte proposta está no [plano de testes](docs/ANALISE_E_PLANO_DE_MELHORIAS.md#15-estratégia-segura-de-implementação-e-validação).
+O script aceita `--base=URL` e as variáveis opcionais acima. Ele testa oito rotas/estados × quinze larguras × dois temas (240 combinações), incluindo a galeria de animações. Se Playwright estiver ausente, o script atual **pula com exit 0**; portanto uma execução verde não garante que tenha testado algo. Ele também não cobre sozinho toda a acessibilidade, downloads ou segurança. A suíte proposta está no [plano de testes](docs/ANALISE_E_PLANO_DE_MELHORIAS.md#15-estratégia-segura-de-implementação-e-validação).
 
 ## Build
 

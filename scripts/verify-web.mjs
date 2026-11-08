@@ -64,6 +64,10 @@ try {
     Dockerfile: 'docker',
     'GitHub OAuth': 'github',
     Procfile: 'heroku',
+    'Docker Compose': 'docker',
+    HTML5: 'html',
+    CSS3: 'css',
+    'Node.js': 'nodejs',
     Claude: 'claude',
     Gemini: 'gemini',
     Radon: 'radon',
@@ -222,7 +226,7 @@ try {
   // Galeria: pesquisa, comparação, URL, pin único, teclado, pausa e redução.
   await page.goto(base + '/animacoes', { waitUntil: 'networkidle' });
   await page.waitForSelector('.motion-card');
-  assert.equal(await page.locator('.motion-card').count(), 64);
+  assert.equal(await page.locator('.motion-card').count(), 85);
   assert.equal(await page.locator('[data-motion-overlay]').count(), 0);
   await page.locator('#motion-category').selectOption('marca');
   assert.equal(await page.locator('.motion-card').count(), 8);
@@ -270,7 +274,42 @@ try {
   assert.equal(await page.locator('[data-motion-overlay]').count(), 0);
   await page.locator('#animar-icones').check();
 
-  // CSS realmente executado e parado em cada um dos 64 SVGs independentes.
+  // Coleção do usuário: associação exclusiva, aliases e URL compartilhável.
+  await page.locator('[data-motion-collection="arsenal"]').click();
+  assert.equal(await page.locator('.motion-card').count(), 46);
+  assert.ok(new URL(page.url()).searchParams.get('colecao') === 'arsenal');
+  await page.locator('#motion-search').fill('Docker Compose');
+  assert.equal(await page.locator('.motion-card').count(), 1);
+  assert.match(
+    await page.locator('.motion-card').getAttribute('data-model'),
+    /carga-containers/
+  );
+  await page.locator('#motion-search').fill('');
+  await page.reload({ waitUntil: 'networkidle' });
+  assert.equal(await page.locator('.motion-card').count(), 46);
+  const arsenalModels = await page
+    .locator('.motion-card')
+    .evaluateAll(cards => cards.map(c => c.dataset.model));
+  assert.equal(new Set(arsenalModels).size, 46);
+  const bulkUrl = new URL(
+    await page.locator('#motion-download-arsenal').getAttribute('href'),
+    base
+  );
+  assert.equal(bulkUrl.searchParams.get('i').split(',').length, 46);
+  assert.equal(bulkUrl.searchParams.get('animation'), 'true');
+  assert.equal(bulkUrl.searchParams.has('model'), false);
+  const bulkPending = page.waitForEvent('download');
+  await page.locator('#motion-download-arsenal').click();
+  const bulkDownload = await bulkPending;
+  assert.equal(bulkDownload.suggestedFilename(), 'meu-arsenal-animado.svg');
+  assert.equal(await bulkDownload.failure(), null);
+
+  await page.locator('#motion-category').selectOption('marca');
+  assert.equal(await page.locator('.motion-card').count(), 3);
+  await page.locator('[data-motion-collection=""]').click();
+  assert.equal(await page.locator('.motion-card').count(), 85);
+
+  // CSS realmente executado e parado em cada SVG independente.
   const library = await page.evaluate(async () =>
     (await fetch('/animations.json')).json()
   );
@@ -323,7 +362,7 @@ try {
   }
   assert.deepEqual(errors, []);
   console.log(
-    `E2E passou: ${manifest.count} ícones, aliases, HTML literal, estado inválido, filtros, teclado, preview, SVG, movimento reduzido, pausa fora da tela, fallback, galeria e os 64 modelos animados.`
+    `E2E passou: ${manifest.count} ícones, aliases, HTML literal, estado inválido, filtros, teclado, preview, SVG, movimento reduzido, pausa fora da tela, fallback, galeria, arsenal exclusivo e os ${library.models.length} modelos animados.`
   );
 } finally {
   await browser.close();

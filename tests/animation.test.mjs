@@ -8,16 +8,17 @@ import {
   motionProfile,
   animationManifest,
 } from '../lib/motion-library.mjs';
+import { ARSENAL_BINDINGS, ARSENAL_GROUPS } from '../lib/arsenal.mjs';
 import { generateSvg, handle, icons } from '../lib/icons.mjs';
 const geometryTags = svg =>
   svg.match(/<(?:path|rect|circle|ellipse|polygon|polyline|image)\b[^>]*>/g) ??
   [];
 
-test('64 storyboards com conceitos, mecanismos, CSS e composições distintos em oito universos', () => {
-  assert.equal(MOTION_MODELS.length, 64);
+test('85 storyboards com conceitos, mecanismos, CSS e composições distintos em oito universos', () => {
+  assert.equal(MOTION_MODELS.length, 85);
   assert.equal(Object.keys(MOTION_CATEGORIES).length, 8);
   for (const field of ['id', 'title', 'concept', 'mechanism'])
-    assert.equal(new Set(MOTION_MODELS.map(m => m[field])).size, 64, field);
+    assert.equal(new Set(MOTION_MODELS.map(m => m[field])).size, 85, field);
   const css = new Set(),
     compositions = new Set();
   for (const model of MOTION_MODELS) {
@@ -36,10 +37,10 @@ test('64 storyboards com conceitos, mecanismos, CSS e composições distintos em
         .replace(/<style>[\s\S]*?<\/style>/g, '')
     );
   }
-  assert.equal(css.size, 64);
-  assert.equal(compositions.size, 64);
+  assert.equal(css.size, 85);
+  assert.equal(compositions.size, 85);
   for (const category of Object.keys(MOTION_CATEGORIES))
-    assert.equal(MOTION_MODELS.filter(m => m.category === category).length, 8);
+    assert.ok(MOTION_MODELS.filter(m => m.category === category).length >= 8);
   assert.ok(animationManifest().every(m => !('compose' in m)));
 });
 
@@ -159,7 +160,7 @@ test('composição animada isola IDs em repetições e preserva dimensões e ord
   );
 });
 
-test('API preserva padrão estático, expõe catálogo e seleciona cada um dos 64 modelos', async () => {
+test('API preserva padrão estático, expõe catálogo e seleciona cada um dos 85 modelos', async () => {
   const request = q =>
     handle(new Request('https://example.test/icons?i=js,react,python&' + q));
   assert.equal(
@@ -205,4 +206,69 @@ test('SVGs originais versionados continuam idênticos ao catálogo gerado', () =
       icons[key].trim()
     );
   }
+});
+
+test('43 tecnologias e três marcas têm assinaturas padrão únicas e reservadas', () => {
+  const ids = ARSENAL_GROUPS.flatMap(g => g.ids);
+  assert.equal(ids.length, 46);
+  assert.equal(new Set(ids).size, 46);
+  assert.deepEqual(new Set(ids), new Set(Object.keys(ARSENAL_BINDINGS)));
+  const reserved = new Set(Object.values(ARSENAL_BINDINGS));
+  assert.equal(reserved.size, 46);
+  const featured = MOTION_MODELS.filter(m => m.collections.includes('arsenal'));
+  assert.equal(featured.length, 46);
+  for (const [icon, model] of Object.entries(ARSENAL_BINDINGS)) {
+    for (const theme of ['dark', 'light']) {
+      const profile = motionProfile(icon + '-' + theme);
+      assert.equal(profile.mode, model);
+      assert.equal(profile.exclusive, true);
+    }
+    const meta = featured.find(m => m.id === model);
+    assert.equal(meta.icon, icon);
+    assert.equal(meta.defaultFor, icon);
+  }
+  for (const key of Object.keys(icons)) {
+    const profile = motionProfile(key);
+    if (!Object.hasOwn(ARSENAL_BINDINGS, profile.id))
+      assert.ok(!reserved.has(profile.mode), key);
+  }
+});
+
+test('assinaturas do arsenal são aplicadas automaticamente por ícone e alias', async () => {
+  const aliases = {
+    html5: 'html',
+    css3: 'css',
+    'node.js': 'nodejs',
+    'vs code': 'vscode',
+    dockerfile: 'docker',
+    'docker-compose': 'docker',
+    'docker compose': 'docker',
+    'github api': 'github',
+    'github oauth': 'github',
+    'lucide-react': 'lucide',
+    'golangci-lint': 'golangci',
+  };
+  for (const [input, id] of [
+    ...Object.keys(ARSENAL_BINDINGS).map(id => [id, id]),
+    ...Object.entries(aliases),
+  ]) {
+    const r = await handle(
+      new Request(
+        'https://example.test/icons?animation=true&i=' +
+          encodeURIComponent(input)
+      )
+    );
+    assert.equal(r.status, 200, input);
+    assert.match(
+      await r.text(),
+      new RegExp('data-motion-model="' + ARSENAL_BINDINGS[id] + '"')
+    );
+  }
+  const keys = Object.keys(ARSENAL_BINDINGS).map(id =>
+    icons[id] ? id : id + '-dark'
+  );
+  const combined = generateSvg(keys, 8, true);
+  assert.equal((combined.match(/data-motion-model=/g) ?? []).length, 46);
+  const ids = [...combined.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
+  assert.equal(new Set(ids).size, ids.length);
 });
