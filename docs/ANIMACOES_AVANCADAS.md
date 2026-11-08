@@ -1,5 +1,7 @@
 # Animações refinadas — versão 2
 
+> Registro histórico da etapa de 12 famílias. A referência atual é a [biblioteca de 64 modelos](BIBLIOTECA_DE_ANIMACOES.md).
+
 Atualização local de 08/11/2026. Abrange os **270 IDs e 459 variantes SVG** do catálogo. Preserva a API, os desenhos e fundos originais, os temas, os downloads e a preferência de interação já escolhida pelo usuário. Não houve publicação nesta etapa.
 
 ## Direção de movimento

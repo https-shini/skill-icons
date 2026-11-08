@@ -1,5 +1,23 @@
 [
   {
+    "versao": "64 composições de movimento",
+    "data": "2026-11-08",
+    "mudancas": [
+      {
+        "tipo": "added",
+        "descricao": "Biblioteca com 64 modelos em oito universos, incluindo oito composições da marca e tratamentos de React, Python, Docker, GitHub, Git, Kubernetes e Bandit."
+      },
+      {
+        "tipo": "added",
+        "descricao": "Galeria de animações com pesquisa, filtros, comparação com qualquer ícone, prévia fixada, cópia de URL e download SVG nos dois temas."
+      },
+      {
+        "tipo": "changed",
+        "descricao": "API aceita <code>model</code> e expõe <code>/api/animations</code>. Geometria compartilhada, IDs isolados e CSS seletivo preservam a composição de ícones repetidos. Movimento reduzido e pausa por visibilidade continuam ativos."
+      }
+    ]
+  },
+  {
     "versao": "Animações refinadas e interação suave",
     "data": "2026-11-08",
     "mudancas": [

@@ -31,7 +31,7 @@ Isso evita reaproveitar arquivos de um build anterior no navegador. URLs públic
 
 ## Validação e recuperação
 
-A publicação deve partir do commit revisado, com `npm test` (16 testes), verificadores de catálogo/contraste/normalização, build e fluxo de navegador aprovados. Depois, verificar no domínio real `/api/icons`, `/manifest.json`, SVGs novos e animados, montador, download e movimento das 12 famílias.
+A publicação deve partir do commit revisado, com `npm test` (16 testes), verificadores de catálogo/contraste/normalização, build e fluxo de navegador aprovados. Depois, verificar no domínio real `/api/icons`, `/manifest.json`, SVGs novos e animados, montador, download e galeria `/animacoes`, seleção por `model`, `/api/animations` e movimento dos 64 modelos. Veja a [biblioteca atual](BIBLIOTECA_DE_ANIMACOES.md).
 
 A release é rastreada pelo commit e deployment Vercel. Antes de promover uma versão nova, manter identificado o deployment de produção anterior. Para rollback, promover essa versão anterior no mesmo projeto e repetir os testes HTTP e de navegador; não excluir assets/deployments antigos durante a janela de validação.
 

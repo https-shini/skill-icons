@@ -22,6 +22,10 @@ import path from 'node:path';
 import { manifest, iconNameList, shortNames } from '../lib/icons.mjs';
 import { CATEGORIES } from './categories.mjs';
 import { animateSvg } from '../lib/animation.mjs';
+import {
+  animationManifest,
+  MOTION_CATEGORIES,
+} from '../lib/motion-library.mjs';
 
 const ROOT = path.join(import.meta.dirname, '..');
 const PUBLIC = path.join(ROOT, 'public');
@@ -92,4 +96,35 @@ fs.writeFileSync(
 
 console.log(
   `public/: ${svgs} svg + ${brand} arquivos de marca + manifest com ${entries.length} IDs`
+);
+
+// Previews compartilhados pela CDN; somente a interação solicita o animado.
+const motionDir = path.join(PUBLIC, 'motion');
+fs.rmSync(motionDir, { recursive: true, force: true });
+fs.mkdirSync(motionDir, { recursive: true });
+const animations = animationManifest();
+for (const model of animations) {
+  const icon = entries.find(e => e.id === model.icon);
+  if (!icon) throw new Error(`Ícone demonstrativo inexistente: ${model.icon}`);
+  for (const theme of ['dark', 'light']) {
+    const source = fs.readFileSync(
+      path.join(ROOT, 'icons', icon[theme]),
+      'utf8'
+    );
+    fs.writeFileSync(
+      path.join(motionDir, `${model.id}-${theme}.svg`),
+      animateSvg(source, icon[theme], { model: model.id })
+    );
+  }
+}
+fs.writeFileSync(
+  path.join(PUBLIC, 'animations.json'),
+  JSON.stringify({
+    count: animations.length,
+    categories: MOTION_CATEGORIES,
+    models: animations,
+  })
+);
+console.log(
+  `${animations.length} modelos / ${animations.length * 2} previews de animação`
 );

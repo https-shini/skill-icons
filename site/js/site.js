@@ -131,3 +131,9 @@ if (document.querySelector('#catalogo-lista')) {
 if (document.querySelector('#marca-lista')) {
   import('./marca.js').then(m => m.iniciarMarca()).catch(e => console.error(e));
 }
+
+if (document.querySelector('#motion-grid')) {
+  import('./motion-gallery.js')
+    .then(m => m.iniciarGaleria())
+    .catch(e => console.error(e));
+}

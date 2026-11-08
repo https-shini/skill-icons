@@ -1,0 +1,33 @@
+<!--pagina {"titulo":"64 animações — gcruz.dev Skill Icons","descricao":"Explore 64 composições de movimento para seus ícones: marca, física, profundidade, energia, construção, orgânicos, cinema e tecnologia.","nav":"animacoes"}-->
+<div class="wrap hero motion-hero">
+  <div>
+    <p class="t-label">Laboratório de movimento · SVG</p>
+    <h1 class="t-h1">Uma identidade.<br /><span>64 maneiras de mover.</span></h1>
+    <p class="t-body">Da assinatura que se desenha ao átomo em órbita. Explore composições com personalidade, escolha seu ícone e leve o movimento para sua interface.</p>
+    <a href="#explorar" class="btn btn-brand">Explorar animações <span aria-hidden="true">↓</span></a>
+  </div>
+  <div class="motion-index" aria-label="64 modelos em 8 universos criativos">
+    <strong>64<span>modelos autorais</span></strong>
+    <p>8 universos criativos<br />270 ícones compatíveis<br />2 temas</p>
+    <span class="t-label">Feitos para interagir</span>
+  </div>
+</div>
+<section id="explorar">
+  <div class="wrap">
+    <div class="section-head"><div><p class="t-label">Encontre seu movimento</p><h2 class="t-h2">Biblioteca de animações</h2></div><p>Passe o mouse, use o teclado ou toque para fixar uma prévia.</p></div>
+    <div class="motion-toolbar">
+      <label>Buscar animação<input id="motion-search" type="search" placeholder="Ex.: prisma, tecido, React…" autocomplete="off" /></label>
+      <label>Universo<select id="motion-category"><option value="">Todos os universos</option></select></label>
+      <label>Ícone para comparar<select id="motion-icon"><option value="">Ícone sugerido por modelo</option></select></label>
+    </div>
+    <div class="motion-preferences">
+      <label class="motion-switch"><input type="checkbox" id="animar-icones" checked /> Ativar movimento</label>
+      <p class="t-small" id="animacao-ajuda">As animações respeitam a preferência de movimento reduzido do dispositivo.</p>
+    </div>
+    <p class="t-small" id="motion-count" role="status" aria-live="polite">Carregando os modelos…</p>
+    <div class="motion-grid" id="motion-grid" aria-label="Modelos de animação"></div>
+    <div id="motion-error" hidden><p>Não foi possível carregar a biblioteca.</p><button class="btn" id="motion-retry" type="button">Tentar novamente</button></div>
+    <noscript><p>Ative o JavaScript para explorar as prévias. A API de SVG funciona diretamente por URL.</p></noscript>
+  </div>
+</section>
+<section><div class="wrap motion-how"><div><p class="t-label">Pronto para usar</p><h2 class="t-h2">Escolha. Copie. Anime.</h2><p>“Copiar URL” leva o modelo escolhido para qualquer página que aceite imagens SVG. “Baixar SVG” salva a composição animada.</p></div><div><pre><code>/icons?i=react&amp;animation=true&amp;model=reator-atomico</code></pre><p class="t-small">Sem <code>model</code>, cada ícone usa sua composição padrão. Em ambientes que bloqueiam animações SVG, o primeiro quadro preserva o desenho estático.</p><a href="/#api" class="btn btn-ghost">Consultar a API</a></div></div></section>

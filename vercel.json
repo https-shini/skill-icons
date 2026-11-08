@@ -2,7 +2,12 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "node build.js && node scripts/vercel-assets.mjs && node scripts/build-pages.mjs",
   "outputDirectory": "public",
-  "rewrites": [{ "source": "/icons", "destination": "/api/render" }],
+  "rewrites": [
+    {
+      "source": "/icons",
+      "destination": "/api/render"
+    }
+  ],
   "headers": [
     {
       "source": "/svg/(.*)",
@@ -11,7 +16,10 @@
           "key": "Cache-Control",
           "value": "public, max-age=86400, s-maxage=31536000, stale-while-revalidate=604800"
         },
-        { "key": "Access-Control-Allow-Origin", "value": "*" }
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
       ]
     },
     {
@@ -43,6 +51,28 @@
     },
     {
       "source": "/manifest.json",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=600, s-maxage=86400"
+        }
+      ]
+    },
+    {
+      "source": "/motion/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, s-maxage=31536000, stale-while-revalidate=604800"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    },
+    {
+      "source": "/animations.json",
       "headers": [
         {
           "key": "Cache-Control",

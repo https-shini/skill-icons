@@ -37,10 +37,7 @@ test('novos ícones têm par temático, categoria exclusiva e API estática/anim
         assert.equal(response.status, 200, id);
         const body = await response.text();
         assert.doesNotMatch(body, /undefined/);
-        assert.equal(
-          body.includes('class="si-motion-art'),
-          animation === 'true'
-        );
+        assert.equal(body.includes('data-motion-model='), animation === 'true');
       }
     }
   }

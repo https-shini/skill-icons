@@ -196,55 +196,111 @@ try {
   );
   assert.equal(failures, 1);
 
-  // Verifica movimento real nas 12 famílias e parada no SVG independente.
-  for (const file of [
-    'React-Dark.svg',
-    'Docker.svg',
-    'Rocket.svg',
-    'Motion-Dark.svg',
-    'SocketIO-Dark.svg',
-    'Prettier-Dark.svg',
-    'Python-Dark.svg',
-    'Gemini-Dark.svg',
-    'PostgreSQL-Dark.svg',
-    'JavaScript.svg',
-    'Flask-Dark.svg',
-    'RobloxStudio.svg',
-  ]) {
-    await page.goto(`${base}/svg/animated/${file}`);
-    const moved = await page
-      .locator('.si-motion-art')
-      .first()
-      .evaluate(el => {
-        const animation = el.getAnimations()[0];
-        if (!animation) return false;
-        animation.pause();
-        animation.currentTime = 0;
-        const before = [
-          getComputedStyle(el).transform,
-          getComputedStyle(el).opacity,
-        ].join();
-        animation.currentTime = animation.effect.getTiming().duration * 0.45;
-        return (
-          before !==
-          [getComputedStyle(el).transform, getComputedStyle(el).opacity].join()
-        );
-      });
-    assert.equal(moved, true, file);
+  // Galeria: pesquisa, comparação, URL, pin único, teclado, pausa e redução.
+  await page.goto(base + '/animacoes', { waitUntil: 'networkidle' });
+  await page.waitForSelector('.motion-card');
+  assert.equal(await page.locator('.motion-card').count(), 64);
+  assert.equal(await page.locator('[data-motion-overlay]').count(), 0);
+  await page.locator('#motion-category').selectOption('marca');
+  assert.equal(await page.locator('.motion-card').count(), 8);
+  await page.locator('#motion-search').fill('fusão');
+  assert.equal(await page.locator('.motion-card').count(), 1);
+  await page
+    .locator('#motion-search')
+    .fill('<img src=x onerror="window.auditXss=1">');
+  assert.equal(await page.locator('.motion-card').count(), 0);
+  assert.equal(await page.evaluate(() => window.auditXss), undefined);
+  await page.locator('#motion-search').fill('');
+  await page.locator('#motion-category').selectOption('tecnologia');
+  await page.locator('#motion-icon').selectOption('gemini');
+  const card = page.locator('[data-model="reator-atomico"]');
+  assert.match(
+    await card.locator('a[download]').getAttribute('href'),
+    /i=gemini.*model=reator-atomico/
+  );
+  const button = card.locator('.motion-preview');
+  await button.focus();
+  await page.keyboard.press('Enter');
+  assert.equal(await button.getAttribute('aria-pressed'), 'true');
+  await page.waitForFunction(
+    () =>
+      document.querySelector(
+        '[data-model="reator-atomico"] [data-motion-overlay]'
+      )?.naturalWidth > 0
+  );
+  const other = page.locator(
+    '[data-model="serpentes-entrelacadas"] .motion-preview'
+  );
+  await other.click();
+  assert.equal(await button.getAttribute('aria-pressed'), 'false');
+  assert.equal(
+    await page.locator('.motion-preview[aria-pressed="true"]').count(),
+    1
+  );
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.waitForFunction(
+    () => !document.querySelector('[data-motion-overlay]')
+  );
+  assert.equal(await page.locator('#animar-icones').isDisabled(), true);
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.locator('#animar-icones').uncheck();
+  assert.equal(await page.locator('[data-motion-overlay]').count(), 0);
+  await page.locator('#animar-icones').check();
+
+  // CSS realmente executado e parado em cada um dos 64 SVGs independentes.
+  const library = await page.evaluate(async () =>
+    (await fetch('/animations.json')).json()
+  );
+  for (const model of library.models) {
+    await page.goto(`${base}/motion/${model.id}-dark.svg`);
+    const changed = await page
+      .locator('.sk-scene')
+      .evaluate((scene, duration) => {
+        const animations = document.getAnimations();
+        if (!animations.length) return false;
+        for (const a of animations) {
+          a.pause();
+          a.currentTime = 0;
+        }
+        const nodes = [...scene.querySelectorAll('[class]')];
+        const snapshot = () =>
+          nodes
+            .map(el => {
+              const s = getComputedStyle(el);
+              return [
+                s.transform,
+                s.opacity,
+                s.strokeDashoffset,
+                s.strokeWidth,
+                s.filter,
+              ].join('|');
+            })
+            .join(';');
+        const before = snapshot();
+        for (const phase of [0.32, 0.55, 0.73]) {
+          for (const a of animations) a.currentTime = duration * 1000 * phase;
+          if (snapshot() !== before) return true;
+        }
+        return false;
+      }, model.duration);
+    assert.equal(changed, true, model.id);
     await page.emulateMedia({ reducedMotion: 'reduce' });
     assert.equal(
-      await page
-        .locator('.si-motion-art')
-        .first()
-        .evaluate(el => el.getAnimations().length),
+      await page.evaluate(() => document.getAnimations().length),
       0,
-      file
+      model.id
+    );
+    assert.equal(
+      await page
+        .locator('.sk-rest')
+        .evaluate(el => getComputedStyle(el).opacity),
+      '1'
     );
     await page.emulateMedia({ reducedMotion: 'no-preference' });
   }
   assert.deepEqual(errors, []);
   console.log(
-    `E2E passou: ${manifest.count} ícones, aliases, HTML literal, estado inválido, filtros, teclado, preview, SVG, movimento reduzido, pausa fora da tela, fallback e 12 famílias animadas.`
+    `E2E passou: ${manifest.count} ícones, aliases, HTML literal, estado inválido, filtros, teclado, preview, SVG, movimento reduzido, pausa fora da tela, fallback, galeria e os 64 modelos animados.`
   );
 } finally {
   await browser.close();
