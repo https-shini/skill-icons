@@ -39,6 +39,21 @@ try {
     await page.request.get(base + '/manifest.json')
   ).json();
   assert.equal(await page.locator('#resultados .tile').count(), manifest.count);
+  // A Vercel precisa resolver as URLs públicas sem extensão das páginas.
+  const navigation = await page.evaluate(async () => {
+    const paths = [
+      ...new Set(
+        [...document.querySelectorAll('.site-nav a[href]')].map(
+          a => new URL(a.href).pathname
+        )
+      ),
+    ];
+    return Promise.all(
+      paths.map(async path => ({ path, status: (await fetch(path)).status }))
+    );
+  });
+  for (const route of navigation)
+    assert.equal(route.status, 200, `Navegação: ${route.path}`);
   const queries = {
     'lucide-react': 'lucide',
     'golangci-lint': 'golangci',
