@@ -6,7 +6,7 @@ Implementação de 08/11/2026. Esta é a referência atual; [a versão anterior]
 
 ## Uso imediato
 
-- Galeria: [skill-icons-gcruz.vercel.app/animacoes](https://skill-icons-gcruz.vercel.app/animacoes).
+- Galeria: [icons.gcruz.dev.br/animacoes](https://icons.gcruz.dev.br/animacoes).
 - Padrão por ícone: `/icons?i=react,python,docker&animation=true`.
 - Modelo explícito: `/icons?i=gemini&animation=true&model=explosao-reconstroi`.
 - Marca: `/icons?i=gcruz&animation=true&model=assinatura-vetorial`.

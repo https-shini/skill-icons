@@ -2,17 +2,17 @@
 
 Coleção de **43 tecnologias e três ícones da marca**, identificados nas quatro imagens de referência do usuário. A biblioteca agora reúne **85 modelos**: 64 da etapa anterior e 21 composições novas. As três assinaturas padrão da marca também receberam entrada mais rápida; o monograma ganhou uma trilha de ressonância no encontro das letras.
 
-[Explorar o arsenal em produção](https://skill-icons-gcruz.vercel.app/animacoes?colecao=arsenal#explorar).
+[Explorar o arsenal em produção](https://icons.gcruz.dev.br/animacoes?colecao=arsenal#explorar).
 
 ## Usar imediatamente
 
 Basta manter `animation=true`. Cada ID da coleção resolve sua própria assinatura, sem precisar enviar `model`:
 
-`https://skill-icons-gcruz.vercel.app/icons?i=html,css,js,ts,react,vite&animation=true`
+`https://icons.gcruz.dev.br/icons?i=html,css,js,ts,react,vite&animation=true`
 
-`https://skill-icons-gcruz.vercel.app/icons?i=nodejs,fastapi,php,java,python,uvicorn,pydantic,jwt&perline=4&animation=true`
+`https://icons.gcruz.dev.br/icons?i=nodejs,fastapi,php,java,python,uvicorn,pydantic,jwt&perline=4&animation=true`
 
-`https://skill-icons-gcruz.vercel.app/icons?i=gcruz,gc,gctag&animation=true`
+`https://icons.gcruz.dev.br/icons?i=gcruz,gc,gctag&animation=true`
 
 A galeria oferece **Meu arsenal**, cópia da URL dos 46 e download de um SVG composto. Cada card também exporta seu ícone individual. A comparação com outro ícone continua disponível. A coleção é preservada na URL com `colecao=arsenal` e pode ser compartilhada; não exige conta nem armazenamento de novos dados pessoais.
 
