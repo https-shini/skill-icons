@@ -8,11 +8,11 @@
 
 A biblioteca reúne **85 modelos autorais em oito universos**: marca, física, profundidade, energia, construção, orgânicos, cinema e tecnologia. Inclui assinatura da marca, fragmentação e reconstrução, tecido, prisma, eclipse, orbitais do React, serpentes do Python e carga de contêineres do Docker.
 
-Explore a [galeria de animações](https://skill-icons-gcruz.vercel.app/animacoes), compare os modelos com qualquer ícone, fixe uma prévia e copie a URL ou baixe o SVG. Os 270 IDs têm composição padrão explícita ou contextual; isso não significa 270 animações manuais exclusivas.
+Explore a [galeria de animações](https://icons.gcruz.dev.br/animacoes), compare os modelos com qualquer ícone, fixe uma prévia e copie a URL ou baixe o SVG. Os 270 IDs têm composição padrão explícita ou contextual; isso não significa 270 animações manuais exclusivas.
 
 No site, hover, foco e seleção ativam movimento; ícones fora da área visível e abas ocultas pausam. O controle permite desligar e a preferência de movimento reduzido do dispositivo prevalece. API padrão: `/icons?i=react,ts,python&animation=true`. Modelo escolhido: `/icons?i=gemini&animation=true&model=explosao-reconstroi`. Sem `animation=true`, a saída permanece estática. SVG e ZIP podem preservar animação; PNG/WebP são estáticos.
 
-A coleção [Meu arsenal](https://skill-icons-gcruz.vercel.app/animacoes?colecao=arsenal#explorar) reúne **43 tecnologias e três ícones da marca com 46 padrões exclusivos**. Java tem vapor da xícara, Linux tem os pés e a piscada do Tux, MySQL salta sobre a água, Sass recebe caligrafia e OpenRouter roteia pacotes. O site permite copiar a URL ou baixar os 46 juntos. Veja o [mapa completo das assinaturas](docs/MEU_ARSENAL.md).
+A coleção [Meu arsenal](https://icons.gcruz.dev.br/animacoes?colecao=arsenal#explorar) reúne **43 tecnologias e três ícones da marca com 46 padrões exclusivos**. Java tem vapor da xícara, Linux tem os pés e a piscada do Tux, MySQL salta sobre a água, Sass recebe caligrafia e OpenRouter roteia pacotes. O site permite copiar a URL ou baixar os 46 juntos. Veja o [mapa completo das assinaturas](docs/MEU_ARSENAL.md).
 
 Veja [todos os modelos, arquitetura, compatibilidade e validação](docs/BIBLIOTECA_DE_ANIMACOES.md).
 
@@ -40,12 +40,12 @@ Não há contas de usuário, autenticação, banco de dados nem upload. Preferê
 
 ## Uso da API
 
-Produção: **https://skill-icons-gcruz.vercel.app**. Veja [URLs prontas e operação](docs/PRODUCAO.md).
+Produção: **https://icons.gcruz.dev.br**. Veja [URLs prontas e operação](docs/PRODUCAO.md).
 
 Exemplo de uso:
 
 ```md
-[![Minhas skills](https://skill-icons-gcruz.vercel.app/icons?i=js,ts,react,nodejs&theme=light&perline=4)](https://github.com/https-shini/skill-icons)
+[![Minhas skills](https://icons.gcruz.dev.br/icons?i=js,ts,react,nodejs&theme=light&perline=4)](https://github.com/https-shini/skill-icons)
 ```
 
 | Parâmetro  | Comportamento                                                                                     |

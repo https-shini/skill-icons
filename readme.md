@@ -46,7 +46,7 @@ Um endpoint recebe a lista de ícones e devolve **um único SVG** com todos eles
 lado a lado. Uma requisição por badge, não uma por ícone.
 
 ```
-https://skill-icons-gcruz.vercel.app/icons?i=ts,react,nodejs,docker
+https://icons.gcruz.dev.br/icons?i=ts,react,nodejs,docker
 ```
 
 > [!IMPORTANT]
@@ -65,7 +65,7 @@ Liste os IDs separados por vírgula em `i` (ou `icons`). A lista completa está 
 [Lista de ícones](#lista-de-ícones).
 
 ```md
-[![Minhas skills](https://skill-icons-gcruz.vercel.app/icons?i=js,html,css,wasm)](https://gcruz.dev.br)
+[![Minhas skills](https://icons.gcruz.dev.br/icons?i=js,html,css,wasm)](https://gcruz.dev.br)
 ```
 
 <p>
@@ -83,7 +83,7 @@ Parte dos ícones tem variante clara e escura — são **189** dos 270. `theme` 
 `t`) escolhe qual usar; o padrão é `dark`. O nome se refere ao **fundo** do badge.
 
 ```md
-[![Minhas skills](https://skill-icons-gcruz.vercel.app/icons?i=java,kotlin,nodejs,figma&theme=light)](https://gcruz.dev.br)
+[![Minhas skills](https://icons.gcruz.dev.br/icons?i=java,kotlin,nodejs,figma&theme=light)](https://gcruz.dev.br)
 ```
 
 <p>
@@ -102,7 +102,7 @@ nos dois temas — `theme` simplesmente não os afeta.
 `400`.
 
 ```md
-[![Minhas skills](https://skill-icons-gcruz.vercel.app/icons?i=aws,gcp,azure,react,vue,flutter&perline=3)](https://gcruz.dev.br)
+[![Minhas skills](https://icons.gcruz.dev.br/icons?i=aws,gcp,azure,react,vue,flutter&perline=3)](https://gcruz.dev.br)
 ```
 
 ## Centralizar
@@ -113,9 +113,7 @@ centralização de imagem:
 ```html
 <p align="center">
   <a href="https://gcruz.dev.br">
-    <img
-      src="https://skill-icons-gcruz.vercel.app/icons?i=git,kubernetes,docker,c,vim"
-    />
+    <img src="https://icons.gcruz.dev.br/icons?i=git,kubernetes,docker,c,vim" />
   </a>
 </p>
 ```
@@ -166,9 +164,9 @@ A abreviação da marca é **`gc`**, nunca `g` isolado: a variante compacta é
 `gcruz` é um ID normal da API e se combina com os demais na mesma requisição:
 
 ```md
-[![gcruz.dev](https://skill-icons-gcruz.vercel.app/icons?i=gcruz)](https://gcruz.dev.br)
-[![gc](https://skill-icons-gcruz.vercel.app/icons?i=gctag)](https://gcruz.dev.br)
-[![Stack](https://skill-icons-gcruz.vercel.app/icons?i=gctag,ts,react,nodejs&perline=4)](https://gcruz.dev.br)
+[![gcruz.dev](https://icons.gcruz.dev.br/icons?i=gcruz)](https://gcruz.dev.br)
+[![gc](https://icons.gcruz.dev.br/icons?i=gctag)](https://gcruz.dev.br)
+[![Stack](https://icons.gcruz.dev.br/icons?i=gctag,ts,react,nodejs&perline=4)](https://gcruz.dev.br)
 ```
 
 Três IDs da marca existem na API:

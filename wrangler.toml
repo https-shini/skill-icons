@@ -5,5 +5,5 @@ workers_dev = true
 
 # Domínio próprio: descomente depois de adicionar a zona na Cloudflare.
 # [[routes]]
-# pattern = "icons.gcruz.dev.br"
+# pattern = "icons-worker.gcruz.dev.br"  # icons.gcruz.dev.br aponta para a Vercel (DEPLOY.md)
 # custom_domain = true

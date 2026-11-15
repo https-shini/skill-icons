@@ -1,6 +1,6 @@
 # Publicando a sua própria instância
 
-Produção do projeto: **https://skill-icons-gcruz.vercel.app**. O domínio `icons.gcruz.dev.br` aparece como exemplo opcional de domínio próprio e não está vinculado ao projeto de produção consultado nesta publicação.
+Produção do projeto: **https://icons.gcruz.dev.br**, vinculado ao projeto `skill-icons` na Vercel. O endereço anterior, `https://skill-icons-gcruz.vercel.app`, continua respondendo para não quebrar READMEs que já o usam.
 
 Os ícones deste repositório **não** aparecem em `skillicons.dev` — aquele domínio
 serve apenas o repositório oficial. Para usar os ícones daqui você publica a sua
@@ -63,6 +63,11 @@ registro DNS a criar; como a zona está na Cloudflare, crie lá um `CNAME`
 apontando para o alvo indicado, **com o proxy desligado** (nuvem cinza) para não
 haver dois CDNs em série.
 
+Na instância deste fork, `icons.gcruz.dev.br` já está vinculado ao projeto. A
+zona `gcruz.dev.br` tem um registro curinga que aponta para a Vercel, então o
+subdomínio respondeu sem um CNAME próprio; um CNAME explícito para o alvo
+indicado pela Vercel deixa o vínculo independente desse curinga.
+
 ## O que roda onde
 
 - `/icons` → rewrite para `api/render.mjs`
@@ -105,12 +110,17 @@ https://skill-icons.<seu-subdominio>.workers.dev/icons?i=oracle,jwt,render
 
 ## Domínio próprio
 
+> [!NOTE]
+> Nesta instância, `icons.gcruz.dev.br` aponta para a **Vercel**, que serve o
+> site completo. Um mesmo nome não pode apontar para as duas hospedagens: para o
+> Worker, use outro subdomínio no `pattern` (por exemplo, `icons-worker.gcruz.dev.br`).
+
 Com a zona `gcruz.dev.br` já na Cloudflare, descomente o bloco de rota no
 `wrangler.toml`:
 
 ```toml
 [[routes]]
-pattern = "icons.gcruz.dev.br"
+pattern = "icons-worker.gcruz.dev.br"
 custom_domain = true
 ```
 

@@ -1,15 +1,15 @@
 # Produção e uso dos ícones
 
-O domínio de produção confirmado na Vercel é:
+O domínio de produção, vinculado ao projeto `skill-icons` na Vercel, é:
 
-**https://skill-icons-gcruz.vercel.app**
+**https://icons.gcruz.dev.br**
 
-`skill-icons-nine.vercel.app` redireciona para esse endereço. `icons.gcruz.dev.br` não estava vinculado ao projeto consultado; os exemplos públicos desta versão usam o domínio de produção confirmado.
+`https://skill-icons-gcruz.vercel.app` continua respondendo com o mesmo conteúdo, para não quebrar READMEs que já usam esse endereço. `skill-icons-nine.vercel.app` redireciona para ele.
 
 ## Usar ícones animados
 
 ```md
-![Tecnologias](https://skill-icons-gcruz.vercel.app/icons?i=lucide,ruff,bandit,radon,biome,golangci,gemini,claude,openrouter,motion,socketio,jupyter,jinja&perline=7&animation=true)
+![Tecnologias](https://icons.gcruz.dev.br/icons?i=lucide,ruff,bandit,radon,biome,golangci,gemini,claude,openrouter,motion,socketio,jupyter,jinja&perline=7&animation=true)
 ```
 
 Para tema claro, acrescente `&theme=light`. Para saída estática, remova `animation=true` ou use `animation=false`.
@@ -17,8 +17,8 @@ Para tema claro, acrescente `&theme=light`. Para saída estática, remova `anima
 Um único ícone também funciona:
 
 ```text
-https://skill-icons-gcruz.vercel.app/icons?i=claude&animation=true
-https://skill-icons-gcruz.vercel.app/svg/animated/Claude-Dark.svg
+https://icons.gcruz.dev.br/icons?i=claude&animation=true
+https://icons.gcruz.dev.br/svg/animated/Claude-Dark.svg
 ```
 
 O site contém o montador, que gera URLs e snippets, além de permitir download SVG animado e ZIP. PNG/WebP continuam estáticos. O catálogo desta versão tem 270 IDs e 459 SVGs, com 81 aliases.
@@ -29,7 +29,7 @@ O projeto usa `cleanUrls: true` em `vercel.json`. Assim, `/animacoes`, `/marca`,
 
 ## Arsenal exclusivo
 
-Acesse [Meu arsenal](https://skill-icons-gcruz.vercel.app/animacoes?colecao=arsenal#explorar). A coleção reúne os 43 ícones de tecnologias das referências e as três marcas, com padrões diferentes e reservados. As URLs existentes com `animation=true` já recebem essas associações. [Mapa e exemplos](MEU_ARSENAL.md).
+Acesse [Meu arsenal](https://icons.gcruz.dev.br/animacoes?colecao=arsenal#explorar). A coleção reúne os 43 ícones de tecnologias das referências e as três marcas, com padrões diferentes e reservados. As URLs existentes com `animation=true` já recebem essas associações. [Mapa e exemplos](MEU_ARSENAL.md).
 
 ## Coerência de cache na publicação
 
