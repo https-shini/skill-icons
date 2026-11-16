@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 /**
- * Gera a tabela "Icons List" do readme.md a partir do conteúdo de ./icons.
+ * Gera a tabela "Icons List" do README.md a partir do conteúdo de ./icons.
  *
  * Existia uma defasagem: ícones eram adicionados em ./icons sem a linha
  * correspondente na tabela (julia, spotify e verilog ficaram de fora). Este
  * script torna a tabela derivada dos arquivos, não escrita à mão.
  *
- *   node scripts/readme-table.mjs           reescreve readme.md
+ *   node scripts/readme-table.mjs           reescreve README.md
  *   node scripts/readme-table.mjs --check   falha se estiver defasado (CI)
  *
  * O ID exibido de um ícone já presente na tabela é preservado — a tabela usa
@@ -19,7 +19,7 @@ import { CATEGORIES } from './categories.mjs';
 import { ICON_ALIASES } from '../lib/catalog.mjs';
 
 const ROOT = path.join(import.meta.dirname, '..');
-const README = path.join(ROOT, 'readme.md');
+const README = path.join(ROOT, 'README.md');
 const ICONS_DIR = path.join(ROOT, 'icons');
 
 const HEADER = ['Icon ID', 'Icon'];
@@ -155,12 +155,12 @@ const next = splice(current, table);
 if (process.argv.includes('--check')) {
   if (next !== current) {
     console.error(
-      'readme.md está defasado em relação a ./icons — rode: npm run readme'
+      'README.md está defasado em relação a ./icons — rode: npm run readme'
     );
     process.exit(1);
   }
-  console.log(`readme.md em dia (${count} ícones)`);
+  console.log(`README.md em dia (${count} ícones)`);
 } else {
   fs.writeFileSync(README, next);
-  console.log(`readme.md atualizado (${count} ícones)`);
+  console.log(`README.md atualizado (${count} ícones)`);
 }
